@@ -56,9 +56,9 @@ class Company
         return $this->address;
     }
 
-    public function setAddress(?string $adress): static
+    public function setAddress(?string $address): static
     {
-        $this->adress = $address;
+        $this->address = $address;
 
         return $this;
     }
