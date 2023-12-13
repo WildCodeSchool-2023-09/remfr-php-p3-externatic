@@ -13,35 +13,35 @@ class Process
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $process = null;
+    #[ORM\Column]
+    private ?int $process = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $statut = null;
+    #[ORM\Column]
+    private ?int $statut = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProcess(): ?string
+    public function getProcess(): ?int
     {
         return $this->process;
     }
 
-    public function setProcess(string $process): static
+    public function setProcess(int $process): static
     {
         $this->process = $process;
 
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatut(): ?int
     {
         return $this->statut;
     }
 
-    public function setStatut(string $statut): static
+    public function setStatut(int $statut): static
     {
         $this->statut = $statut;
 
