@@ -26,6 +26,9 @@ class AdditionalInfo
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $license = null;
 
+    #[ORM\OneToOne(mappedBy: 'AdditionalInfos', cascade: ['persist', 'remove'])]
+    private ?CurriculumVitae $curriculumVitae = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,28 @@ class AdditionalInfo
     public function setLicense(?string $license): static
     {
         $this->license = $license;
+
+        return $this;
+    }
+
+    public function getCurriculumVitae(): ?CurriculumVitae
+    {
+        return $this->curriculumVitae;
+    }
+
+    public function setCurriculumVitae(?CurriculumVitae $curriculumVitae): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($curriculumVitae === null && $this->curriculumVitae !== null) {
+            $this->curriculumVitae->setAdditionalInfos(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($curriculumVitae !== null && $curriculumVitae->getAdditionalInfos() !== $this) {
+            $curriculumVitae->setAdditionalInfos($this);
+        }
+
+        $this->curriculumVitae = $curriculumVitae;
 
         return $this;
     }

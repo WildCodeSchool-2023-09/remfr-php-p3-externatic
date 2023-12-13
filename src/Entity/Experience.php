@@ -29,6 +29,10 @@ class Experience
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Experiences')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CurriculumVitae $curriculumVitae = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +82,18 @@ class Experience
     public function setBeginDate(\DateTimeInterface $beginDate): static
     {
         $this->beginDate = $beginDate;
+
+        return $this;
+    }
+
+    public function getCurriculumVitae(): ?CurriculumVitae
+    {
+        return $this->curriculumVitae;
+    }
+
+    public function setCurriculumVitae(?CurriculumVitae $curriculumVitae): static
+    {
+        $this->curriculumVitae = $curriculumVitae;
 
         return $this;
     }

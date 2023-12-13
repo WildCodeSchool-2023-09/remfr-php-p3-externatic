@@ -26,6 +26,10 @@ class Skill
     #[ORM\Column]
     private ?int $level = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Skills')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CurriculumVitae $curriculumVitae = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,6 +59,18 @@ class Skill
         }
 
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getCurriculumVitae(): ?CurriculumVitae
+    {
+        return $this->curriculumVitae;
+    }
+
+    public function setCurriculumVitae(?CurriculumVitae $curriculumVitae): static
+    {
+        $this->curriculumVitae = $curriculumVitae;
 
         return $this;
     }

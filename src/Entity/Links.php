@@ -19,6 +19,10 @@ class Links
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Links')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CurriculumVitae $curriculumVitae = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +48,18 @@ class Links
     public function setWebsite(?string $website): static
     {
         $this->website = $website;
+
+        return $this;
+    }
+
+    public function getCurriculumVitae(): ?CurriculumVitae
+    {
+        return $this->curriculumVitae;
+    }
+
+    public function setCurriculumVitae(?CurriculumVitae $curriculumVitae): static
+    {
+        $this->curriculumVitae = $curriculumVitae;
 
         return $this;
     }
