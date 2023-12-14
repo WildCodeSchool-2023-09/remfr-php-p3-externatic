@@ -43,8 +43,8 @@
                 <td>{{ user.nationality }}</td>
                 <td>{{ user.maritalStatus }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Edit</a>
+                    <a href="{{ path('admin_user_show', {'id': user.id}) }}">Show</a>
+                    <a href="{{ path('admin_user_edit', {'id': user.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -55,6 +55,6 @@
         </tbody>
     </table>
 
-    <a class="btn btn-link" href="{{ path('app_user_new') }}">Créer un nouvel utilisateur</a>
+    <a class="btn btn-link" href="{{ path('admin_user_new') }}">Créer un nouvel utilisateur</a>
 </div>
 {% endblock %}
