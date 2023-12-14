@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users index{% endblock %}
+
+{% block body %}
+<div class="container">
+<h1>Liste des utilisateurs</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ user.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Téléphone</th>
+                <td>{{ user.phone }}</td>
+            </tr>
+            <tr>    
+                <th>Adresse</th>
+                <td>{{ user.adresse }}</td>
+            </tr>
+            <tr> 
+                <th>CP</th>
+                <td>{{ user.zipcode }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ user.city }}</td>
+            </tr>
+            <tr>
+                <th>Rôle</th>
+                <td>{{ user.rule }}</td>
+            </tr>
+            <tr>
+                <th>Préférence de contact</th>
+                <td>{{ user.contactPreference }}</td>
+            </tr>
+            <tr>
+                <th>Date de naissance</th>
+                <td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nationalité</th>
+                <td>{{ user.nationality }}</td>
+            </tr>
+            <tr>
+                <th>Etat civil</th>
+                <td>{{ user.maritalStatus }}</td>
+            </tr>
+        </thead>
+        <tbody>
+    </table>
+    <a class="btn btn-link" href="{{ path('app_user_index') }}">Retour à la liste des utilisateurs</a></h1>
+    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Edit</a>
+    {{ include('contact/_delete_form.html.twig') }}
+{% endblock %}
