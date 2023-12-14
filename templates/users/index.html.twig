@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users index{% endblock %}
+
+{% block body %}
+<div class="container">
+<h1>Liste des utilisateurs</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Mot de passe</th>
+                <th>Adresse</th>
+                <th>CP</th>
+                <th>Ville</th>
+                <th>Rôle</th>
+                <th>Préférence de contact</th>
+                <th>Date de naissance</th>
+                <th>Nationalité</th>
+                <th>Etat civil</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.adresse }}</td>
+                <td>{{ user.zipcode }}</td>
+                <td>{{ user.city }}</td>
+                <td>{{ user.rule }}</td>
+                <td>{{ user.contactPreference }}</td>
+                <td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
+                <td>{{ user.nationality }}</td>
+                <td>{{ user.maritalStatus }}</td>
+                <td>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Show</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun compte</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-link" href="{{ path('app_user_new') }}">Créer un nouvel utilisateur</a>
+</div>
+{% endblock %}

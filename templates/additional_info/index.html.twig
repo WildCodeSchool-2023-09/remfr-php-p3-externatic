@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdditionalInfo index{% endblock %}
+
+{% block body %}
+    <h1>AdditionalInfo index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Birthdate</th>
+                <th>Nationality</th>
+                <th>Gender</th>
+                <th>License</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for additional_info in additional_infos %}
+            <tr>
+                <td>{{ additional_info.id }}</td>
+                <td>{{ additional_info.birthdate ? additional_info.birthdate|date('Y-m-d') : '' }}</td>
+                <td>{{ additional_info.nationality }}</td>
+                <td>{{ additional_info.gender }}</td>
+                <td>{{ additional_info.license }}</td>
+                <td>
+                    <a href="{{ path('app_additional_info_show', {'id': additional_info.id}) }}">show</a>
+                    <a href="{{ path('app_additional_info_edit', {'id': additional_info.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_additional_info_new') }}">Create new</a>
+{% endblock %}
