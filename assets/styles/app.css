@@ -1,3 +1,10 @@
 body {
     background-color: lightgray;
 }
+
+h1 {
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+
