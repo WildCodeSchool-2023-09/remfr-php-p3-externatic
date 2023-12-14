@@ -21,10 +21,10 @@ class UserType extends AbstractType
             ->add('zipcode')
             ->add('city')
             ->add('rule')
-            ->add('contact_preference')
+            ->add('contactPreference')
             ->add('birthdate')
             ->add('nationality')
-            ->add('marital_status')
+            ->add('maritalStatus')
         ;
     }
 

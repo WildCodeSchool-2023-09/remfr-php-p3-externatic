@@ -18,17 +18,17 @@ class Users
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Merci de saisir votre prénom')]
     #[Assert\Length(max: 255)]
-    private $firstname;
+    private ?string $firstname = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Merci de saisir votre nom')]
     #[Assert\Length(max: 255)]
-    private $lastname;
+    private ?string $lastname = null;
 
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\NotBlank(message: 'Merci de saisir votre email')]
     #[Assert\Length(max: 50)]
-    private $email;
+    private ?string $email = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $phone = null;
@@ -36,7 +36,7 @@ class Users
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\NotBlank(message: 'Merci de saisir votre mot de passe')]
     #[Assert\Length(max: 50)]
-    private $password;
+    private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
@@ -52,7 +52,7 @@ class Users
 
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\NotBlank(message: 'Merci de sélectionner votre préférence de contact')]
-    private $contact_preference;
+    private ?string $contactPreference = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthdate = null;
@@ -61,7 +61,7 @@ class Users
     private ?string $nationality = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    private ?string $marital_status = null;
+    private ?string $maritalStatus = null;
 
     public function getId(): ?int
     {
@@ -178,12 +178,12 @@ class Users
 
     public function getContactPreference(): ?string
     {
-        return $this->contact_preference;
+        return $this->contactPreference;
     }
 
-    public function setContactPreference(string $contact_preference): static
+    public function setContactPreference(string $contactPreference): static
     {
-        $this->contact_preference = $contact_preference;
+        $this->contactPreference = $contactPreference;
 
         return $this;
     }
@@ -214,12 +214,12 @@ class Users
 
     public function getMaritalStatus(): ?string
     {
-        return $this->marital_status;
+        return $this->maritalStatus;
     }
 
-    public function setMaritalStatus(?string $marital_status): static
+    public function setMaritalStatus(?string $maritalStatus): static
     {
-        $this->marital_status = $marital_status;
+        $this->maritalStatus = $maritalStatus;
 
         return $this;
     }

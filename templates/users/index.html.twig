@@ -38,10 +38,10 @@
                 <td>{{ user.zipcode }}</td>
                 <td>{{ user.city }}</td>
                 <td>{{ user.rule }}</td>
-                <td>{{ user.contact_preference }}</td>
+                <td>{{ user.contactPreference }}</td>
                 <td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
                 <td>{{ user.nationality }}</td>
-                <td>{{ user.marital_status }}</td>
+                <td>{{ user.maritalStatus }}</td>
                 <td>
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">Show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">Edit</a>

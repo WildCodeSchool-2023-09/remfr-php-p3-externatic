@@ -20,10 +20,10 @@ class UsersFixtures extends Fixture
         $users->setZipcode($users['zipcode']);
         $users->setCity($users['city']);
         $users->setRule($users['rule']);
-        $users->setContactPreference($users['contact_preference']);
+        $users->setContactPreference($users['contactPreference']);
         $users->setBirthdate($users['birthdate']);
         $users->setNationality($users['nationality']);
-        $users->setMaritalStatus($users['marital_status']);
+        $users->setMaritalStatus($users['maritalStatus']);
         $manager->persist($users);
         $manager->flush();
     }
