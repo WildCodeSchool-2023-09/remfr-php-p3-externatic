@@ -1,16 +1,5 @@
-@import "~bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200&display=swap');
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
-
-.root {
-    --primary:#CA2061;
-    --secondary:#851342;
-    --association1:#ffffff;
-    --association2:#000000;
-    --cards-background:#f3f3f3;
-}
-
-h1 {
-    color: var(--secondary);
-    font-weight: bold;
-}
+@import "variables";
+@import "_global";
+@import "_navbar";
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons.css";

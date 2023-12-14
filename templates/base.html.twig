@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="{{ asset('build/images/favicon.ico') }}">
-
         <title>
             {% block title %}Externatic{% endblock %}
         </title>
@@ -17,13 +16,13 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-        <header>
+    <body id="body-pd">
+        <header class="header" id="header">
             {% include 'Includes/_navbar.html.twig'%}
         </header>
     <main class="container">
         {% block body %}{% endblock %}
     </main>
-        {% include 'Includes/_footer.html.twig'%}
+  
     </body>
 </html>
