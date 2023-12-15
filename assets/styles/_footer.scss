@@ -1,6 +1,61 @@
 .footer {
-    background-color: $primary;
-    color :$association1;
-    margin:0;
-    font-size: small;
+    color :$primary;
+    font-size: 0.7rem;
+    padding-top:1rem;
+    background-color: $association1 !important;
+    line-height: 14px;
+}
+.footer-link {
+    color :$primary;
+    font-size: 0.7rem;
+}
+.bg-body-tertiary.footer-bloc {
+    background-color: $association1 !important;
+}
+col>a {
+    font-size:small;
+}
+div.container.footer-container {
+    margin-left: 0;
+    margin-right: 0;
+    background-color: $association1 !important;
+    padding: 0;
+}
+.footer-div {
+    margin-left: 0;
+    margin-right: 0;
+    background-color: $association1 !important;
+}
+.footer-col {
+    flex:none !important;
+}
+.footer-icon {
+    font-size: 1.5rem;
+    padding:1.1rem;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px){
+    .d-flex.footer_div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-color: $cards-background;
+      }
+    .col.footer-col  {
+        width:100%;
+        margin-bottom: 20px;
+        padding-top: 20px;
+      }
+    
+    .footer-icon {
+        font-size: 1.2rem;
+        padding: 0.8rem;
+    }
+    
+    .footer-link {
+        display: block;
+        margin-bottom: 8px;
+        line-height: 0.2rem;
+    }
 }
