@@ -71,7 +71,7 @@ class Users
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Contact $contact = null;
     #[ORM\OneToOne(inversedBy: 'users', cascade: ['persist', 'remove'])]
-    private ?CurriculumVitae $CV = null;
+    private ?CurriculumVitae $curriculum = null;
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'users')]
     private Collection $criteria;
     public function __construct()
@@ -306,14 +306,14 @@ class Users
         return $this;
     }
 
-    public function getCV(): ?CurriculumVitae
+    public function getCurriculum(): ?CurriculumVitae
     {
-        return $this->CV;
+        return $this->curriculum;
     }
 
-    public function setCV(?CurriculumVitae $CV): static
+    public function setCurriculum(?CurriculumVitae $curriculum): static
     {
-        $this->CV = $CV;
+        $this->curriculum = $curriculum;
         return $this;
     }
 
