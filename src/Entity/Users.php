@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -62,6 +64,22 @@ class Users
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $maritalStatus = null;
+    #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'users')]
+    private Collection $offer;
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Process::class)]
+    private Collection $process;
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Contact $contact = null;
+    #[ORM\OneToOne(inversedBy: 'users', cascade: ['persist', 'remove'])]
+    private ?CurriculumVitae $CV = null;
+    #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'users')]
+    private Collection $criteria;
+    public function __construct()
+    {
+        $this->offer = new ArrayCollection();
+        $this->process = new ArrayCollection();
+        $this->criteria = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -221,6 +239,104 @@ class Users
     {
         $this->maritalStatus = $maritalStatus;
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getOffer(): Collection
+    {
+        return $this->offer;
+    }
+
+    public function addOffer(Offer $offer): static
+    {
+        if (!$this->offer->contains($offer)) {
+            $this->offer->add($offer);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): static
+    {
+        $this->offer->removeElement($offer);
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Process>
+     */
+    public function getProcess(): Collection
+    {
+        return $this->process;
+    }
+
+    public function addProcess(Process $process): static
+    {
+        if (!$this->process->contains($process)) {
+            $this->process->add($process);
+            $process->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcess(Process $process): static
+    {
+        if ($this->process->removeElement($process)) {
+// set the owning side to null (unless already changed)
+            if ($process->getUsers() === $this) {
+                $process->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getContact(): ?Contact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?Contact $contact): static
+    {
+        $this->contact = $contact;
+        return $this;
+    }
+
+    public function getCV(): ?CurriculumVitae
+    {
+        return $this->CV;
+    }
+
+    public function setCV(?CurriculumVitae $CV): static
+    {
+        $this->CV = $CV;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Criteria>
+     */
+    public function getCriteria(): Collection
+    {
+        return $this->criteria;
+    }
+
+    public function addCriterion(Criteria $criterion): static
+    {
+        if (!$this->criteria->contains($criterion)) {
+            $this->criteria->add($criterion);
+        }
+
+        return $this;
+    }
+
+    public function removeCriterion(Criteria $criterion): static
+    {
+        $this->criteria->removeElement($criterion);
         return $this;
     }
 }

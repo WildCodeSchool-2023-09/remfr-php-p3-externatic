@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231214111509 extends AbstractMigration
+final class Version20231214202748 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,16 @@ final class Version20231214111509 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users CHANGE email email VARCHAR(50) NOT NULL, CHANGE password password VARCHAR(50) NOT NULL');
+        $this->addSql('ALTER TABLE process ADD offer_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE process ADD CONSTRAINT FK_861D189653C674EE FOREIGN KEY (offer_id) REFERENCES offer (id)');
+        $this->addSql('CREATE INDEX IDX_861D189653C674EE ON process (offer_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users CHANGE email email VARCHAR(255) NOT NULL, CHANGE password password VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE process DROP FOREIGN KEY FK_861D189653C674EE');
+        $this->addSql('DROP INDEX IDX_861D189653C674EE ON process');
+        $this->addSql('ALTER TABLE process DROP offer_id');
     }
 }

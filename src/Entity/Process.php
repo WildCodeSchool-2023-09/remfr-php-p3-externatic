@@ -33,6 +33,10 @@ class Process
 
     #[ORM\Column]
     private ?int $statut = null;
+    #[ORM\ManyToOne(inversedBy: 'process')]
+    private ?Offer $offer = null;
+    #[ORM\ManyToOne(inversedBy: 'process')]
+    private ?Users $users = null;
 
     public function getId(): ?int
     {
@@ -66,6 +70,28 @@ class Process
         }
         $this-> statut = $statut;
 
+        return $this;
+    }
+
+    public function getOffer(): ?Offer
+    {
+        return $this->offer;
+    }
+
+    public function setOffer(?Offer $offer): static
+    {
+        $this->offer = $offer;
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): static
+    {
+        $this->users = $users;
         return $this;
     }
 }
