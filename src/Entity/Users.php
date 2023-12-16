@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Form\CategoryType;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 class Users
 {
+    public const MARITAL_STATUS = [
+        1 => 'Célibataire',
+        2 => 'En Concubinage',
+        3 => 'union libre',
+        4 => 'PACS',
+        5 => 'marié(e)',
+        6 => 'Veuf(ve)',
+        7 => 'Divorcé(e)',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -62,8 +73,8 @@ class Users
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $nationality = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $maritalStatus = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $maritalStatus = null;
     #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'users')]
     private Collection $offer;
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Process::class)]
@@ -230,15 +241,16 @@ class Users
         return $this;
     }
 
-    public function getMaritalStatus(): ?string
+    public function getMaritalStatus(): ?int
     {
         return $this->maritalStatus;
     }
 
-    public function setMaritalStatus(?string $maritalStatus): static
+    public function setMaritalStatus(?int $maritalStatus): static
     {
-        $this->maritalStatus = $maritalStatus;
-
+        if (array_key_exists($maritalStatus, self::MARITAL_STATUS)) {
+            $this->maritalStatus = $maritalStatus;
+        }
         return $this;
     }
 
