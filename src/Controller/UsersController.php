@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Users;
-use App\Repository\UsersRepository;
-use App\Form\UsersType;
+use App\Entity\User;
+use App\Repository\UserRepository;
+use App\Form\UserType;
+use App\Form\LoginType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +18,9 @@ class UsersController extends AbstractController
     /** Afficher tous les utilisateurs */
 
     #[Route('/', name: 'index', methods:['GET'])]
-    public function index(UsersRepository $usersRepository): Response
+    public function index(UserRepository $userRepository): Response
     {
-        $users = $usersRepository->findAll();
+        $users = $userRepository->findAll();
         return $this->render('users/index.html.twig', ['users' => $users]);
     }
 
@@ -28,8 +29,8 @@ class UsersController extends AbstractController
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = new USERS();
-        $form = $this->createForm(UsersType::class, $user);
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,19 +49,19 @@ class UsersController extends AbstractController
     /** Afficher un utilisateur */
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Users $users): Response
+    public function show(User $user): Response
     {
         return $this->render('users/show.html.twig', [
-            'user' => $users,
+            'user' => $user,
         ]);
     }
 
     /** Editer un utilisateur */
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Users $user, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UsersType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -78,7 +79,7 @@ class UsersController extends AbstractController
     /** Supprimer un utilisateur */
 
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, Users $user, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);

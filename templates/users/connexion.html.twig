@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}connexion
+{% endblock %}
+
+{% block body %}
+	<h1>Connexion
+
+		{{ form(connexion) }}
+			<a class="btn btn-link" href="{{ path('login_check') }}">Connexion</a>
+		</h1>
+	{% endblock %}

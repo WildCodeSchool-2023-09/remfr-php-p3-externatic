@@ -48,7 +48,7 @@ class Criteria
 
     #[ORM\Column]
     private ?int $remote = null;
-    #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'criteria')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'criteria')]
     private Collection $users;
     #[ORM\ManyToMany(targetEntity: Offer::class, mappedBy: 'criteria')]
     private Collection $offers;
@@ -132,14 +132,14 @@ class Criteria
     }
 
     /**
-     * @return Collection<int, Users>
+     * @return Collection<int, User>
      */
     public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function addUser(Users $user): static
+    public function addUser(User $user): static
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -149,7 +149,7 @@ class Criteria
         return $this;
     }
 
-    public function removeUser(Users $user): static
+    public function removeUser(User $user): static
     {
         if ($this->users->removeElement($user)) {
             $user->removeCriterion($this);

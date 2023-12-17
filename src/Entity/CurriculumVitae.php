@@ -36,7 +36,7 @@ class CurriculumVitae
     #[ORM\OneToMany(mappedBy: 'curriculumVitae', targetEntity: Experience::class, orphanRemoval: true)]
     private Collection $experiences;
     #[ORM\OneToOne(mappedBy: 'Curriculum', cascade: ['persist', 'remove'])]
-    private ?Users $users = null;
+    private ?User $users = null;
 
     public function __construct()
     {
@@ -226,12 +226,12 @@ class CurriculumVitae
         return $this;
     }
 
-    public function getUsers(): ?Users
+    public function getUsers(): ?User
     {
         return $this->users;
     }
 
-    public function setUsers(?Users $users): static
+    public function setUsers(?User $users): static
     {
         // unset the owning side of the relation if necessary
         if ($users === null && $this->users !== null) {

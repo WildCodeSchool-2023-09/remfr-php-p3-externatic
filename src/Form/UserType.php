@@ -6,7 +6,7 @@ use App\Entity\Contact;
 use App\Entity\Criteria;
 use App\Entity\CurriculumVitae;
 use App\Entity\Offer;
-use App\Entity\Users;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +17,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UsersType extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -44,7 +44,7 @@ class UsersType extends AbstractType
             ])
             ->add('nationality', TextType::class)
             ->add('maritalStatus', ChoiceType::class, [
-                'choices' => array_flip(Users::MARITAL_STATUS)
+                'choices' => array_flip(User::MARITAL_STATUS)
             ])
         ;
     }
@@ -52,7 +52,7 @@ class UsersType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Users::class,
+            'data_class' => User::class,
         ]);
     }
 }
