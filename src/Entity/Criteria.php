@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CriteriaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CriteriaRepository::class)]
@@ -46,6 +48,15 @@ class Criteria
 
     #[ORM\Column]
     private ?int $remote = null;
+    #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'criteria')]
+    private Collection $users;
+    #[ORM\ManyToMany(targetEntity: Offer::class, mappedBy: 'criteria')]
+    private Collection $offers;
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->offers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -116,6 +127,60 @@ class Criteria
         }
 
         $this->remote = $remote;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Users>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(Users $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addCriterion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Users $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeCriterion($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): static
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers->add($offer);
+            $offer->addCriterion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): static
+    {
+        if ($this->offers->removeElement($offer)) {
+            $offer->removeCriterion($this);
+        }
 
         return $this;
     }
