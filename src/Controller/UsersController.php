@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/users', name: 'user_')]
+#[Route('/user', name: 'user_')]
 class UsersController extends AbstractController
 {
     /** Afficher tous les utilisateurs */
@@ -21,8 +21,8 @@ class UsersController extends AbstractController
     #[Route('/', name: 'index', methods:['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-        $users = $userRepository->findAll();
-        return $this->render('users/index.html.twig', ['users' => $users]);
+        $user = $userRepository->findAll();
+        return $this->render('user/index.html.twig', ['user' => $user]);
     }
 
     /** Créer un nouvel utilisateur */
@@ -44,7 +44,7 @@ class UsersController extends AbstractController
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('users/new.html.twig', [
+        return $this->render('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);

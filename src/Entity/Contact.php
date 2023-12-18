@@ -24,10 +24,10 @@ class Contact
     #[ORM\Column]
     private ?\DateTimeImmutable $date = null;
     #[ORM\OneToMany(mappedBy: 'contacts', targetEntity: User::class)]
-    private Collection $users;
+    private Collection $user;
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,13 +76,13 @@ class Contact
      */
     public function getUsers(): Collection
     {
-        return $this->users;
+        return $this->user;
     }
 
     public function addUser(User $user): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
         }
 
         return $this;
@@ -90,7 +90,7 @@ class Contact
 
     public function removeUser(User $user): static
     {
-        $this->users->removeElement($user);
+        $this->user->removeElement($user);
 
         return $this;
     }

@@ -36,7 +36,7 @@ class Process
     #[ORM\ManyToOne(inversedBy: 'process')]
     private ?Offer $offer = null;
     #[ORM\ManyToOne(inversedBy: 'process')]
-    private ?User $users = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -86,12 +86,12 @@ class Process
 
     public function getUsers(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?User $users): static
+    public function setUsers(?User $user): static
     {
-        $this->users = $users;
+        $this->user = $user;
         return $this;
     }
 }

@@ -32,7 +32,7 @@ class Offer
     private ?Company $company = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'offer')]
-    private Collection $users;
+    private Collection $user;
 
     #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Process::class)]
     private Collection $process;
@@ -42,7 +42,7 @@ class Offer
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->user = new ArrayCollection();
         $this->process = new ArrayCollection();
         $this->criteria = new ArrayCollection();
     }
@@ -117,13 +117,13 @@ class Offer
      */
     public function getUsers(): Collection
     {
-        return $this->users;
+        return $this->user;
     }
 
     public function addUser(User $user): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
             $user->addOffer($this);
         }
 
@@ -132,7 +132,7 @@ class Offer
 
     public function removeUser(User $user): static
     {
-        if ($this->users->removeElement($user)) {
+        if ($this->user->removeElement($user)) {
             $user->removeOffer($this);
         }
 
