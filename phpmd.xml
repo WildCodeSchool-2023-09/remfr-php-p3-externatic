@@ -16,6 +16,7 @@
         <exclude name="TooManyFields" />
         <exclude name="ExcessiveClassComplexity" />
         <exclude name="TooManyPublicMethods" />
+         <exclude name="ExcessivePublicCount" />
     </rule>
     <rule ref="rulesets/codesize.xml/TooManyFields" >
         <properties>
