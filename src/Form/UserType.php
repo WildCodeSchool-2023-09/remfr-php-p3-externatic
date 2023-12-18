@@ -27,10 +27,9 @@ class UserType extends AbstractType
             ->add('email', EmailType::class)
             ->add('phone', TextType::class)
             ->add('password', PasswordType::class)
-            ->add('adresse', TextType::class)
+            ->add('address', TextType::class)
             ->add('zipcode', TextType::class)
             ->add('city', TextType::class)
-            ->add('rule', TextType::class)
             ->add('contactPreference', ChoiceType::class, [
                 'choices' => [
                     'Téléphone' => 'Téléphone',

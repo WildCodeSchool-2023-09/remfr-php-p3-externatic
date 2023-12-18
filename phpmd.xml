@@ -14,11 +14,17 @@
     </rule>
     <rule ref="rulesets/codesize.xml" >
         <exclude name="TooManyFields" />
+        <exclude name="ExcessiveClassComplexity" />
         <exclude name="TooManyPublicMethods" />
     </rule>
     <rule ref="rulesets/codesize.xml/TooManyFields" >
         <properties>
             <property name="maxfields" value="20" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity" >
+        <properties>
+            <property name="maximum" value="60" />
         </properties>
     </rule>
     <rule ref="rulesets/codesize.xml/TooManyPublicMethods" >
