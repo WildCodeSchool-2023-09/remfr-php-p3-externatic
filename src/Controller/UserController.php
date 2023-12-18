@@ -14,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/user', name: 'user_')]
-class UsersController extends AbstractController
+class UserController extends AbstractController
 {
     /** Afficher tous les utilisateurs */
 
@@ -55,7 +55,7 @@ class UsersController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(User $user): Response
     {
-        return $this->render('users/show.html.twig', [
+        return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
     }
@@ -74,7 +74,7 @@ class UsersController extends AbstractController
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('users/edit.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
