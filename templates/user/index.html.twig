@@ -15,11 +15,9 @@
 					<th>Nom</th>
 					<th>Email</th>
 					<th>Téléphone</th>
-					<th>Mot de passe</th>
 					<th>Adresse</th>
 					<th>CP</th>
 					<th>Ville</th>
-					<th>Rôle</th>
 					<th>Préférence de contact</th>
 					<th>Date de naissance</th>
 					<th>Nationalité</th>
@@ -40,7 +38,7 @@
 						<td>{{ user.contactPreference }}</td>
 						<td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
 						<td>{{ user.nationality }}</td>
-						<td>{{ user.maritalStatus }}</td>
+						<td>{{ user.maritalStatusName }}</td>
 						<td>
 							<a href="{{ path('user_show', {'id': user.id}) }}">Show</a>
 							<a href="{{ path('user_edit', {'id': user.id}) }}">Edit</a>

@@ -173,6 +173,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function addRole(string $role): static
+    {
+        if (!(in_array($role, $this->roles))) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(string $role): static
+    {
+        if (in_array($role, $this->roles)) {
+            $roleArray = [];
+            foreach ($this->roles as $newRole) {
+                if ($newRole != $role) {
+                    $roleArray[] = $newRole;
+                }
+            }
+            $this->roles = $roleArray;
+        }
+        return $this;
+    }
+
     public function getPhone(): ?int
     {
         return $this->phone;
@@ -275,6 +298,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getMaritalStatus(): ?int
     {
         return $this->maritalStatus;
+    }
+
+    public function getMaritalStatusName(): string
+    {
+        $value = "Inconnu";
+
+        if (!is_null($this->maritalStatus)) {
+            $value = self::MARITAL_STATUS[$this->maritalStatus];
+        }
+
+        return $value;
     }
 
     public function setMaritalStatus(?int $maritalStatus): static
