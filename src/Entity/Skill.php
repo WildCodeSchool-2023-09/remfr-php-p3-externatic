@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SkillRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SkillRepository::class)]
@@ -26,9 +28,13 @@ class Skill
     #[ORM\Column]
     private ?int $level = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Skills')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?CurriculumVitae $curriculumVitae = null;
+    #[ORM\ManyToMany(targetEntity: CurriculumVitae::class, mappedBy: 'skills')]
+    private Collection $curriculumVitaes;
+
+    public function __construct()
+    {
+        $this->curriculumVitaes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -63,15 +69,30 @@ class Skill
         return $this;
     }
 
-    public function getCurriculumVitae(): ?CurriculumVitae
+    public function getCurriculumVitaes(): Collection
     {
-        return $this->curriculumVitae;
+        return $this->curriculumVitaes;
     }
 
-    public function setCurriculumVitae(?CurriculumVitae $curriculumVitae): static
+    public function setCurriculumVitaes(Collection $curriculumVitaes): static
     {
-        $this->curriculumVitae = $curriculumVitae;
+        $this->curriculumVitaes = $curriculumVitaes;
 
+        return $this;
+    }
+
+    public function addCurriculumVitae(CurriculumVitae $curriculumVitae): static
+    {
+        if (!$this->curriculumVitaes->contains($curriculumVitae)) {
+            $this->curriculumVitaes->add($curriculumVitae);
+        }
+
+        return $this;
+    }
+
+    public function removeCurriculumVitae(CurriculumVitae $curriculumVitae): static
+    {
+        $this->curriculumVitaes->removeElement($curriculumVitae);
         return $this;
     }
 }

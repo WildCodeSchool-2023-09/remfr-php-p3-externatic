@@ -93,6 +93,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?AdditionalInfo $additionalInfo = null;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
@@ -409,6 +412,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getAdditionalInfo(): ?AdditionalInfo
+    {
+        return $this->additionalInfo;
+    }
+
+    public function setAdditionalInfo(?AdditionalInfo $additionalInfo): static
+    {
+        $this->additionalInfo = $additionalInfo;
 
         return $this;
     }
