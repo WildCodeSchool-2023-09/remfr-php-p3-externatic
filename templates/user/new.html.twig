@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Créer un nouvel utilisateur
+			<a class="btn btn-link" href="{{ path('user_index') }}">Retour à la liste des utilisateurs</a>
+		</h1>
+
+		{{ include('user/_form.html.twig') }}
+	</div>
+{% endblock %}

@@ -2,20 +2,38 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const MARITAL_STATUS = [
+        1 => 'Célibataire',
+        2 => 'En Concubinage',
+        3 => 'union libre',
+        4 => 'PACS',
+        5 => 'marié(e)',
+        6 => 'Veuf(ve)',
+        7 => 'Divorcé(e)',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[Assert\NotBlank(message: 'Merci de saisir votre email')]
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Merci de saisir votre prénom')]
@@ -27,30 +45,17 @@ class Users
     #[Assert\Length(max: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    #[Assert\NotBlank(message: 'Merci de saisir votre email')]
-    #[Assert\Length(max: 50)]
-    private ?string $email = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $phone = null;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    #[Assert\NotBlank(message: 'Merci de saisir votre mot de passe')]
-    #[Assert\Length(max: 50)]
-    private ?string $password = null;
-
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $adresse = null;
+    private ?string $address = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $zipcode = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $city = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $rule = null;
 
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\NotBlank(message: 'Merci de sélectionner votre préférence de contact')]
@@ -62,18 +67,32 @@ class Users
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $nationality = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $maritalStatus = null;
-    #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'users')]
+    #[ORM\Column(nullable: true)]
+    private ?int $maritalStatus = null;
+    #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'user')]
     private Collection $offer;
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Process::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class)]
     private Collection $process;
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Contact $contact = null;
-    #[ORM\OneToOne(inversedBy: 'users', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?CurriculumVitae $curriculum = null;
-    #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'user')]
     private Collection $criteria;
+    #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'user')]
+    private ?Collection $contacts;
+
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isVerified = false;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
@@ -122,6 +141,35 @@ class Users
         return $this;
     }
 
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
     public function getPhone(): ?int
     {
         return $this->phone;
@@ -134,7 +182,10 @@ class Users
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -146,14 +197,14 @@ class Users
         return $this;
     }
 
-    public function getAdresse(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adresse;
+        return $this->address;
     }
 
-    public function setAdresse(?string $adresse): static
+    public function setAddress(?string $address): static
     {
-        $this->adresse = $adresse;
+        $this->address = $address;
 
         return $this;
     }
@@ -178,18 +229,6 @@ class Users
     public function setCity(?string $city): static
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getRule(): ?string
-    {
-        return $this->rule;
-    }
-
-    public function setRule(string $rule): static
-    {
-        $this->rule = $rule;
 
         return $this;
     }
@@ -230,19 +269,20 @@ class Users
         return $this;
     }
 
-    public function getMaritalStatus(): ?string
+    public function getMaritalStatus(): ?int
     {
         return $this->maritalStatus;
     }
 
-    public function setMaritalStatus(?string $maritalStatus): static
+    public function setMaritalStatus(?int $maritalStatus): static
     {
-        $this->maritalStatus = $maritalStatus;
-
+        if (array_key_exists($maritalStatus, self::MARITAL_STATUS)) {
+            $this->maritalStatus = $maritalStatus;
+        }
         return $this;
     }
 
-    /**
+     /**
      * @return Collection<int, Offer>
      */
     public function getOffer(): Collection
@@ -295,16 +335,6 @@ class Users
         return $this;
     }
 
-    public function getContact(): ?Contact
-    {
-        return $this->contact;
-    }
-
-    public function setContact(?Contact $contact): static
-    {
-        $this->contact = $contact;
-        return $this;
-    }
 
     public function getCurriculum(): ?CurriculumVitae
     {
@@ -337,6 +367,49 @@ class Users
     public function removeCriterion(Criteria $criterion): static
     {
         $this->criteria->removeElement($criterion);
+        return $this;
+    }
+
+    public function setContacts(Collection $contacts): User
+    {
+        $this->contacts = $contacts;
+
+        return $this;
+    }
+
+    public function addContact(Contact $contact): static
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts->add($contact);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): static
+    {
+        $this->contacts->removeElement($contact);
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
         return $this;
     }
 }
