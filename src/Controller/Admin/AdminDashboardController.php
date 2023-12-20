@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin', name: 'admin_')]
-class DashboardController extends AbstractController
+class AdminDashboardController extends AbstractController
 {
     #[Route('/', name: 'dashboard', methods:['GET'])]
     public function index(): Response
