@@ -18,3 +18,47 @@
 .form-text>a {
     color:$secondary !important;
 }
+
+#registration_form_firstname {
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 2.5rem;
+    width: 18rem;
+}
+#registration_form_lastname {
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 2.5rem;
+    width: 18rem;
+}
+#registration_form_email {
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 2.5rem;
+    width: 18rem;
+}
+#registration_form_plainPassword {
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 2.5rem;
+    width: 18rem;
+}
+#registration_form_contactPreference {
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 2rem;
+    align-items:end;
+    width: 10rem;
+}
+.btn-lg, .btn-group-lg > .btn{
+    margin-left: 1rem;
+    font-size: 1rem !important;
+}
+label.required {
+    font-size: 0.8rem !important;
+}
