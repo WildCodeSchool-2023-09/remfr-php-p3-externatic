@@ -43,12 +43,11 @@ class UserController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
-    ): Response 
-    {
+    ): Response {
         if (!($this->security->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('app_home');
         }
-        
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -71,6 +70,9 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(User $user): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
