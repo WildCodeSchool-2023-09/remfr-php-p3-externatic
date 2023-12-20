@@ -74,6 +74,10 @@ class SkillController extends AbstractController
     #[Route('/{id}/edit', name: 'app_skill_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Skill $skill, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(SkillType::class, $skill);
         $form->handleRequest($request);
 
