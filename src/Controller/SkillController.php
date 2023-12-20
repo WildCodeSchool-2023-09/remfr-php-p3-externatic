@@ -62,6 +62,10 @@ class SkillController extends AbstractController
     #[Route('/{id}', name: 'app_skill_show', methods: ['GET'])]
     public function show(Skill $skill): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('skill/show.html.twig', [
             'skill' => $skill,
         ]);
