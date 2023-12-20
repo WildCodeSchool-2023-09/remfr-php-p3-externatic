@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LanguageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LanguageRepository::class)]
@@ -28,9 +30,13 @@ class Language
     #[ORM\Column]
     private ?int $level = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Languages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?CurriculumVitae $curriculumVitae = null;
+    #[ORM\ManyToMany(targetEntity: CurriculumVitae::class, mappedBy: 'languages')]
+    private Collection $curriculumVitaes;
+
+    public function __construct()
+    {
+        $this->curriculumVitaes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,6 +51,18 @@ class Language
     public function setLanguage(string $language): static
     {
         $this->language = $language;
+
+        return $this;
+    }
+
+    public function getCurriculumVitaes(): Collection
+    {
+        return $this->curriculumVitaes;
+    }
+
+    public function setCurriculumVitaes(Collection $curriculumVitaes): static
+    {
+        $this->curriculumVitaes = $curriculumVitaes;
 
         return $this;
     }
@@ -65,15 +83,18 @@ class Language
         return $this;
     }
 
-    public function getCurriculumVitae(): ?CurriculumVitae
+    public function addCurriculumVitae(CurriculumVitae $curriculumVitae): static
     {
-        return $this->curriculumVitae;
+        if (!$this->curriculumVitaes->contains($curriculumVitae)) {
+            $this->curriculumVitaes->add($curriculumVitae);
+        }
+
+        return $this;
     }
 
-    public function setCurriculumVitae(?CurriculumVitae $curriculumVitae): static
+    public function removeCurriculumVitae(CurriculumVitae $curriculumVitae): static
     {
-        $this->curriculumVitae = $curriculumVitae;
-
+        $this->curriculumVitaes->removeElement($curriculumVitae);
         return $this;
     }
 }
