@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard administrateur{% endblock %}
+
+{% block body %}
+<div class="container text-center"> 
+    <h1>Bienvenue Agathe Power !</h1>
+    <div class="row">
+        <div class="col dashboard-col">
+            <div class="card shadow dashboard-card">
+                <div class="card-body">
+                    <a href="{{ path('offer_app_offer_index') }}" class="dashboard-link">Gestion des offres</a>
+                </div>
+            </div>
+        </div>
+        <div class="col dashboard-col">
+            <div class="card shadow dashboard-card">
+                <div class="card-body">
+                    <a href="#" class="dashboard-link">Gestion des candidats</a>
+                </div>
+            </div>
+        </div>
+        <div class="col dashboard-col">
+            <div class="card shadow dashboard-card">
+                <div class="card-body">
+                    <a href="#" class="dashboard-link">Gestion des alertes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col dashboard-col">
+            <div class="card shadow dashboard-card">
+                <div class="card-body">
+                    <a href="#" class="dashboard-link">Gestion des process en cours</a>
+                </div>
+            </div>
+        </div>
+        <div class="col dashboard-col">
+            <div class="card shadow dashboard-card">
+                <div class="card-body">
+                    <a href="{{ path('user_index') }}" class="dashboard-link">Gestion des utilisateur</a>
+                </div>
+            </div>
+        </div>
+        <div class="col dashboard-col">
+            <div class="card shadow dashboard-card">
+                <div class="card-body">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <a href="#" class="dashboard-link">Déconnexion</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
