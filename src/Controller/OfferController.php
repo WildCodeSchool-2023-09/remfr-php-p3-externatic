@@ -38,6 +38,10 @@ class OfferController extends AbstractController
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $offer = new Offer();
         $form = $this->createForm(OfferType::class, $offer);
         $form->handleRequest($request);
@@ -58,6 +62,10 @@ class OfferController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Offer $offer): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('offer/show.html.twig', [
             'offer' => $offer,
         ]);
@@ -66,6 +74,10 @@ class OfferController extends AbstractController
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Offer $offer, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(OfferType::class, $offer);
         $form->handleRequest($request);
 
@@ -84,6 +96,10 @@ class OfferController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Offer $offer, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $offer->getId(), $request->request->get('_token'))) {
             $entityManager->remove($offer);
             $entityManager->flush();
