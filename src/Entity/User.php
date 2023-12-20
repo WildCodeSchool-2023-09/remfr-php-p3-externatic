@@ -93,6 +93,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?AdditionalInfo $additionalInfo = null;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
@@ -167,6 +170,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles = $roles;
 
+        return $this;
+    }
+
+    public function addRole(string $role): static
+    {
+        if (!(in_array($role, $this->roles))) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(string $role): static
+    {
+        if (in_array($role, $this->roles)) {
+            $roleArray = [];
+            foreach ($this->roles as $newRole) {
+                if ($newRole != $role) {
+                    $roleArray[] = $newRole;
+                }
+            }
+            $this->roles = $roleArray;
+        }
         return $this;
     }
 
@@ -272,6 +298,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getMaritalStatus(): ?int
     {
         return $this->maritalStatus;
+    }
+
+    public function getMaritalStatusName(): string
+    {
+        $value = "Inconnu";
+
+        if (!is_null($this->maritalStatus)) {
+            $value = self::MARITAL_STATUS[$this->maritalStatus];
+        }
+
+        return $value;
     }
 
     public function setMaritalStatus(?int $maritalStatus): static
@@ -409,6 +446,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getAdditionalInfo(): ?AdditionalInfo
+    {
+        return $this->additionalInfo;
+    }
+
+    public function setAdditionalInfo(?AdditionalInfo $additionalInfo): static
+    {
+        $this->additionalInfo = $additionalInfo;
 
         return $this;
     }
