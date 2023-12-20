@@ -2,12 +2,12 @@
 
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
-            <div> <a href="#" class="nav_logo"><i class="bi bi-house"></i><span class="nav_logo-name">Accueil</span></a>
+            <div> <a href="{{ path('app_home') }}" class="nav_logo"><i class="bi bi-house"></i><span class="nav_logo-name">Accueil</span></a>
                 <div class="nav_list"> 
-                    <a href="#" class="nav_link active"> <i class='bi bi-card-text nav_icon'></i> <span class="nav_name">Offres d'emploi</span> </a>  
-                    <a href="#" class="nav_link"> <i class='bi bi-telephone nav_icon'></i> <span class="nav_name">Nous contacter</span> </a> 
-                    <a href="#" class="nav_link"> <i class='bi bi-envelope nav_icon'></i> <span class="nav_name">Candidature spontanée</span> </a> 
-                    <a href="#" class="nav_link"> <i class='bi bi-person-fill nav_icon'></i> <span class="nav_name">Se connecter</span> </a>    
+                    <a href="{{ path('app_offer_index') }}" class="nav_link active"> <i class='bi bi-card-text nav_icon'></i> <span class="nav_name">Offres d'emploi</span> </a>  
+                    <a href="{{ path('app_contact_new') }}" class="nav_link"> <i class='bi bi-telephone nav_icon'></i> <span class="nav_name">Nous contacter</span> </a> 
+                    <a href="{{ path('app_login') }}" class="nav_link"> <i class='bi bi-envelope nav_icon'></i> <span class="nav_name">Candidature spontanée</span> </a> 
+                    <a href="{{ path('app_login') }}" class="nav_link"> <i class='bi bi-person-fill nav_icon'></i> <span class="nav_name">Se connecter</span> </a>    
                 </div> 
             </div>
         </nav>
@@ -25,10 +25,7 @@
     <div class="navbar">
         <div class="row align-items-center justify-content-end">
             <div class="col-auto">
-                <a class="navbar-brand externatic-brand" href="#">Candidature spontanée</a>
-            </div>
-            <div class="col-auto">
-                <a class="navbar-brand externatic-brand" href="#"><i class="bi bi-person-fill"></i>Se connecter</a>
+                <a class="navbar-brand externatic-brand" href="{{ path('app_login') }}"><i class="bi bi-person-fill"></i>Se connecter</a>
             </div>
         </div>
     </div>
