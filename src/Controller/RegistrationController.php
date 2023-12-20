@@ -9,6 +9,7 @@ use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -20,10 +21,14 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
+    private Security $security;
     private EmailVerifier $emailVerifier;
 
-    public function __construct(EmailVerifier $emailVerifier)
-    {
+    public function __construct(
+        EmailVerifier $emailVerifier,
+        Security $security
+    ) {
+        $this->security = $security;
         $this->emailVerifier = $emailVerifier;
     }
 
@@ -35,6 +40,10 @@ class RegistrationController extends AbstractController
         LoginAuthenticator $authenticator,
         EntityManagerInterface $entityManager
     ): Response {
+        if ($this->security->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);

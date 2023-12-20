@@ -50,7 +50,6 @@ security:
     role_hierarchy:
         ROLE_COLLABORATEUR: ROLE_USER
         ROLE_ADMIN: [ROLE_COLLABORATEUR, ROLE_ALLOWED_TO_SWITCH]
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
 when@test:
     security:
         password_hashers:
