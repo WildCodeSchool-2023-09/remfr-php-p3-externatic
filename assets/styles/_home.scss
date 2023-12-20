@@ -1,0 +1,100 @@
+body{
+    height: 100%;
+    background: #ffffff;
+    font-family: Helvetica, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+/* text avant card*/
+.container-text-center .text p {
+    text-align: center;
+}
+
+.container-text-center .text p{
+    font-size: 3rem;
+    margin-bottom: 0;
+}
+
+.container-text-center .text p a{
+    color: #CA2061;
+}
+
+/*card fixe*/
+.fixe{
+    margin-left: 2rem; 
+    margin-right: 2rem; 
+}
+
+.col-header{
+    color: #CA2061;
+    font-size: 20px; /* Taille de police de l'en-tête */
+    font-weight: bold; /* Police en gras pour l'en-tête */
+    margin-bottom: 10px; /* Marge en bas de l'en-tête */
+}
+
+.col-text {
+    font-size: 16px; /* Taille de police du texte */
+    line-height: 1.5; /* Hauteur de ligne pour un espacement confortable */
+}
+
+/* Styles du carrousel Swiper */
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 150px; 
+}
+
+.swiper-slide img {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Affichage des diapositives Swiper côte à côte */
+.swiper-wrapper {
+    margin-top: 5rem;
+    display: flex;
+}
+
+/* Styles spécifiques à .carrousel2 */
+.carrousel2 {
+    
+    bottom: -30px;
+}
+
+/* Styles spécifiques à h1 */
+h1 {
+    color: #CA2061;
+}
+
+.card1 {
+    background-color: #f2f2f2;
+    padding: 5px;
+    border-radius: 10px;
+    width: 18rem; 
+    height: 15rem;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+}
+.card1 h5 {
+    color: #851342;
+}
+
+.card1 a {
+    color: #851342;
+    margin-bottom: 0;
+}
+
+.card1 p{
+    color: #000;
+}
