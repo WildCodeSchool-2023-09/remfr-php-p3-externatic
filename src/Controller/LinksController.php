@@ -61,6 +61,10 @@ class LinksController extends AbstractController
     #[Route('/{id}', name: 'app_links_show', methods: ['GET'])]
     public function show(Links $link): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('links/show.html.twig', [
             'link' => $link,
         ]);
