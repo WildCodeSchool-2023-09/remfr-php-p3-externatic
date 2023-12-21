@@ -61,6 +61,10 @@ class ExperienceController extends AbstractController
     #[Route('/{id}', name: 'app_experience_show', methods: ['GET'])]
     public function show(Experience $experience): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('experience/show.html.twig', [
             'experience' => $experience,
         ]);
