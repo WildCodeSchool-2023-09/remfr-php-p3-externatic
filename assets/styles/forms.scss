@@ -1,0 +1,63 @@
+.form-container {
+    width: 24rem !important;
+    background-color: $cards-background;
+    padding:4rem;
+    border-radius: 0.5rem;
+}
+.form-container-wide {
+    background-color: $cards-background;
+    padding:4rem;
+    border-radius: 0.5rem;
+}
+.form-style {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.titre-form {
+    color:$secondary !important;
+    margin-bottom: 4rem;
+}
+
+.form-text>a {
+    color:$secondary !important;
+}
+
+#registration_form_firstname,#registration_form_lastname,#registration_form_email,
+#registration_form_plainPassword,#registration_form_phone,#registration_form_address,
+#registration_form_zipcode,#registration_form_city
+{
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 2.5rem;
+    width: 18rem;
+    margin: 0.5rem;
+}
+#registration_form_contactPreference {
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 1.5rem;
+    align-items:end;
+    width: 10rem;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+    margin-top: 1rem;
+}
+.btn-lg, .btn-group-lg > .btn{
+    font-size: 1rem !important;
+}
+label.required {
+    font-size: 0.8rem !important;
+}
+label{
+    font-size: 0.8rem !important;
+}
+.col-form{
+    padding: 0.2rem;
+}
+.agreeTerms{
+    color: $secondary;
+    margin-top: 2rem;
+}

@@ -87,7 +87,7 @@ a {
 }
 .nav_logo-name{
     color:$association1;
-    font-weight: 700;
+    font-weight: 400;
     text-decoration: none !important;
 }
 .nav_link{
@@ -95,6 +95,9 @@ a {
     color:$association1;
     margin-bottom: 1.5rem;
     transition: .3s
+}
+span.nav_name {
+    font-size: small;
 }
 .nav_link:hover{
     color: $association1;
@@ -121,6 +124,9 @@ a {
 }
 .height-100{
     height:100vh;
+}
+span.nav_name {
+    font-size: small;
 }
 
 @media screen and (min-width: 768px){
@@ -158,7 +164,7 @@ nav.navbar.bg-body-tertiary.fixed-top {
 }
 
 .navbar-brand, .externatic-brand {
-    font-size: 0.7rem !important;
+    font-size: 0.9rem !important;
     color: $primary !important;;
     font-weight:normal;
     margin-left: 1rem;
