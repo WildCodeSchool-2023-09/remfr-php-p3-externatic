@@ -95,6 +95,10 @@ class LinksController extends AbstractController
     #[Route('/{id}', name: 'app_links_delete', methods: ['POST'])]
     public function delete(Request $request, Links $link, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $link->getId(), $request->request->get('_token'))) {
             $entityManager->remove($link);
             $entityManager->flush();
