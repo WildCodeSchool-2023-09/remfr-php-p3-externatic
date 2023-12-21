@@ -22,14 +22,12 @@ class LinksController extends AbstractController
     ) {
         $this->security = $security;
     }
-
     #[Route('/', name: 'app_links_index', methods: ['GET'])]
     public function index(LinksRepository $linksRepository): Response
     {
         if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
             return $this->redirectToRoute('app_home');
         }
-
 
         return $this->render('links/index.html.twig', [
             'links' => $linksRepository->findAll(),
@@ -39,6 +37,10 @@ class LinksController extends AbstractController
     #[Route('/new', name: 'app_links_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $link = new Links();
         $form = $this->createForm(LinksType::class, $link);
         $form->handleRequest($request);
