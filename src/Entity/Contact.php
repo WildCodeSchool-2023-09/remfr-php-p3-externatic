@@ -23,11 +23,11 @@ class Contact
 
     #[ORM\Column]
     private ?\DateTimeImmutable $date = null;
-    #[ORM\OneToMany(mappedBy: 'contact', targetEntity: Users::class)]
-    private Collection $users;
+    #[ORM\OneToMany(mappedBy: 'contacts', targetEntity: User::class)]
+    private Collection $user;
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,31 +72,25 @@ class Contact
     }
 
     /**
-     * @return Collection<int, Users>
+     * @return Collection<int, User>
      */
     public function getUsers(): Collection
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function addUser(Users $user): static
+    public function addUser(User $user): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setContact($this);
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
         }
 
         return $this;
     }
 
-    public function removeUser(Users $user): static
+    public function removeUser(User $user): static
     {
-        if ($this->users->removeElement($user)) {
-// set the owning side to null (unless already changed)
-            if ($user->getContact() === $this) {
-                $user->setContact(null);
-            }
-        }
+        $this->user->removeElement($user);
 
         return $this;
     }

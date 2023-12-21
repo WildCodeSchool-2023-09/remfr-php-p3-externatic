@@ -96,6 +96,9 @@ a {
     margin-bottom: 1.5rem;
     transition: .3s
 }
+span.nav_name {
+    font-size: small;
+}
 .nav_link:hover{
     color: $association1;
 }

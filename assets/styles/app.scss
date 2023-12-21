@@ -1,3 +1,6 @@
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import "_home";
 @import "variables";
 @import "_global";
 @import "_navbar";
@@ -5,3 +8,4 @@
 @import "dashboard";
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+@import "forms";

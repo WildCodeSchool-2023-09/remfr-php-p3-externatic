@@ -18,25 +18,22 @@ class CurriculumVitae
     #[ORM\Column(length: 255)]
     private ?string $interests = null;
 
-    #[ORM\OneToMany(mappedBy: 'curriculumVitae', targetEntity: Education::class, orphanRemoval: true)]
+    #[ORM\ManyToMany(inversedBy: 'curriculumVitaes', targetEntity: Education::class)]
     private Collection $educations;
 
-    #[ORM\OneToMany(mappedBy: 'curriculumVitae', targetEntity: Language::class, orphanRemoval: true)]
+    #[ORM\ManyToMany(inversedBy: 'curriculumVitaes', targetEntity: Language::class)]
     private Collection $languages;
 
-    #[ORM\OneToMany(mappedBy: 'curriculumVitae', targetEntity: Skill::class, orphanRemoval: true)]
+    #[ORM\ManyToMany(inversedBy: 'curriculumVitaes', targetEntity: Skill::class)]
     private Collection $skills;
 
-    #[ORM\OneToMany(mappedBy: 'curriculumVitae', targetEntity: Links::class, orphanRemoval: true)]
+    #[ORM\ManyToMany(inversedBy: 'curriculumVitaes', targetEntity: Links::class)]
     private Collection $links;
 
-    #[ORM\OneToOne(inversedBy: 'curriculumVitae', cascade: ['persist', 'remove'])]
-    private ?AdditionalInfo $additionalInfos = null;
-
-    #[ORM\OneToMany(mappedBy: 'curriculumVitae', targetEntity: Experience::class, orphanRemoval: true)]
+    #[ORM\ManyToMany(inversedBy: 'curriculumVitaes', targetEntity: Experience::class)]
     private Collection $experiences;
     #[ORM\OneToOne(mappedBy: 'Curriculum', cascade: ['persist', 'remove'])]
-    private ?Users $users = null;
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -76,7 +73,7 @@ class CurriculumVitae
     {
         if (!$this->educations->contains($education)) {
             $this->educations->add($education);
-            $education->setCurriculumVitae($this);
+            $education->addCurriculumVitae($this);
         }
 
         return $this;
@@ -86,9 +83,7 @@ class CurriculumVitae
     {
         if ($this->educations->removeElement($education)) {
             // set the owning side to null (unless already changed)
-            if ($education->getCurriculumVitae() === $this) {
-                $education->setCurriculumVitae(null);
-            }
+                $education->removeCurriculumVitae($this);
         }
 
         return $this;
@@ -106,7 +101,7 @@ class CurriculumVitae
     {
         if (!$this->languages->contains($language)) {
             $this->languages->add($language);
-            $language->setCurriculumVitae($this);
+            $language->addCurriculumVitae($this);
         }
 
         return $this;
@@ -116,9 +111,7 @@ class CurriculumVitae
     {
         if ($this->languages->removeElement($language)) {
             // set the owning side to null (unless already changed)
-            if ($language->getCurriculumVitae() === $this) {
-                $language->setCurriculumVitae(null);
-            }
+                $language->removeCurriculumVitae($this);
         }
 
         return $this;
@@ -136,7 +129,7 @@ class CurriculumVitae
     {
         if (!$this->skills->contains($skill)) {
             $this->skills->add($skill);
-            $skill->setCurriculumVitae($this);
+            $skill->addCurriculumVitae($this);
         }
 
         return $this;
@@ -146,9 +139,7 @@ class CurriculumVitae
     {
         if ($this->skills->removeElement($skill)) {
             // set the owning side to null (unless already changed)
-            if ($skill->getCurriculumVitae() === $this) {
-                $skill->setCurriculumVitae(null);
-            }
+                $skill->removeCurriculumVitae($this);
         }
 
         return $this;
@@ -166,7 +157,7 @@ class CurriculumVitae
     {
         if (!$this->links->contains($link)) {
             $this->links->add($link);
-            $link->setCurriculumVitae($this);
+            $link->addCurriculumVitae($this);
         }
 
         return $this;
@@ -176,22 +167,8 @@ class CurriculumVitae
     {
         if ($this->links->removeElement($link)) {
             // set the owning side to null (unless already changed)
-            if ($link->getCurriculumVitae() === $this) {
-                $link->setCurriculumVitae(null);
-            }
+                $link->removeCurriculumVitae($this);
         }
-
-        return $this;
-    }
-
-    public function getAdditionalInfos(): ?AdditionalInfo
-    {
-        return $this->additionalInfos;
-    }
-
-    public function setAdditionalInfos(?AdditionalInfo $additionalInfos): static
-    {
-        $this->additionalInfos = $additionalInfos;
 
         return $this;
     }
@@ -208,7 +185,7 @@ class CurriculumVitae
     {
         if (!$this->experiences->contains($experience)) {
             $this->experiences->add($experience);
-            $experience->setCurriculumVitae($this);
+            $experience->addCurriculumVitae($this);
         }
 
         return $this;
@@ -218,32 +195,30 @@ class CurriculumVitae
     {
         if ($this->experiences->removeElement($experience)) {
             // set the owning side to null (unless already changed)
-            if ($experience->getCurriculumVitae() === $this) {
-                $experience->setCurriculumVitae(null);
-            }
+                $experience->removeCurriculumVitae($this);
         }
 
         return $this;
     }
 
-    public function getUsers(): ?Users
+    public function getUsers(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?Users $users): static
+    public function setUsers(?User $user): static
     {
         // unset the owning side of the relation if necessary
-        if ($users === null && $this->users !== null) {
-            $this->users->setCurriculum(null);
+        if ($user === null && $this->user !== null) {
+            $this->user->setCurriculum(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($users !== null && $users->getCurriculum() !== $this) {
-            $users->setCurriculum($this);
+        if ($user !== null && $user->getCurriculum() !== $this) {
+            $user->setCurriculum($this);
         }
 
-        $this->users = $users;
+        $this->user = $user;
         return $this;
     }
 }

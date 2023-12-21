@@ -20,20 +20,20 @@ final class Version20231215160114 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users DROP FOREIGN KEY FK_1483A5E9CFE419E2');
-        $this->addSql('DROP INDEX UNIQ_1483A5E9CFE419E2 ON users');
-        $this->addSql('ALTER TABLE users CHANGE cv_id curriculum_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE users ADD CONSTRAINT FK_1483A5E95AEA4428 FOREIGN KEY (curriculum_id) REFERENCES curriculum_vitae (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E95AEA4428 ON users (curriculum_id)');
+        $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_1483A5E9CFE419E2');
+        $this->addSql('DROP INDEX UNIQ_1483A5E9CFE419E2 ON user');
+        $this->addSql('ALTER TABLE user CHANGE cv_id curriculum_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_1483A5E95AEA4428 FOREIGN KEY (curriculum_id) REFERENCES curriculum_vitae (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E95AEA4428 ON user (curriculum_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users DROP FOREIGN KEY FK_1483A5E95AEA4428');
-        $this->addSql('DROP INDEX UNIQ_1483A5E95AEA4428 ON users');
-        $this->addSql('ALTER TABLE users CHANGE curriculum_id cv_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE users ADD CONSTRAINT FK_1483A5E9CFE419E2 FOREIGN KEY (cv_id) REFERENCES curriculum_vitae (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9CFE419E2 ON users (cv_id)');
+        $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_1483A5E95AEA4428');
+        $this->addSql('DROP INDEX UNIQ_1483A5E95AEA4428 ON user');
+        $this->addSql('ALTER TABLE user CHANGE curriculum_id cv_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_1483A5E9CFE419E2 FOREIGN KEY (cv_id) REFERENCES curriculum_vitae (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E9CFE419E2 ON user (cv_id)');
     }
 }

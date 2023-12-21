@@ -1,6 +1,7 @@
 h1, h2, h3, h4, h5, h6 {
     font-family: $headings-font-family;
 }
+
 header {
     margin-bottom: 4rem;
 }
@@ -11,4 +12,8 @@ main {
 h1 {
     color:$primary !important;
     padding-bottom: 4rem;
+}
+.container {
+    margin-top: 8rem;
+    margin-bottom: 8rem;
 }
