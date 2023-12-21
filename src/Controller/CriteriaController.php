@@ -50,7 +50,7 @@ class CriteriaController extends AbstractController
             $entityManager->persist($criterion);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_criteria_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('criteria_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('criteria/new.html.twig', [
@@ -84,7 +84,7 @@ class CriteriaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_criteria_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('criteria_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('criteria/edit.html.twig', [
@@ -93,14 +93,18 @@ class CriteriaController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_criteria_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Criteria $criterion, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $criterion->getId(), $request->request->get('_token'))) {
             $entityManager->remove($criterion);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_criteria_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('criteria_index', [], Response::HTTP_SEE_OTHER);
     }
 }
