@@ -95,6 +95,10 @@ class LanguageController extends AbstractController
     #[Route('/{id}', name: 'app_language_delete', methods: ['POST'])]
     public function delete(Request $request, Language $language, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $language->getId(), $request->request->get('_token'))) {
             $entityManager->remove($language);
             $entityManager->flush();
