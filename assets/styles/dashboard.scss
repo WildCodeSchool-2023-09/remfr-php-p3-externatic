@@ -1,0 +1,17 @@
+.dashboard-card>.card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 16rem;
+    padding:2rem;
+    background-color: $cards-background;
+    font-size:1.8rem;
+    color:$association2 !important;
+}
+.dashboard-col {
+    margin-top: 2rem;
+    height:18rem;
+}
+a.dashboard-link {
+    color:$association2 !important;
+}
