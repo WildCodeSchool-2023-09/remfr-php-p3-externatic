@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-sm form-container shadow">
+<div class="container-sm form-container-wide shadow">
 	<form method="post" class="form-style">	
 	{% for flash_error in app.flashes('verify_email_error') %}
 		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
@@ -15,32 +15,51 @@
 	{{ form_errors(registrationForm) }}
 
 	{{ form_start(registrationForm) }}
+	<div class="row">
+	{% set columns = 3 %}
+	{% set colSize = 12 / columns %}
 
-	<div style="padding:1rem">
-		{{ form_label(registrationForm.firstname, 'Prénom') }}
-		{{ form_widget(registrationForm.firstname) }}
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.firstname, 'Prénom') }}
+			{{ form_widget(registrationForm.firstname) }}
+		</div>
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.address, 'Adresse') }}
+			{{ form_widget(registrationForm.address) }}
+		</div>
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.phone, 'Téléphone') }}
+			{{ form_widget(registrationForm.phone) }}
+		</div>
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.lastname, 'Nom') }}
+			{{ form_widget(registrationForm.lastname) }}
+		</div>
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.zipcode, 'Code postal') }}
+			{{ form_widget(registrationForm.zipcode) }}
+		</div>
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.email, 'Email') }}
+			{{ form_widget(registrationForm.email) }}
+		</div>
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.contactPreference, 'Préférences de contact') }}
+			{{ form_widget(registrationForm.contactPreference) }}
+		</div>
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.city, 'Ville') }}
+			{{ form_widget(registrationForm.city) }}
+		</div>
+		<div class="col-md-{{ colSize }} text-md-end col-form">
+			{{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
+			{{ form_widget(registrationForm.plainPassword) }}
+		</div>
 	</div>
-	<div style="padding:1rem">
-		{{ form_label(registrationForm.lastname, 'Nom') }}
-		{{ form_widget(registrationForm.lastname) }}
-	</div>
-	<div style="padding:1rem">
-		{{ form_label(registrationForm.email, 'Email') }}
-		{{ form_widget(registrationForm.email) }}
-	</div>
-	<div style="padding:1rem">
-		{{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
-		{{ form_widget(registrationForm.plainPassword) }}
-	</div>
-	<div style="padding:1rem">
-		{{ form_label(registrationForm.contactPreference, 'Préférences de contact') }}
-		{{ form_widget(registrationForm.contactPreference) }}
-	</div>
-	<div style="padding:1rem">
-		{{ form_label(registrationForm.agreeTerms, 'J\'accepte des conditions d\'utilisation du site') }}
+	<div class="agreeTerms">
 		{{ form_widget(registrationForm.agreeTerms) }}
+		{{ form_label(registrationForm.agreeTerms, 'J\'accepte des conditions d\'utilisation du site') }}
 	</div>
-
 	<button type="submit" class="btn btn-lg btn-primary" style="margin-top:2rem">Créer le compte</button>
 		{{ form_end(registrationForm) }}
 	</form>
