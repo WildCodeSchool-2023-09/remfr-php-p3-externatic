@@ -35,9 +35,13 @@ class CriteriaController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_criteria_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $criterion = new Criteria();
         $form = $this->createForm(CriteriaType::class, $criterion);
         $form->handleRequest($request);
