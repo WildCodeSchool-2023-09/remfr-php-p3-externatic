@@ -6,6 +6,7 @@ use App\Entity\Language;
 use App\Form\LanguageType;
 use App\Repository\LanguageRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,20 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/language')]
 class LanguageController extends AbstractController
 {
+    private Security $security;
+
+    public function __construct(
+        Security $security
+    ) {
+        $this->security = $security;
+    }
     #[Route('/', name: 'app_language_index', methods: ['GET'])]
     public function index(LanguageRepository $languageRepository): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('language/index.html.twig', [
             'languages' => $languageRepository->findAll(),
         ]);
