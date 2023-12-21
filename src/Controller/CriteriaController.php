@@ -7,16 +7,29 @@ use App\Form\CriteriaType;
 use App\Repository\CriteriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/criteria')]
+#[Route('/criteria', name: 'experience_')]
 class CriteriaController extends AbstractController
 {
-    #[Route('/', name: 'app_criteria_index', methods: ['GET'])]
+    private Security $security;
+
+    public function __construct(
+        Security $security
+    ) {
+        $this->security = $security;
+    }
+
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(CriteriaRepository $criteriaRepository): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('criteria/index.html.twig', [
             'criterias' => $criteriaRepository->findAll(),
         ]);
