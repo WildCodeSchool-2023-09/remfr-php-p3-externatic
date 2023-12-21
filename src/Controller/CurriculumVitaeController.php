@@ -26,7 +26,7 @@ class CurriculumVitaeController extends AbstractController
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(CurriculumVitaeRepository $cvRepository): Response
     {
-        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -38,7 +38,7 @@ class CurriculumVitaeController extends AbstractController
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -50,7 +50,7 @@ class CurriculumVitaeController extends AbstractController
             $entityManager->persist($curriculumVitae);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_curriculum_vitae_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('curriculum_vitae_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('curriculum_vitae/new.html.twig', [
@@ -59,9 +59,13 @@ class CurriculumVitaeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_curriculum_vitae_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(CurriculumVitae $curriculumVitae): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('curriculum_vitae/show.html.twig', [
             'curriculum_vitae' => $curriculumVitae,
         ]);
