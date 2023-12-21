@@ -137,7 +137,7 @@ class UserController extends AbstractController
 
     /** Accès aux données personnelles (en connexion candidat) */
 
-    #[Route('/{id}/user_edit', name: 'user_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/editUser', name: 'edit_user', methods: ['GET', 'POST'])]
     public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -146,7 +146,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user_public/edit.html.twig', [

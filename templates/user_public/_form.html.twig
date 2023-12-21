@@ -1,0 +1,52 @@
+<div class="container-sm form-container-wide shadow">
+    {{ form_start(form) }}
+		<form method="post" class="form-style"> 
+		<h1 class="h3 mb-3 font-weight-normal titre-form">Mon compte</h1>
+
+		<div class="row">
+		{% set columns = 3 %}
+		{% set colSize = 12 / columns %}
+
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.firstname, 'Prénom') }}
+				{{ form_widget(user.firstname) }}
+			</div>
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.address, 'Adresse') }}
+				{{ form_widget(user.address) }}
+			</div>
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.phone, 'Téléphone') }}
+				{{ form_widget(user.phone) }}
+			</div>
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.lastname, 'Nom') }}
+				{{ form_widget(user.lastname) }}
+			</div>
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.zipcode, 'Code postal') }}
+				{{ form_widget(user.zipcode) }}
+			</div>
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.email, 'Email') }}
+				{{ form_widget(user.email) }}
+			</div>
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.contactPreference, 'Préférences de contact') }}
+				{{ form_widget(user.contactPreference) }}
+			</div>
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.city, 'Ville') }}
+				{{ form_widget(user.city) }}
+			</div>
+			<div class="col-md-{{ colSize }} text-md-end col-form">
+				{{ form_label(user.password, 'Mot de passe') }}
+				{{ form_widget(user.password) }}
+			</div>
+		</div>
+		<button type="submit" class="btn btn-lg btn-primary" style="margin-top:2rem">
+			{{ button_label|default('Enregistrer') }}
+		</button>
+		</form>
+	{{ form_end(form) }}
+</div>

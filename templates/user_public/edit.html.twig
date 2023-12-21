@@ -1,60 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Account{% endblock %}
+{% block title %}Edit user
+{% endblock %}
 
 {% block body %}
-<div class="container-sm form-container-wide shadow">
-	<form method="post" class="form-style"> 
-	{% for flash_error in app.flashes('verify_email_error') %}
-		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-	{% endfor %}
+	
+	<h1>Mes coordonnées
+		<a class="btn btn-link" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
+	</h1>
 
-	<h1 class="h3 mb-3 font-weight-normal titre-form">Mon compte</h1>
+	{{ include('user_public/_form.html.twig', {'button_label': 'Update'}) }}
 
-	<div class="row">
-	{% set columns = 3 %}
-	{% set colSize = 12 / columns %}
-
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.firstname, 'Prénom') }}
-			{{ form_widget(user.firstname) }}
-		</div>
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.address, 'Adresse') }}
-			{{ form_widget(user.address) }}
-		</div>
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.phone, 'Téléphone') }}
-			{{ form_widget(user.phone) }}
-		</div>
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.lastname, 'Nom') }}
-			{{ form_widget(user.lastname) }}
-		</div>
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.zipcode, 'Code postal') }}
-			{{ form_widget(user.zipcode) }}
-		</div>
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.email, 'Email') }}
-			{{ form_widget(user.email) }}
-		</div>
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.contactPreference, 'Préférences de contact') }}
-			{{ form_widget(user.contactPreference) }}
-		</div>
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.city, 'Ville') }}
-			{{ form_widget(user.city) }}
-		</div>
-		<div class="col-md-{{ colSize }} text-md-end col-form">
-			{{ form_label(user.password, 'Mot de passe') }}
-			{{ form_widget(user.password) }}
-		</div>
-	</div>
-	<button type="submit" class="btn btn-lg btn-primary" style="margin-top:2rem">Enregistrer les modifications</button>
-		{{ form_end(registrationForm) }}
-	</form>
-</div>
+	{{ include('user_public/_delete_form.html.twig') }}
 {% endblock %}
 
