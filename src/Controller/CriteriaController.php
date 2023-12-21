@@ -59,9 +59,13 @@ class CriteriaController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_criteria_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Criteria $criterion): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('criteria/show.html.twig', [
             'criterion' => $criterion,
         ]);
