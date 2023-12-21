@@ -35,9 +35,13 @@ class CurriculumVitaeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_curriculum_vitae_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $curriculumVitae = new CurriculumVitae();
         $form = $this->createForm(CurriculumVitaeType::class, $curriculumVitae);
         $form->handleRequest($request);
