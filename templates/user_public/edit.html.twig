@@ -5,12 +5,7 @@
 
 {% block body %}
 	
-	<h1>Mes coordonnées
-		<a class="btn btn-link" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
-	</h1>
+	{{ include('user_public/_userform.html.twig', {'button_label': 'Enregister'}) }}
 
-	{{ include('user_public/_form.html.twig', {'button_label': 'Update'}) }}
-
-	{{ include('user_public/_delete_form.html.twig') }}
 {% endblock %}
 
