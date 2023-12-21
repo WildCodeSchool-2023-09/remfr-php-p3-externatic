@@ -87,7 +87,7 @@ class CurriculumVitaeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_curriculum_vitae_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('curriculum_vitae_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('curriculum_vitae/edit.html.twig', [
@@ -96,12 +96,16 @@ class CurriculumVitaeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_curriculum_vitae_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(
         Request $request,
         CurriculumVitae $curriculumVitae,
         EntityManagerInterface $entityManager
     ): Response {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $curriculumVitae->getId(), $request->request->get('_token'))) {
             $entityManager->remove($curriculumVitae);
             $entityManager->flush();
