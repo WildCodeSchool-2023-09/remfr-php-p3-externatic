@@ -37,6 +37,10 @@ class LanguageController extends AbstractController
     #[Route('/new', name: 'app_language_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $language = new Language();
         $form = $this->createForm(LanguageType::class, $language);
         $form->handleRequest($request);
