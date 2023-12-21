@@ -4,24 +4,45 @@
 {% endblock %}
 
 {% block body %}
+<div class="container-sm form-container shadow">
+	<form method="post" class="form-style">	
 	{% for flash_error in app.flashes('verify_email_error') %}
 		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 	{% endfor %}
 
-	<h1>Register</h1>
+	<h1 class="h3 mb-3 font-weight-normal titre-form">Créer un compte</h1>
 
 	{{ form_errors(registrationForm) }}
 
 	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.firstname) }}
-	{{ form_row(registrationForm.lastname) }}
-	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-	{{ form_row(registrationForm.contactPreference) }}
-	{{ form_row(registrationForm.agreeTerms) }}
 
-	<button type="submit" class="btn">Register</button>
-	{{ form_end(registrationForm) }}
+	<div style="padding:1rem">
+		{{ form_label(registrationForm.firstname, 'Prénom') }}
+		{{ form_widget(registrationForm.firstname) }}
+	</div>
+	<div style="padding:1rem">
+		{{ form_label(registrationForm.lastname, 'Nom') }}
+		{{ form_widget(registrationForm.lastname) }}
+	</div>
+	<div style="padding:1rem">
+		{{ form_label(registrationForm.email, 'Email') }}
+		{{ form_widget(registrationForm.email) }}
+	</div>
+	<div style="padding:1rem">
+		{{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
+		{{ form_widget(registrationForm.plainPassword) }}
+	</div>
+	<div style="padding:1rem">
+		{{ form_label(registrationForm.contactPreference, 'Préférences de contact') }}
+		{{ form_widget(registrationForm.contactPreference) }}
+	</div>
+	<div style="padding:1rem">
+		{{ form_label(registrationForm.agreeTerms, 'J\'accepte des conditions d\'utilisation du site') }}
+		{{ form_widget(registrationForm.agreeTerms) }}
+	</div>
+
+	<button type="submit" class="btn btn-lg btn-primary" style="margin-top:2rem">Créer le compte</button>
+		{{ form_end(registrationForm) }}
+	</form>
+</div>
 {% endblock %}
