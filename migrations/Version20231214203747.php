@@ -21,7 +21,7 @@ final class Version20231214203747 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE offer_criteria (offer_id INT NOT NULL, criteria_id INT NOT NULL, INDEX IDX_CF622BE353C674EE (offer_id), INDEX IDX_CF622BE3990BEA15 (criteria_id), PRIMARY KEY(offer_id, criteria_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE user_criteria (user_id INT NOT NULL, criteria_id INT NOT NULL, INDEX IDX_CD5EB05B67B3B43D (_id), INDEX IDX_CD5EB05B990BEA15 (criteria_id), PRIMARY KEY(user_id, criteria_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user_criteria (user_id INT NOT NULL, criteria_id INT NOT NULL, INDEX IDX_CD5EB05B67B3B43D (user_id), INDEX IDX_CD5EB05B990BEA15 (criteria_id), PRIMARY KEY(user_id, criteria_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE offer_criteria ADD CONSTRAINT FK_CF622BE353C674EE FOREIGN KEY (offer_id) REFERENCES offer (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE offer_criteria ADD CONSTRAINT FK_CF622BE3990BEA15 FOREIGN KEY (criteria_id) REFERENCES criteria (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE user_criteria ADD CONSTRAINT FK_CD5EB05B67B3B43D FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
