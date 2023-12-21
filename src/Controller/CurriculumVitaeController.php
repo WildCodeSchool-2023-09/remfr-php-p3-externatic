@@ -7,16 +7,29 @@ use App\Form\CurriculumVitaeType;
 use App\Repository\CurriculumVitaeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/curriculum/vitae')]
+#[Route('/cv', name: 'cv_')]
 class CurriculumVitaeController extends AbstractController
 {
-    #[Route('/', name: 'app_curriculum_vitae_index', methods: ['GET'])]
+    private Security $security;
+
+    public function __construct(
+        Security $security
+    ) {
+        $this->security = $security;
+    }
+
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(CurriculumVitaeRepository $cvRepository): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('curriculum_vitae/index.html.twig', [
             'curriculum_vitaes' => $cvRepository->findAll(),
         ]);
