@@ -30,7 +30,7 @@ class CurriculumVitaeController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('curriculum_vitae/index.html.twig', [
+        return $this->render('cv/index.html.twig', [
             'curriculum_vitaes' => $cvRepository->findAll(),
         ]);
     }
@@ -50,10 +50,10 @@ class CurriculumVitaeController extends AbstractController
             $entityManager->persist($curriculumVitae);
             $entityManager->flush();
 
-            return $this->redirectToRoute('curriculum_vitae_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('cv_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('curriculum_vitae/new.html.twig', [
+        return $this->render('cv/new.html.twig', [
             'curriculum_vitae' => $curriculumVitae,
             'form' => $form,
         ]);
@@ -66,7 +66,7 @@ class CurriculumVitaeController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('curriculum_vitae/show.html.twig', [
+        return $this->render('cv/show.html.twig', [
             'curriculum_vitae' => $curriculumVitae,
         ]);
     }
@@ -87,10 +87,10 @@ class CurriculumVitaeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('curriculum_vitae_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('cv_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('curriculum_vitae/edit.html.twig', [
+        return $this->render('cv/edit.html.twig', [
             'curriculum_vitae' => $curriculumVitae,
             'form' => $form,
         ]);
@@ -111,6 +111,6 @@ class CurriculumVitaeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_curriculum_vitae_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('cv_index', [], Response::HTTP_SEE_OTHER);
     }
 }
