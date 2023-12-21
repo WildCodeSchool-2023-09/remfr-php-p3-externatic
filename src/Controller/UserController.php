@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Form\UserType;
 use App\Form\LoginType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,13 +17,23 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/user', name: 'user_')]
 class UserController extends AbstractController
 {
+    private Security $security;
     /** Afficher tous les utilisateurs */
+
+    public function __construct(
+        Security $security
+    ) {
+        $this->security = $security;
+    }
 
     #[Route('/', name: 'index', methods:['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-        $users = $userRepository->findAll();
-        return $this->render('user/index.html.twig', ['users' => $users]);
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
+            $users = $userRepository->findAll();
+            return $this->render('user/index.html.twig', ['users' => $users]);
     }
 
     /** Créer un nouvel utilisateur */
@@ -33,11 +44,21 @@ class UserController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
     ): Response {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -55,6 +76,9 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(User $user): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -63,12 +87,27 @@ class UserController extends AbstractController
     /** Editer un utilisateur */
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher
+    ): Response {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
@@ -85,6 +124,9 @@ class UserController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_ADMIN'))) {
+            return $this->redirectToRoute('app_home');
+        }
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
