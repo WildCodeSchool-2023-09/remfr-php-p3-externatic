@@ -73,6 +73,10 @@ class LinksController extends AbstractController
     #[Route('/{id}/edit', name: 'app_links_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Links $link, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(LinksType::class, $link);
         $form->handleRequest($request);
 
