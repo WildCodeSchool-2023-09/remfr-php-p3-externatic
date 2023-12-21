@@ -34,7 +34,7 @@ class CompanyController extends AbstractController
             $entityManager->persist($company);
             $entityManager->flush();
 
-            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
         }
 
         //TODO: create template
