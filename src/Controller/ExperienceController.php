@@ -6,6 +6,7 @@ use App\Entity\Experience;
 use App\Form\ExperienceType;
 use App\Repository\ExperienceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,20 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/experience')]
 class ExperienceController extends AbstractController
 {
+    private Security $security;
+
+    public function __construct(
+        Security $security
+    ) {
+        $this->security = $security;
+    }
     #[Route('/', name: 'app_experience_index', methods: ['GET'])]
     public function index(ExperienceRepository $experienceRepository): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('experience/index.html.twig', [
             'experiences' => $experienceRepository->findAll(),
         ]);
