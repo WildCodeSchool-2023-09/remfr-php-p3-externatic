@@ -71,9 +71,13 @@ class CriteriaController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_criteria_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Criteria $criterion, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(CriteriaType::class, $criterion);
         $form->handleRequest($request);
 
