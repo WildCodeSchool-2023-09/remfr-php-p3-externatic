@@ -73,6 +73,10 @@ class ExperienceController extends AbstractController
     #[Route('/{id}/edit', name: 'app_experience_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Experience $experience, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(ExperienceType::class, $experience);
         $form->handleRequest($request);
 
@@ -91,6 +95,10 @@ class ExperienceController extends AbstractController
     #[Route('/{id}', name: 'app_experience_delete', methods: ['POST'])]
     public function delete(Request $request, Experience $experience, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $experience->getId(), $request->request->get('_token'))) {
             $entityManager->remove($experience);
             $entityManager->flush();
