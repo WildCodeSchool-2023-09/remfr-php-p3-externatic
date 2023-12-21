@@ -61,6 +61,10 @@ class LanguageController extends AbstractController
     #[Route('/{id}', name: 'app_language_show', methods: ['GET'])]
     public function show(Language $language): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('language/show.html.twig', [
             'language' => $language,
         ]);
