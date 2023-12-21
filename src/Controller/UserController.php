@@ -92,4 +92,24 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /** Accès aux données personnelles (en connexion candidat) */
+
+    #[Route('/{id}/user_edit', name: 'user_edit', methods: ['GET', 'POST'])]
+    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user_public/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
 }
