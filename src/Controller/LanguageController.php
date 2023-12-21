@@ -73,6 +73,10 @@ class LanguageController extends AbstractController
     #[Route('/{id}/edit', name: 'app_language_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Language $language, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(LanguageType::class, $language);
         $form->handleRequest($request);
 
