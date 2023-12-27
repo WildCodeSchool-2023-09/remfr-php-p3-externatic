@@ -13,10 +13,17 @@
     padding-left: 1rem;
     padding-right: 1rem;
 }
-
+.titre-form1 {
+    color:$secondary !important;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-size: 2rem!important;
+}
 .titre-form {
     color:$secondary !important;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-size: 3rem!important;
 }
 
 .form-text>a {
@@ -31,10 +38,12 @@
     border:none;
     box-shadow:0.5em;
     height: 2.5rem;
-    width: 18rem;
+    width: 17rem;
     margin: 0.5rem;
 }
-#registration_form_contactPreference {
+#registration_form_contactPreference,
+.form-container-wide select 
+{
     border-radius: 0.5rem;
     border:none;
     box-shadow:0.5em;
@@ -60,4 +69,25 @@ label{
 .agreeTerms{
     color: $secondary;
     margin-top: 2rem;
+}
+.form-container-wide input[type="text"],
+.form-container-wide input[type="email"],
+.form-container-wide input[type="password"],
+.form-container-wide textarea
+{ 
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 2.5rem;
+    width: 17rem;
+    margin: 0.5rem;
+}
+.form-container-wide input[type="date"] {
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    height: 2.5rem;
+    width: 10rem;
+    margin: 0.5rem;
+    text-align: center;
 }
