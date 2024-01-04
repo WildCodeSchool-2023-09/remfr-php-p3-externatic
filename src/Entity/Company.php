@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
@@ -25,6 +26,9 @@ class Company
     private ?string $address = null;
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Offer::class, orphanRemoval: true)]
     private Collection $offers;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $details = null;
     public function __construct()
     {
         $this->offers = new ArrayCollection();
@@ -97,6 +101,18 @@ class Company
                 $offer->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDetails(): ?string
+    {
+        return $this->details;
+    }
+
+    public function setDetails(?string $details): static
+    {
+        $this->details = $details;
 
         return $this;
     }
