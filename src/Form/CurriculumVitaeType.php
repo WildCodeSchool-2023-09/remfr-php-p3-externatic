@@ -15,10 +15,7 @@ class CurriculumVitaeType extends AbstractType
         $builder
             ->add('cvFile', VichFileType::class, [
             'download_label' => 'Télécharger mon cv déjà existant',
-            'label' => 'Importer votre CV',
-            'required' => false,
-            'data_class' => null,
-            'download_uri' => true,
+            'label' => ' ',
             'delete_label' => 'Supprimer le fichier',
             'asset_helper' => true,
             ])

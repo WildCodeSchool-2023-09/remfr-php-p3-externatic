@@ -114,3 +114,14 @@ input#curriculum_vitae_cvfile_file {
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
 }
+.formcv {
+    width: 30rem !important;
+    background-color: $cards-background;
+    padding:4rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    line-height: 3rem;
+}
+.btn-cv {
+    width: 8rem;
+}
