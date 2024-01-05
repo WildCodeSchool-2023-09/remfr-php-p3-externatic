@@ -241,12 +241,12 @@ class CurriculumVitae
         return $this;
     }
 
-    public function getCv(): ?string
+    public function getCurriculum(): ?string
     {
         return $this->curriculum;
     }
 
-    public function setCv(?string $curriculum): void
+    public function setCurriculum(?string $curriculum): void
     {
         $this->curriculum = $curriculum;
     }
@@ -268,7 +268,6 @@ class CurriculumVitae
     {
         return $this->updatedAt;
     }
-
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
