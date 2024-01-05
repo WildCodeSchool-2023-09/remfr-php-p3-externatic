@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plus d'informations
+{% endblock %}
+
+{% block body %}
+	<h1>Pour en apprendre plus</h1>
+	<h2>
+		{{ company.name }}
+	</h2>
+	{{ company.details }}
+{% endblock %}

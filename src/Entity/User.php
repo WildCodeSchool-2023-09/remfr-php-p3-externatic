@@ -467,6 +467,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return $this;
     }
 
+
         /** @see \Serializable::serialize() */
     public function serialize()
     {
@@ -485,5 +486,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
             $this->email,
             $this->password,
         ) = unserialize($serialized);
+
+    public function getRolesName(): ?string
+    {
+        $rolesName = 'ROLE_USER';
+        foreach ($this->roles as $role) {
+            $rolesName .= ', ' . $role;
+        }
+        return $rolesName;
     }
 }

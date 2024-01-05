@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Form\UserType;
+use App\Form\UserRolesType;
 use App\Form\LoginType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -150,6 +151,29 @@ class UserController extends AbstractController
         }
 
         return $this->render('user_public/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+    /** Modification des rôles d'un utilisateur */
+    #[Route('/roles/{id}', name: 'roles', methods:['GET', 'POST'])]
+    public function roles(
+        UserRepository $userRepository,
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(UserRolesType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/roles.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
