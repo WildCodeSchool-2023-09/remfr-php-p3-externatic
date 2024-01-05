@@ -62,7 +62,7 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
         }
 
         //TODO: create template
@@ -81,5 +81,14 @@ class CompanyController extends AbstractController
         }
 
         return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/details', name: 'details', methods: ['GET'])]
+    public function details(Company $company): Response
+    {
+
+        return $this->render('company/detail.html.twig', [
+            'company' => $company,
+        ]);
     }
 }

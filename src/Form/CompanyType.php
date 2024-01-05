@@ -16,6 +16,7 @@ class CompanyType extends AbstractType
             ->add('name', TextType::class)
             ->add('field', TextType::class)
             ->add('address', TextType::class)
+            ->add('details', TextType::class)
         ;
     }
 
