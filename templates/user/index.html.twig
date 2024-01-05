@@ -22,6 +22,7 @@
 					<th>Date de naissance</th>
 					<th>Nationalité</th>
 					<th>Etat civil</th>
+					<th>Rôles</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,6 +40,9 @@
 						<td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
 						<td>{{ user.nationality }}</td>
 						<td>{{ user.maritalStatusName }}</td>
+						<td>
+							<a href="{{ path('user_roles', {'id': user.id}) }}">{{ user.rolesName }}</a>
+						</td>
 						<td>
 							<a href="{{ path('user_show', {'id': user.id}) }}">Show</a>
 							<a href="{{ path('user_edit', {'id': user.id}) }}">Edit</a>
