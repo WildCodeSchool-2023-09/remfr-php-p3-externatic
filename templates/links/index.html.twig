@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Links index{% endblock %}
+
+{% block body %}
+    <h1>Links index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Linkedin</th>
+                <th>Website</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for link in links %}
+            <tr>
+                <td>{{ link.id }}</td>
+                <td>{{ link.linkedin }}</td>
+                <td>{{ link.website }}</td>
+                <td>
+                    <a href="{{ path('app_links_show', {'id': link.id}) }}">show</a>
+                    <a href="{{ path('app_links_edit', {'id': link.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_links_new') }}">Create new</a>
+{% endblock %}
