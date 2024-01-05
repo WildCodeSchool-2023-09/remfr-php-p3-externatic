@@ -69,14 +69,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?int $maritalStatus = null;
+
     #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'user')]
     private Collection $offer;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class)]
     private Collection $process;
+
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?CurriculumVitae $curriculum = null;
+
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'user')]
     private Collection $criteria;
+
     #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'user')]
     private ?Collection $contacts;
 

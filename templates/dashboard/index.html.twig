@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container text-center"> 
-    <h1>Bienvenue Anna Chronique !</h1>
+    <h1>Bienvenue {{ user.firstname }} {{ user.lastname }} !</h1>
     <div class="row">
         <div class="col dashboard-col">
             <div class="card shadow dashboard-card">
@@ -16,7 +16,7 @@
         <div class="col dashboard-col">
             <div class="card shadow dashboard-card">
                 <div class="card-body">
-                    <a href="#" class="dashboard-link">Mon CV</a>
+                    <a href="{{ path('cv_user_cv', {'id': user.id}) }}" class="dashboard-link">Mon CV</a>
                 </div>
             </div>
         </div>
