@@ -79,6 +79,18 @@ class OfferController extends AbstractController
         ]);
     }
 
+    #[Route('/public/{id}', name: 'public_detail', methods: ['GET'])]
+    public function publicDetail(Offer $offer): Response
+    {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('offer_public/detail.html.twig', [
+            'offer' => $offer,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Offer $offer, EntityManagerInterface $entityManager): Response
     {

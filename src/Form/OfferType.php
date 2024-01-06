@@ -21,7 +21,8 @@ class OfferType extends AbstractType
             ->add('description')
             ->add('assignment')
             ->add('collaborator')
-            ->add('salary')
+            ->add('minSalary')
+            ->add('maxSalary')
         ;
     }
 

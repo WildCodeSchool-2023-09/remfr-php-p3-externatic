@@ -40,8 +40,11 @@ class Offer
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'offers')]
     private Collection $criteria;
 
-    #[ORM\Column(length: 255)]
-    private ?string $salary = null;
+    #[ORM\Column]
+    private ?int $minSalary = null;
+
+    #[ORM\Column]
+    private ?int $maxSalary = null;
 
     public function __construct()
     {
@@ -196,14 +199,26 @@ class Offer
         return $this;
     }
 
-    public function getSalary(): ?string
+    public function getMinSalary(): ?int
     {
-        return $this->salary;
+        return $this->minSalary;
     }
 
-    public function setSalary(string $salary): static
+    public function setMinSalary(int $minSalary): static
     {
-        $this->salary = $salary;
+        $this->minSalary = $minSalary;
+
+        return $this;
+    }
+
+    public function getMaxSalary(): ?int
+    {
+        return $this->maxSalary;
+    }
+
+    public function setMaxSalary(int $maxSalary): static
+    {
+        $this->maxSalary = $maxSalary;
 
         return $this;
     }
