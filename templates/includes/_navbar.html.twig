@@ -46,9 +46,16 @@
 
 <div class="navbar">
 	<div class="row align-items-center justify-content-end">
+
 		<div class="col-auto">
-			<a class="navbar-brand externatic-brand" href="{{ path('app_login') }}">
-				<i class="bi bi-person-fill"></i>Se connecter</a>
+			{% if is_granted('ROLE_USER') %}
+				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_logout') }}">Logout</a>
+			{% else %}
+				<i class="bi bi-person-fill"></i>
+				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_login') }}">Login</a>
+				<i class="bi bi-file-person-fill"></i>
+				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_register') }}">Signup</a>
+			{% endif %}
 		</div>
 	</div>
 </div>
