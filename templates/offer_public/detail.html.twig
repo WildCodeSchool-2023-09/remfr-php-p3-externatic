@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% set offername = "Administrateur des systèmes et réseaux temps réel H/F" %}
+
+{% set companyname = "Externatic" %}
+{% set contract = "CDI" %}
+{% set location = "44000 Nantes" %}
+{% set salary = "35000 à 41000€ par an" %}
+{% set remote = "Full Remote" %}
+
+{% set description = "Au sein de la Direction des Systèmes d'Information vous êtes rattaché au Responsable de l'équipe Systèmes Temps Réel, composée de 7 personnes.
+En tant que Chargé de systèmes temps réel, votre mission est de maintenir en condition opérationnelle de systèmes communicants qui contribuent notamment à l'information voyageurs, la vente et l'exploitation du réseau de transport urbain.
+A cet effet, vous :
+Apportez un soutien technique aux opérationnels des métiers et aux agents de maintenance sur la résolution de pannes complexes dans le cadre des contrats de maintenance avec nos fournisseurs,
+Veillez au bon fonctionnement des systèmes; participez à l’administration; aux plans de maintenance ainsi qu’au déploiement de nouvelles versions logicielles,
+Animez des réunions transverses et des clubs utilisateurs;
+Définissez des besoins, des cahiers des charges et argumentez des dossiers techniques notamment dans le cadre d’investissements;
+Apportez votre expertise technique auprès des chefs de projets dans le cadre de rénovation; d’extension ou de renouvellement de systèmes;
+Pilotez l’attribution de marchés publics tels que des marchés de maintenance logicielle ou des évolutions;
+Réceptionnez certains systèmes; les évolutions; conseillez les services méthodes et rédigez des documentations techniques, fonctionnelles, des référentiels et des procédures." %}
+
+{% block body %}
+
+	<div class="container mt-4">
+
+		<h1>{{ offername  }}</h1>
+		<li style="font-size:13px">
+			<b>Entreprise</b>
+			:
+			{{ companyname }}
+		</li>
+
+		<li style="font-size:13px">
+			<b>Type de Contrat</b>
+			:
+			{{ contract }}
+		</li>
+
+		<li style="font-size:13px">
+			<b>Salaire</b>
+			:
+			{{ salary }}
+		</li>
+
+		<li style="font-size:13px">
+			<b>Lieux</b>
+			:
+			{{ location }}
+		</li>
+
+		<li style="font-size:13px">
+			<b>Conditions de travail</b>
+			:
+			{{ remote }}
+		</li>
+
+		<hr>
+
+		<li style="font-size:13px">
+			<b>description</b>
+			:
+			{{ description }}
+		</li>
+		<div class="container mt-4 d-flex justify-content-center">
+			<a href="http://127.0.0.1" class="btn btn-primary">Retour aux offres</a>
+		</div>
+	</div>
+{% endblock %}

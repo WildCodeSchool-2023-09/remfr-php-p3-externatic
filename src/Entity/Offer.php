@@ -40,6 +40,9 @@ class Offer
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'offers')]
     private Collection $criteria;
 
+    #[ORM\Column(length: 255)]
+    private ?string $salary = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -189,6 +192,18 @@ class Offer
     public function removeCriterion(Criteria $criterion): static
     {
         $this->criteria->removeElement($criterion);
+
+        return $this;
+    }
+
+    public function getSalary(): ?string
+    {
+        return $this->salary;
+    }
+
+    public function setSalary(string $salary): static
+    {
+        $this->salary = $salary;
 
         return $this;
     }

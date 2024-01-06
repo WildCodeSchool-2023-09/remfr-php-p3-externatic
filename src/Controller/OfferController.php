@@ -35,6 +35,14 @@ class OfferController extends AbstractController
         ]);
     }
 
+    #[Route('/public/', name: 'public_list', methods: ['GET'])]
+    public function publicList(OfferRepository $offerRepository): Response
+    {
+        return $this->render('offer_public/list.html.twig', [
+            'offers' => $offerRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
