@@ -18,15 +18,22 @@
 						<div class="card-header">{{ offer.name }}</div>
 
 						<div class="card-body text-secondary">
+							<p class="card-text">
+								<i class="bi bi-building"></i>
+								{{ offer.company.name }}
+							</p>
 							<h6 class="card-title">
 								<i class="bi bi-geo-alt"></i>
 								{{ offer.assignment }}
 							</h6>
 							<p class="card-text">
 								<i class="bi bi-currency-exchange"></i>
-								{{ offer.salary }}
+								{{ offer.minSalary }}
+								à
+								{{ offer.maxSalary }}
+								€ annuel brut
 							</p>
-							<a href="http://127.0.0.1" class="btn btn-primary">Visualiser l'offre</a>
+							<a href="{{ path('offer_public_detail', {'id': offer.id}) }}" class="btn btn-primary">Visualiser l'offre</a>
 						</div>
 
 					</div>
