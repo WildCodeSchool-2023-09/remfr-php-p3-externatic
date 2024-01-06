@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Criteria;
 use App\Repository\OfferRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -45,6 +46,9 @@ class Offer
 
     #[ORM\Column]
     private ?int $maxSalary = null;
+
+    #[ORM\Column]
+    private ?int $contractType = null;
 
     public function __construct()
     {
@@ -219,6 +223,26 @@ class Offer
     public function setMaxSalary(int $maxSalary): static
     {
         $this->maxSalary = $maxSalary;
+
+        return $this;
+    }
+
+    public function getContractType(): ?string
+    {
+        if (!array_key_exists($this->contractType, Criteria::CONTRACT_TYPE)) {
+            return '';
+        }
+
+        return Criteria::CONTRACT_TYPE[$this->contractType];
+    }
+
+    public function setContractType(int $contractType): static
+    {
+        if (!array_key_exists($contractType, Criteria::CONTRACT_TYPE)) {
+            return $this;
+        }
+
+        $this->contractType = $contractType;
 
         return $this;
     }

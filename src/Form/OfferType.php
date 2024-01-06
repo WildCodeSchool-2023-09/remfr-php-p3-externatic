@@ -7,6 +7,7 @@ use App\Entity\Offer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OfferType extends AbstractType
@@ -23,6 +24,17 @@ class OfferType extends AbstractType
             ->add('collaborator')
             ->add('minSalary')
             ->add('maxSalary')
+            ->add('contractType', ChoiceType::class, [
+                'choices'  => [
+                    'CDI' => 1,
+                    'CDD' => 2,
+                    'Intérim' => 3,
+                    'Freelance' => 4,
+                    'Stage' => 5,
+                    'Alternance' => 6,
+                    'Bénévolat' => 7,
+                ],
+            ])
         ;
     }
 
