@@ -50,6 +50,9 @@ class Offer
     #[ORM\Column]
     private ?int $contractType = null;
 
+    #[ORM\Column]
+    private ?int $remote = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -243,6 +246,26 @@ class Offer
         }
 
         $this->contractType = $contractType;
+
+        return $this;
+    }
+
+    public function getRemote(): ?string
+    {
+        if (!array_key_exists($this->remote, Criteria::REMOTE_CONDITIONS)) {
+            return '';
+        }
+
+        return Criteria::REMOTE_CONDITIONS[$this->remote];
+    }
+
+    public function setRemote(int $remote): static
+    {
+        if (!array_key_exists($remote, Criteria::REMOTE_CONDITIONS)) {
+            return $this;
+        }
+
+        $this->remote = $remote;
 
         return $this;
     }

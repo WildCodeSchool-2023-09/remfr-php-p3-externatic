@@ -35,6 +35,16 @@ class OfferType extends AbstractType
                     'Bénévolat' => 7,
                 ],
             ])
+            ->add('remote', ChoiceType::class, [
+                'choices'  => [
+                    'No Remote' => 0,
+                    '1j remote' => 1,
+                    '2j remote' => 2,
+                    '3j remote' => 3,
+                    '4j remote' => 4,
+                    'Full Remote' => 5,
+                ],
+            ])
         ;
     }
 
