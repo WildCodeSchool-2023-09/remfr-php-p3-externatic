@@ -38,6 +38,10 @@ class Process
     #[ORM\ManyToOne(inversedBy: 'process')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'processes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $collaborateur = null;
+
     public function getId(): ?int
     {
         return $this-> id;
@@ -92,6 +96,18 @@ class Process
     public function setUsers(?User $user): static
     {
         $this->user = $user;
+        return $this;
+    }
+
+    public function getCollaborateur(): ?User
+    {
+        return $this->collaborateur;
+    }
+
+    public function setCollaborateur(?User $collaborateur): static
+    {
+        $this->collaborateur = $collaborateur;
+
         return $this;
     }
 }

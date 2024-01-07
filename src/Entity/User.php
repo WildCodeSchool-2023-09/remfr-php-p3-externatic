@@ -96,11 +96,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?AdditionalInfo $additionalInfo = null;
 
+    #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: Process::class, orphanRemoval: true)]
+    private Collection $processes;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
         $this->process = new ArrayCollection();
         $this->criteria = new ArrayCollection();
+        $this->processes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -474,5 +478,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $rolesName .= ', ' . $role;
         }
         return $rolesName;
+    }
+
+    /**
+     * @return Collection<int, Process>
+     */
+    public function getProcesses(): Collection
+    {
+        return $this->processes;
     }
 }
