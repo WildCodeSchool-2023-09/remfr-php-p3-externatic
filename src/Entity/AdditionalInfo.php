@@ -26,6 +26,9 @@ class AdditionalInfo
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $license = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $interests = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class AdditionalInfo
     public function setLicense(?string $license): static
     {
         $this->license = $license;
+
+        return $this;
+    }
+
+    public function getInterests(): ?string
+    {
+        return $this->interests;
+    }
+
+    public function setInterests(?string $interests): static
+    {
+        $this->interests = $interests;
 
         return $this;
     }

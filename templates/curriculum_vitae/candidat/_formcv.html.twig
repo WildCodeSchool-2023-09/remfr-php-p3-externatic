@@ -1,0 +1,38 @@
+<div class="container-sm form-container-wide shadow">
+    {{ form_start(form) }}
+		<form method="post" class="form-style"> 
+			<div class="row">
+			{% set columns = 3 %}
+			{% set colSize = 12 / columns %}
+					<h5>Formation</h5>
+				<div class="col-md-{{ colSize }} text-md-end col-form">
+					{{ form_label(form.educations, 'Formations') }}
+					{{ form_widget(form.educations) }}
+				</div>
+				<div class="col-md-{{ colSize }} text-md-end col-form">
+					{{ form_label(form.languages, 'Langues') }}
+					{{ form_widget(form.languages) }}
+				</div>
+				<div class="col-md-{{ colSize }} text-md-end col-form">
+					{{ form_label(form.skills, 'skills') }}
+					{{ form_widget(form.skills) }}
+				</div>
+				<div class="col-md-{{ colSize }} text-md-end col-form">
+					{{ form_label(form.links, 'Liens') }}
+					{{ form_widget(form.links) }}
+				</div>
+				<div class="col-md-{{ colSize }} text-md-end col-form">
+					{{ form_label(form.experiences, 'Expériences professionnelles') }}
+					{{ form_widget(form.experiences) }}
+				</div>
+			</div>
+			</br>
+			<div class="text-center">
+				<button type="submit" class="btn btn-lg btn-primary submit-form">
+					{{ button_label|default('Enregistrer') }}
+				</button>
+			</div>
+		</form>
+		</div>
+	{{ form_end(form) }}
+</div>
