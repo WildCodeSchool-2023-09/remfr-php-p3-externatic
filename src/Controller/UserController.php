@@ -136,26 +136,6 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /** Accès aux données personnelles (en connexion candidat) */
-
-    #[Route('/{id}/editUser', name: 'edit_user', methods: ['GET', 'POST'])]
-    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('user_public/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
-    }
-
     /** Modification des rôles d'un utilisateur */
     #[Route('/roles/{id}', name: 'roles', methods:['GET', 'POST'])]
     public function roles(
@@ -177,5 +157,57 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
+    }
+
+    /** Accès aux données personnelles (en connexion candidat) */
+
+    #[Route('/{id}/editUser', name: 'edit_user', methods: ['GET', 'POST'])]
+    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $currentUser = $this->getUser(); // Récupérer l'utilisateur actuellement connecté
+
+        // Vérifier si l'utilisateur connecté est autorisé à modifier les données
+        if ($currentUser !== $user) {
+            throw $this->createAccessDeniedException("Vous n'êtes pas autorisé à modifier ces données.");
+        }
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_edit_user', ['id' => $user->getId()]);
+            // Redirection vers la page de profil mise à jour
+        }
+
+        return $this->render('user_public/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+    /** Supprimer son compte en tant qu'utilisateur */
+
+    #[Route('/delete/{id}', name: 'delete_user', methods: ['POST'])]
+    public function deleteUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        //On récupère l'utilisateur actuellement connecté
+        $currentUser = $this->security->getUser();
+
+        // On vérifie si l'utilisateur connecté est celui dont le compte est supprimé
+        if (
+            $currentUser === $user && $this->isCsrfTokenValid(
+                'delete' . $user->getId(),
+                $request->request->get('_token')
+            )
+        ) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+        // On redirige vers la page login
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+        // Redirection si l'utilisateur n'est pas autorisé à supprimer ce compte
+        return $this->redirectToRoute('app_home');
     }
 }
