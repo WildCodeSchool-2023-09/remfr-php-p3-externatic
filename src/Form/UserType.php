@@ -45,6 +45,19 @@ class UserType extends AbstractType
             ->add('maritalStatus', ChoiceType::class, [
                 'choices' => array_flip(User::MARITAL_STATUS)
             ])
+            ->add('collaborateur', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'fullname',
+                'group_by' => function ($choice, $key, $value) {
+                    if ($choice->hasRole('ROLE_ADMIN')) {
+                        return 'Administrateur';
+                    } elseif ($choice->hasRole('ROLE_COLLABORATEUR')) {
+                        return 'Collaborateur';
+                    }
+
+                    return 'Candidat';
+                }
+            ])
         ;
     }
 
