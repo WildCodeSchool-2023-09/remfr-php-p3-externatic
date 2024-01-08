@@ -37,6 +37,24 @@ class UserController extends AbstractController
             return $this->render('user/index.html.twig', ['users' => $users]);
     }
 
+    /** Afficher tous les candidats (user n'ayant que le rôle USER */
+    #[Route('/candidates', name: 'candidates', methods:['GET'])]
+    public function candidates(UserRepository $userRepository): Response
+    {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+        $users = $userRepository->findAll();
+
+        foreach ($users as $k => $user) {
+            if ($user->hasRole('ROLE_COLLABORATEUR') || $user->hasRole('ROLE_ADMIN')) {
+                unset($users[$k]);
+            }
+        }
+
+        return $this->render('user/index.html.twig', ['users' => $users]);
+    }
+
     /** Créer un nouvel utilisateur */
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
