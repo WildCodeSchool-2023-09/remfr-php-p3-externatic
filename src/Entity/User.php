@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
     public const MARITAL_STATUS = [
         1 => 'Célibataire',
@@ -69,17 +69,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?int $maritalStatus = null;
+
     #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'user')]
     private Collection $offer;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class)]
     private Collection $process;
+
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?CurriculumVitae $curriculum = null;
+
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'user')]
     private Collection $criteria;
+
     #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'user')]
     private ?Collection $contacts;
-
 
     #[ORM\Column]
     private array $roles = [];
@@ -467,12 +471,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRolesName(): ?string
+
+        /** @see \Serializable::serialize() */
+    public function serialize()
     {
-        $rolesName = 'ROLE_USER';
-        foreach ($this->roles as $role) {
-            $rolesName .= ', ' . $role;
-        }
-        return $rolesName;
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
+    }
+
+        /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+        ) = unserialize($serialized);
     }
 }
