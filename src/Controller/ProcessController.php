@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use DateTimeImmutable;
+use App\Entity\Offer;
 use App\Entity\Process;
 use App\Form\ProcessPublicType;
 use App\Form\ProcessType;
+use App\Repository\OfferRepository;
 use App\Repository\ProcessRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -161,5 +164,38 @@ class ProcessController extends AbstractController
             $entityManager->flush();
         }
         return $this->redirectToRoute('process_list', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/apply/{offer_id}', name: 'apply', methods: ['GET'])]
+    public function applyToJob(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(mapping: ['offer_id' => 'id'])] Offer $offer
+    ): Response {
+
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        $newProcess = new Process();
+
+        $user = $this->getUser();
+        $collaborator = $user->getCollaborateur();
+
+        $now = new DateTimeImmutable();
+        $newProcess->setCreatedAt($now);
+        $newProcess->setUpdatedAt($now);
+
+        $newProcess->setUser($user);
+        $newProcess->setCollaborateur($collaborator);
+        $newProcess->setOffer($offer);
+
+        $newProcess->setProcess(1);
+        $newProcess->setStatut(1);
+
+        $entityManager->persist($newProcess);
+        $entityManager->flush();
+
+        return $this->render('process_public/confirm.html.twig');
     }
 }
