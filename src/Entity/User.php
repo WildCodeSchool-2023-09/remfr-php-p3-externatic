@@ -85,7 +85,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'user')]
     private ?Collection $contacts;
 
-
     #[ORM\Column]
     private array $roles = [];
 
@@ -486,13 +485,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
             $this->email,
             $this->password,
         ) = unserialize($serialized);
-
-    public function getRolesName(): ?string
-    {
-        $rolesName = 'ROLE_USER';
-        foreach ($this->roles as $role) {
-            $rolesName .= ', ' . $role;
-        }
-        return $rolesName;
     }
 }
