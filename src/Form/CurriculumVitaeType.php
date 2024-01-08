@@ -6,13 +6,19 @@ use App\Entity\CurriculumVitae;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class CurriculumVitaeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('interests')
+            ->add('cvFile', VichFileType::class, [
+            'download_label' => 'Télécharger mon cv déjà existant',
+            'label' => ' ',
+            'delete_label' => 'Supprimer le fichier',
+            'asset_helper' => true,
+            ])
         ;
     }
 

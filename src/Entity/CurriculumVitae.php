@@ -6,17 +6,21 @@ use App\Repository\CurriculumVitaeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use DateTime;
+use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CurriculumVitaeRepository::class)]
+#[Vich\Uploadable]
 class CurriculumVitae
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $interests = null;
 
     #[ORM\ManyToMany(inversedBy: 'curriculumVitaes', targetEntity: Education::class)]
     private Collection $educations;
@@ -32,8 +36,35 @@ class CurriculumVitae
 
     #[ORM\ManyToMany(inversedBy: 'curriculumVitaes', targetEntity: Experience::class)]
     private Collection $experiences;
-    #[ORM\OneToOne(mappedBy: 'Curriculum', cascade: ['persist', 'remove'])]
+
+    #[ORM\OneToOne(mappedBy: 'curriculum', cascade: ['persist', 'remove'])]
     private ?User $user = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $curriculum = null;
+
+    #[Vich\UploadableField(mapping: 'cv_file', fileNameProperty: 'curriculum')]
+    // #[Assert\File(
+    //     maxSize: '2M',
+    //     mimeTypes: ['file/pdf', 'file/doc', 'file/docx'],
+    // )]
+    private ?File $cvFile = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?DatetimeInterface $updatedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $cvFilePath = null;
+
+    public function setCvFilePath(?string $cvFilePath): void
+    {
+        $this->cvFilePath = $cvFilePath;
+    }
+
+    public function getCvFilePath(): ?string
+    {
+        return $this->cvFilePath;
+    }
 
     public function __construct()
     {
@@ -47,18 +78,6 @@ class CurriculumVitae
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getInterests(): ?string
-    {
-        return $this->interests;
-    }
-
-    public function setInterests(string $interests): static
-    {
-        $this->interests = $interests;
-
-        return $this;
     }
 
     /**
@@ -220,5 +239,37 @@ class CurriculumVitae
 
         $this->user = $user;
         return $this;
+    }
+
+    public function getCurriculum(): ?string
+    {
+        return $this->curriculum;
+    }
+
+    public function setCurriculum(?string $curriculum): void
+    {
+        $this->curriculum = $curriculum;
+    }
+
+    public function setCvFile(?File $cvfile = null): void
+    {
+        $this->cvFile = $cvfile;
+        if (null !== $cvfile) {
+            $this->updatedAt = new DateTime('now');
+        }
+    }
+
+    public function getCvFile(): ?File
+    {
+        return $this->cvFile;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }
