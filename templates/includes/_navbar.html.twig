@@ -10,7 +10,7 @@
 				<span class="nav_logo-name">Accueil</span>
 			</a>
 			<div class="nav_list">
-				<a href="#" class="nav_link active">
+				<a href="{{ path('offer_public_list') }}" class="nav_link active">
 					<i class="bi bi-card-list"></i>
 					<span class="nav_name">Offres d'emploi</span>
 				</a>
@@ -19,8 +19,8 @@
 					<span class="nav_name">Nous contacter</span>
 				</a>
 				<a href="{{ path('app_login') }}" class="nav_link">
-					<i class='bi bi-envelope nav_icon'></i>
-					<span class="nav_name">Candidature spontanée</span>
+					<i class='bi bi-heart-fill nav_icon'></i>
+					<span class="nav_name">Mes Favoris</span>
 				</a>
 				{% if is_granted('ROLE_USER') %}
 					<a class="nav_link" href="{{ path('app_logout') }}">
@@ -43,6 +43,12 @@
 					<i class="bi bi-card-heading"></i>
 					<span class="nav_name">Mon dashboard</span>
 				</a>
+				{% if is_granted('ROLE_COLLABORATEUR') %}
+					<a href="{{ path('admin_dashboard') }}" class="nav_link">
+						<i class="bi bi-star-fill"></i>
+						<span class="nav_name">Dashboard Administrateur</span>
+					</a>
+				{% endif %}
 			</div>
 		</div>
 	</nav>

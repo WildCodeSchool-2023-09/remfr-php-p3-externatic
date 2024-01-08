@@ -100,11 +100,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?AdditionalInfo $additionalInfo = null;
 
+    #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: Process::class, orphanRemoval: true)]
+    private Collection $processes;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'candidates')]
+    private ?self $collaborateur = null;
+
+    #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: self::class)]
+    private Collection $candidates;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
         $this->process = new ArrayCollection();
         $this->criteria = new ArrayCollection();
+        $this->processes = new ArrayCollection();
+        $this->candidates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -363,7 +374,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     {
         if (!$this->process->contains($process)) {
             $this->process->add($process);
-            $process->setUsers($this);
+            $process->setUser($this);
         }
 
         return $this;
@@ -373,8 +384,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     {
         if ($this->process->removeElement($process)) {
 // set the owning side to null (unless already changed)
-            if ($process->getUsers() === $this) {
-                $process->setUsers(null);
+            if ($process->getUser() === $this) {
+                $process->setUser(null);
             }
         }
 
@@ -490,5 +501,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
             $this->email,
             $this->password,
         ) = unserialize($serialized);
+    }
+
+    /**
+     * @return Collection<int, Process>
+     */
+    public function getProcesses(): Collection
+    {
+        return $this->processes;
+    }
+
+    public function getFullname(): string
+    {
+        return $this->firstname . " " . $this->lastname;
+    }
+
+    public function getCollaborateur(): ?self
+    {
+        return $this->collaborateur;
+    }
+
+    public function setCollaborateur(?self $collaborateur): static
+    {
+        $this->collaborateur = $collaborateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getCandidates(): Collection
+    {
+        return $this->candidates;
+    }
+
+    public function addCandidate(self $candidate): static
+    {
+        if (!$this->candidates->contains($candidate)) {
+            $this->candidates->add($candidate);
+            $candidate->setCollaborateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidate(self $candidate): static
+    {
+        if ($this->candidates->removeElement($candidate)) {
+            // set the owning side to null (unless already changed)
+            if ($candidate->getCollaborateur() === $this) {
+                $candidate->setCollaborateur(null);
+            }
+        }
+
+        return $this;
     }
 }
