@@ -363,7 +363,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->process->contains($process)) {
             $this->process->add($process);
-            $process->setUsers($this);
+            $process->setUser($this);
         }
 
         return $this;
@@ -373,8 +373,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->process->removeElement($process)) {
 // set the owning side to null (unless already changed)
-            if ($process->getUsers() === $this) {
-                $process->setUsers(null);
+            if ($process->getUser() === $this) {
+                $process->setUser(null);
             }
         }
 
@@ -486,5 +486,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getProcesses(): Collection
     {
         return $this->processes;
+    }
+
+    public function getFullname(): string
+    {
+        return $this->firstname . " " . $this->lastname;
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use DateTimeImmutable;
 use App\Entity\Process;
+use App\Form\ProcessPublicType;
 use App\Form\ProcessType;
 use App\Repository\ProcessRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,6 +37,20 @@ class ProcessController extends AbstractController
         ]);
     }
 
+    #[Route('/list', name: 'list', methods: ['GET'])]
+    public function list(ProcessRepository $processRepository): Response
+    {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        $user = $this->getUser();
+
+        return $this->render('process_public/list.html.twig', [
+            'processes' => $user->getProcess(),
+        ]);
+    }
+
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -47,6 +63,10 @@ class ProcessController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $now = new DateTimeImmutable();
+            $process->setCreatedAt($now);
+            $process->setUpdatedAt($now);
+
             $entityManager->persist($process);
             $entityManager->flush();
 
@@ -88,7 +108,29 @@ class ProcessController extends AbstractController
         }
 
         return $this->render('process/edit.html.twig', [
-            'processes' => $process,
+            'process' => $process,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/public/{id}/edit', name: 'public_edit', methods: ['GET', 'POST'])]
+    public function publicEdit(Request $request, Process $process, EntityManagerInterface $entityManager): Response
+    {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        $form = $this->createForm(ProcessPublicType::class, $process);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('process_list', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('process_public/edit.html.twig', [
+            'process' => $process,
             'form' => $form,
         ]);
     }
@@ -104,7 +146,20 @@ class ProcessController extends AbstractController
             $entityManager->remove($process);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('process_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/public/{id}', name: 'public_delete', methods: ['POST'])]
+    public function publicDelete(Request $request, Process $process, EntityManagerInterface $entityManager): Response
+    {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $process->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($process);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('process_list', [], Response::HTTP_SEE_OTHER);
     }
 }

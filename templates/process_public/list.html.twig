@@ -1,17 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Process index
+{% block title %}Mes Process
 {% endblock %}
 
 {% block body %}
-	<h1>Process index</h1>
+	<h1>Mes Process en cours</h1>
 
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Nom</th>
-				<th>Prénom</th>
-				<th>Email</th>
 				<th>Entreprise</th>
 				<th>Process en cours</th>
 				<th>Statut</th>
@@ -23,21 +20,18 @@
 		<tbody>
 			{% for process in processes %}
 				<tr>
-					<td>{{ process.user.lastname }}</td>
-					<td>{{ process.user.firstname }}</td>
-					<td>{{ process.user.email }}</td>
 					<td>{{ process.offer.company.name }}</td>
 					<td>{{ process.processName }}</td>
 					<td>{{ process.statutName }}</td>
 					<td>{{ process.collaborateur.firstname }}
 						{{ process.collaborateur.lastname }}</td>
 					<td>
-						<a href="{{ path('process_edit', {'id': process.id}) }}">
+						<a href="{{ path('process_public_edit', {'id': process.id}) }}">
 							<i class="bi bi-pencil-square"></i>
 						</a>
 					</td>
 					<td>
-						<a href="{{ path('process_delete', {'id': process.id}) }}">
+						<a href="{{ path('process_public_delete', {'id': process.id}) }}">
 							<i class="bi bi-trash3"></i>
 						</a>
 					</td>
@@ -49,6 +43,4 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
-	<a href="{{ path('process_new') }}">Create new</a>
 {% endblock %}

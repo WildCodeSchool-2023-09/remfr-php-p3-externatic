@@ -12,40 +12,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProcessType extends AbstractType
+class ProcessPublicType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('offer', EntityType::class, [
-            'class' => Offer::class,
-            'choice_label' => 'name',
-        ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'fullname',
-                'group_by' => function ($choice, $key, $value) {
-                    if ($choice->hasRole('ROLE_ADMIN')) {
-                        return 'Administrateur';
-                    } elseif ($choice->hasRole('ROLE_COLLABORATEUR')) {
-                        return 'Collaborateur';
-                    }
-
-                    return 'Candidat';
-                }
-            ])
-            ->add('collaborateur', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'fullname',
-                'group_by' => function ($choice, $key, $value) {
-                    if ($choice->hasRole('ROLE_ADMIN')) {
-                        return 'Administrateur';
-                    } elseif ($choice->hasRole('ROLE_COLLABORATEUR')) {
-                        return 'Collaborateur';
-                    }
-
-                    return 'Candidat';
-                }
-            ])
+        $builder
             ->add('statut', ChoiceType::class, [
                 'choices'  => [
                     'Candidature envoyée' => 1,
