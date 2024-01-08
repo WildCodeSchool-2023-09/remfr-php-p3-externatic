@@ -35,6 +35,14 @@ class OfferController extends AbstractController
         ]);
     }
 
+    #[Route('/public/', name: 'public_list', methods: ['GET'])]
+    public function publicList(OfferRepository $offerRepository): Response
+    {
+        return $this->render('offer_public/list.html.twig', [
+            'offers' => $offerRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -67,6 +75,18 @@ class OfferController extends AbstractController
         }
 
         return $this->render('offer/show.html.twig', [
+            'offer' => $offer,
+        ]);
+    }
+
+    #[Route('/public/{id}', name: 'public_detail', methods: ['GET'])]
+    public function publicDetail(Offer $offer): Response
+    {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('offer_public/detail.html.twig', [
             'offer' => $offer,
         ]);
     }
