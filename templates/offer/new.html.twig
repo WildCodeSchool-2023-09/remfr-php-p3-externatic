@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Offer{% endblock %}
+{% block title %}New Offer
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Offer</h1>
-
-    {{ include('offer/_form.html.twig') }}
-
-    <a href="{{ path('app_offer_index') }}">back to list</a>
+<div class="container-sm form-container-wide shadow newItem">	    
+    <h1 class="h1-form">Créer une nouvelle offre</h1>
+    <div class="form-container form-new">
+        {{ include('offer/_form.html.twig') }}
+    </div>
+    <a href="{{ path('offer_index') }}" style="margin-top:1rem">Retour à la liste des offres</a>
+</div>
 {% endblock %}

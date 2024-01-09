@@ -23,8 +23,10 @@ class Contact
 
     #[ORM\Column]
     private ?\DateTimeImmutable $date = null;
-    #[ORM\OneToMany(mappedBy: 'contacts', targetEntity: User::class)]
+
+    #[ORM\ManyToMany(mappedBy: 'contacts', targetEntity: User::class)]
     private Collection $user;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();

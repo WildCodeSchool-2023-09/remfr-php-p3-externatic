@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer mon CV{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3 font-weight-normal titre-form">Créer mon CV</h1>
+    {{ include('curriculum_vitae/candidat/_formcv.html.twig') }}
+
+    <a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
+{% endblock %}

@@ -56,12 +56,14 @@
 			{{ form_widget(registrationForm.plainPassword) }}
 		</div>
 	</div>
-	<div class="agreeTerms">
+	<div class="text-center agreeTerms">
 		{{ form_widget(registrationForm.agreeTerms) }}
 		{{ form_label(registrationForm.agreeTerms, 'J\'accepte des conditions d\'utilisation du site') }}
 	</div>
-	<button type="submit" class="btn btn-lg btn-primary" style="margin-top:2rem">Créer le compte</button>
+	<div class="text-center">
+		<button type="submit" class="btn btn-lg btn-primary" style="margin-top:2rem">Créer le compte</button>
 		{{ form_end(registrationForm) }}
+	</div>
 	</form>
 </div>
 {% endblock %}

@@ -24,16 +24,15 @@ class MessagesController extends AbstractController
             //'sender' => $sender,
         ]);
     }
-    
     #[Route('/send', name: 'send')]
-    public function send(Request $request) : Response
+    public function send(Request $request): Response
     {
-        $message = new Messages;
+        $message = new Messages();
         $form = $this->createForm(MessagesType::class, $message);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $message->setSender($this->getUser()) ;
 
             $em = $this->$this->getDoctrine()->getManager();
@@ -44,14 +43,13 @@ class MessagesController extends AbstractController
             return $this->redirectToRoute("messages");
         }
 
-        return $this->render('messages/send.html.twig',[
+        return $this->render('messages/send.html.twig', [
             "form" => $form->createView()
         ]);
     }
 
-    
     #[Route('/received', name: 'received')]
-    public function received() : Response
+    public function received(): Response
     {
         return $this->render('messages/received.html.twig');
     }

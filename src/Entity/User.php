@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
     public const MARITAL_STATUS = [
         1 => 'Célibataire',
@@ -69,17 +69,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?int $maritalStatus = null;
+
     #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'user')]
     private Collection $offer;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class)]
     private Collection $process;
+
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?CurriculumVitae $curriculum = null;
+
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'user')]
     private Collection $criteria;
+
     #[ORM\ManyToMany(targetEntity: Contact::class, inversedBy: 'user')]
     private ?Collection $contacts;
-
 
     #[ORM\Column]
     private array $roles = [];
@@ -96,6 +100,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?AdditionalInfo $additionalInfo = null;
 
+    #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: Process::class, orphanRemoval: true)]
+    private Collection $processes;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'candidates')]
+    private ?self $collaborateur = null;
+
+    #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: self::class)]
+    private Collection $candidates;
+
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Messages::class, orphanRemoval: true)]
     private Collection $sent;
 
@@ -107,6 +120,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->offer = new ArrayCollection();
         $this->process = new ArrayCollection();
         $this->criteria = new ArrayCollection();
+        $this->processes = new ArrayCollection();
+        $this->candidates = new ArrayCollection();
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
     }
@@ -202,6 +217,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->roles = $roleArray;
         }
         return $this;
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles);
     }
 
     public function getPhone(): ?int
@@ -362,7 +382,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->process->contains($process)) {
             $this->process->add($process);
-            $process->setUsers($this);
+            $process->setUser($this);
         }
 
         return $this;
@@ -372,8 +392,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->process->removeElement($process)) {
 // set the owning side to null (unless already changed)
-            if ($process->getUsers() === $this) {
-                $process->setUsers(null);
+            if ($process->getUser() === $this) {
+                $process->setUser(null);
             }
         }
 
@@ -466,6 +486,82 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAdditionalInfo(?AdditionalInfo $additionalInfo): static
     {
         $this->additionalInfo = $additionalInfo;
+
+        return $this;
+    }
+
+
+        /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
+    }
+
+        /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+        ) = unserialize($serialized);
+    }
+
+    /**
+     * @return Collection<int, Process>
+     */
+    public function getProcesses(): Collection
+    {
+        return $this->processes;
+    }
+
+    public function getFullname(): string
+    {
+        return $this->firstname . " " . $this->lastname;
+    }
+
+    public function getCollaborateur(): ?self
+    {
+        return $this->collaborateur;
+    }
+
+    public function setCollaborateur(?self $collaborateur): static
+    {
+        $this->collaborateur = $collaborateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getCandidates(): Collection
+    {
+        return $this->candidates;
+    }
+
+    public function addCandidate(self $candidate): static
+    {
+        if (!$this->candidates->contains($candidate)) {
+            $this->candidates->add($candidate);
+            $candidate->setCollaborateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidate(self $candidate): static
+    {
+        if ($this->candidates->removeElement($candidate)) {
+            // set the owning side to null (unless already changed)
+            if ($candidate->getCollaborateur() === $this) {
+                $candidate->setCollaborateur(null);
+            }
+        }
 
         return $this;
     }

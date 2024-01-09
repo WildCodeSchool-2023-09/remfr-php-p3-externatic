@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="container mt-4">
+
+		<h1>{{ offer.name  }}</h1>
+		<li style="font-size:13px">
+			<b>Entreprise</b>
+			:
+			<a href="{{ path('company_details', {'id': offer.company.id}) }}" style="font-size:20px">
+				{{ offer.company.name }}
+			</a>
+		</li>
+
+		<li style="font-size:13px">
+			<b>Type de Contrat</b>
+			:
+			{{ offer.contractType }}
+		</li>
+
+		<li style="font-size:13px">
+			<b>Salaire</b>
+			:
+			{{ offer.minSalary }}
+			à
+			{{ offer.maxSalary }}
+			€ brut annuel
+		</li>
+
+		<li style="font-size:13px">
+			<b>Lieux</b>
+			:
+			{{ offer.assignment }}
+		</li>
+
+		<li style="font-size:13px">
+			<b>Conditions de travail</b>
+			:
+			{{ offer.remote }}
+		</li>
+
+		<hr>
+
+		<li style="font-size:13px">
+			<b>description</b>
+			:
+			{{ offer.description }}
+		</li>
+		<div class="container mt-4 d-flex justify-content-center">
+			<a href="{{ path('process_apply', {'offer_id': offer.id}) }}" class="btn btn-primary">Postuler</a>
+			<a href="{{ path('offer_public_list') }}" class="btn btn-primary">Retour aux offres</a>
+		</div>
+	</div>
+{% endblock %}

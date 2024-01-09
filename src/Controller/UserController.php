@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Form\UserType;
+use App\Form\UserRolesType;
 use App\Form\LoginType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -34,6 +35,24 @@ class UserController extends AbstractController
         }
             $users = $userRepository->findAll();
             return $this->render('user/index.html.twig', ['users' => $users]);
+    }
+
+    /** Afficher tous les candidats (user n'ayant que le rôle USER */
+    #[Route('/candidates', name: 'candidates', methods:['GET'])]
+    public function candidates(UserRepository $userRepository): Response
+    {
+        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+            return $this->redirectToRoute('app_home');
+        }
+        $users = $userRepository->findAll();
+
+        foreach ($users as $k => $user) {
+            if ($user->hasRole('ROLE_COLLABORATEUR') || $user->hasRole('ROLE_ADMIN')) {
+                unset($users[$k]);
+            }
+        }
+
+        return $this->render('user/index.html.twig', ['users' => $users]);
     }
 
     /** Créer un nouvel utilisateur */
@@ -133,5 +152,48 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /** Accès aux données personnelles (en connexion candidat) */
+
+    #[Route('/{id}/editUser', name: 'edit_user', methods: ['GET', 'POST'])]
+    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user_public/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+    /** Modification des rôles d'un utilisateur */
+    #[Route('/roles/{id}', name: 'roles', methods:['GET', 'POST'])]
+    public function roles(
+        UserRepository $userRepository,
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(UserRolesType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/roles.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
     }
 }
