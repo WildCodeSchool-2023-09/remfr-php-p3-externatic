@@ -125,3 +125,21 @@ input#curriculum_vitae_cvfile_file {
 .btn-cv {
     width: 8rem;
 }
+div.card.border-secondary.mb-3.offer-cards {
+    background-color: $cards-background;
+    max-width: 18rem;
+    height:30rem;
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    margin-bottom: 2rem !important;
+}
+p.card-text.offer-card-text{
+    color:$association2;
+    font-size:1rem;
+}
+div.card-header.offer-header {
+    background-color: $secondary;
+    color:$association1;
+}
+
