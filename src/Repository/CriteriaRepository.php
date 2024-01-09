@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Criteria;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @extends ServiceEntityRepository<Criteria>
@@ -19,6 +20,30 @@ class CriteriaRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Criteria::class);
+    }
+
+    public function findMatchingOffers(Collection $criteriaCollection): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+        ->leftJoin('c.offers', 'o');
+
+        $counter = 0;
+        foreach ($criteriaCollection as $criteria) {
+            $queryBuilder
+            ->andWhere("c.salary = :salary$counter")
+            ->andWhere("c.profil = :profil$counter")
+            ->andWhere("c.contract = :contract$counter")
+            ->andWhere("c.location = :location$counter")
+            ->andWhere("c.remote = :remote$counter")
+            ->setParameter("salary$counter", $criteria->getSalary())
+            ->setParameter("profil$counter", $criteria->getProfil())
+            ->setParameter("contract$counter", $criteria->getContract())
+            ->setParameter("location$counter", $criteria->getLocation())
+            ->setParameter("remote$counter", $criteria->getRemote());
+
+            $counter++;
+        }
+        return $queryBuilder->getQuery()->getResult();
     }
 
 //    /**

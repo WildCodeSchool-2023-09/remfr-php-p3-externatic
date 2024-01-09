@@ -9,12 +9,12 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Salary</th>
+                <th>Salaire</th>
                 <th>Profil</th>
-                <th>Contract</th>
-                <th>Location</th>
-                <th>Remote</th>
-                <th>actions</th>
+                <th>Type de contrat</th>
+                <th>Localisation</th>
+                <th>Télétravail</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,17 +27,17 @@
                 <td>{{ criterion.location }}</td>
                 <td>{{ criterion.remote }}</td>
                 <td>
-                    <a href="{{ path('app_criteria_show', {'id': criterion.id}) }}">show</a>
-                    <a href="{{ path('app_criteria_edit', {'id': criterion.id}) }}">edit</a>
+                    <a href="{{ path('criteria_show', {'id': criterion.id}) }}">Voir</a>
+                    <a href="{{ path('criteria_edit', {'id': criterion.id}) }}">Editer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">Aucun enregistrement</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_criteria_new') }}">Create new</a>
+    <a href="{{ path('criteria_new') }}">Créer des nouveaux critères</a>
 {% endblock %}

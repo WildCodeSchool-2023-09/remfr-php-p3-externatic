@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User offer index
+{% endblock %}
+
+{% block body %}
+<div class="container-sm form-container-wide shadow">	
+	<h1 class="title1">Mes offres personnalisées</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Offre</th>
+				<th>Entreprise</th>
+				<th>Type de contrat</th>
+				<th>Missions</th>
+				<th>Salaire</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for offer in offers %}
+				<tr>
+					<td>{{ offer.name }}</td>
+					<td>{{ offer.company.name }}</td>
+					<td>{{ offer.contractType }}</td>
+					<td>{{ offer.assignment }}</td>
+					<td>
+					{{ offer.minSalary }} à 
+					{{ offer.maxSalary }}
+					€ annuel brut
+					</td>
+					<td>
+						<a href="{{ path('offer_show', {'id': offer.id}) }}">Voir l'offre</a>
+						<a href="{{ path('offer_edit', {'id': offer.id}) }}">Editer l'offre</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">Aucune offre enregistrée</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

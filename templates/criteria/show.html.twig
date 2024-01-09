@@ -3,7 +3,7 @@
 {% block title %}Criteria{% endblock %}
 
 {% block body %}
-    <h1>Criteria</h1>
+    <h1>Mes critères</h1>
 
     <table class="table">
         <tbody>
@@ -12,7 +12,7 @@
                 <td>{{ criterion.id }}</td>
             </tr>
             <tr>
-                <th>Salary</th>
+                <th>Salaires</th>
                 <td>{{ criterion.salary }}</td>
             </tr>
             <tr>
@@ -20,23 +20,23 @@
                 <td>{{ criterion.profil }}</td>
             </tr>
             <tr>
-                <th>Contract</th>
+                <th>Type de contrat</th>
                 <td>{{ criterion.contract }}</td>
             </tr>
             <tr>
-                <th>Location</th>
+                <th>Localisation</th>
                 <td>{{ criterion.location }}</td>
             </tr>
             <tr>
-                <th>Remote</th>
+                <th>Télétravail</th>
                 <td>{{ criterion.remote }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_criteria_index') }}">back to list</a>
+    <a href="{{ path('criteria_index') }}">Retour à la liste des critères</a>
 
-    <a href="{{ path('app_criteria_edit', {'id': criterion.id}) }}">edit</a>
+    <a href="{{ path('criteria_edit', {'id': criterion.id}) }}">Modifier mes critères</a>
 
     {{ include('criteria/_delete_form.html.twig') }}
 {% endblock %}

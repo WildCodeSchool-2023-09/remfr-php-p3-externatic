@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Offer;
+use App\Entity\User;
+use App\Entity\Criteria;
 use App\Form\OfferType;
 use App\Repository\OfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CriteriaRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/offer', name: 'offer_')]
 class OfferController extends AbstractController
@@ -126,5 +130,26 @@ class OfferController extends AbstractController
         }
 
         return $this->redirectToRoute('offer_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/user_offer', name: 'user_offer', methods: ['GET'])]
+    public function userOffer(
+        OfferRepository $offerRepository,
+        CriteriaRepository $criteriaRepository,
+        User $user
+    ): Response {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Récupère les critères du candidat connecté
+        $userCriteria = $user->getCriteria();
+
+        // Récupère les offres correspondant aux critères du candidat
+        $matchingOffers = $criteriaRepository->findMatchingOffers($userCriteria);
+
+        return $this->render('offer/user_offer.html.twig', [
+            'offers' => $matchingOffers,
+        ]);
     }
 }
