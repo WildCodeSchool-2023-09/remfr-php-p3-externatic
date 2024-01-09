@@ -1,0 +1,83 @@
+.h1-form {
+    color: $secondary !important;
+    padding-bottom: 1rem;
+}
+
+.newItem {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+}
+
+.form-new {
+    width: 100%;
+    padding: 20px;
+    text-align: left;
+    margin-top: 20px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+#offer > div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#offer label {
+    width: 150px;
+    text-align: left;
+    margin-right: 10px;
+}
+
+#offer input[type="text"],
+#offer button.submit-form {
+    width: 100%;
+    max-width: 300px;
+}
+table {
+    border-radius: 1rem !important;
+}
+.center-btn{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.delete-btn {
+    margin-left: 2rem;
+}
+#user_roles > div > label.required {
+    font-size: medium;
+    margin-right: 1rem !important;
+}
+.role-btn {
+    margin-top: 2rem;
+}
+select#user_roles_roles{
+    width: 10rem;
+}
+.roles-container {
+    width:20rem !important;
+}
+.centered-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+@media (max-width: 600px) {
+    #offer label {
+        width: auto;
+        text-align: left;
+        margin-right: 0;
+    }
+}

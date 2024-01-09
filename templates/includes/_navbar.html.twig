@@ -22,64 +22,55 @@
 					<i class='bi bi-heart-fill nav_icon'></i>
 					<span class="nav_name">Mes Favoris</span>
 				</a>
-				{% if is_granted('ROLE_USER') %}
-					<a class="nav_link" href="{{ path('app_logout') }}">
-						<i class="bi bi-box-arrow-right"></i>
-						<span class="nav_name">Déconnexion</span>
-					</a>
-				{% else %}
-
-					<a class="nav_link" href="{{ path('app_login') }}">
-						<i class='bi bi-person-fill'></i>
-						<span class="nav_name">Connexion</span>
-					</a>
-
-					<a class="nav_link" href="{{ path('app_register') }}">
-						<i class='bi bi-file-person-fill'></i>
-						<span class="nav_name">Inscription</span>
-					</a>
-				{% endif %}
-				<a href="{{ path('user_dashboard') }}" class="nav_link">
-					<i class="bi bi-card-heading"></i>
-					<span class="nav_name">Mon dashboard</span>
-				</a>
-				{% if is_granted('ROLE_COLLABORATEUR') %}
-					<a href="{{ path('admin_dashboard') }}" class="nav_link">
-						<i class="bi bi-star-fill"></i>
-						<span class="nav_name">Dashboard Administrateur</span>
-					</a>
-				{% endif %}
-			</div>
-		</div>
-	</nav>
-</div>
-
-
-<div>
-	<ul class="nav justify-content-center">
-		<li class="nav-item">
-			<img src="{{ asset('build/images/externaticLogo.png') }}" style="border-radius:0.5rem" height="30rem" alt="logo">
-		</li>
-	</ul>
-</div>
-
-<div class="navbar">
-	<div class="row align-items-center justify-content-end">
-
-		<div class="col-auto">
-			{% if is_granted('ROLE_USER') %}
-				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_logout') }}">
+				<a class="nav_link" href="{{ path('app_logout') }}">
 					<i class="bi bi-box-arrow-right"></i>
-					Déconnexion</a>
+					<span class="nav_name">Déconnexion</span>
+				</a>
 			{% else %}
 
-				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_login') }}">
-					<i class="bi bi-person-fill"></i>
-					Connexion</a>
-				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_register') }}">
-					<i class="bi bi-file-person-fill"></i>
-					Inscription</a>
+				<a class="nav_link" href="{{ path('app_login') }}">
+					<i class='bi bi-person-fill'></i>
+					<span class="nav_name">Connexion</span>
+				</a>
+
+				<a class="nav_link" href="{{ path('app_register') }}">
+					<i class='bi bi-file-person-fill'></i>
+					<span class="nav_name">Inscription</span>
+				</a>
+			{% endif %}
+			<a href="{{ path('user_dashboard') }}" class="nav_link">
+				<i class="bi bi-card-heading"></i>
+				<span class="nav_name">Mon dashboard</span>
+			</a>
+			{% if is_granted('ROLE_COLLABORATEUR') %}
+				<a href="{{ path('admin_dashboard') }}" class="nav_link">
+					<i class="bi bi-star-fill"></i>
+					<span class="nav_name">Dashboard Administrateur</span>
+				</a>
 			{% endif %}
 		</div>
 	</div>
-</div>
+</nav></div><div>
+<ul class="nav justify-content-center">
+	<li class="nav-item">
+		<img src="{{ asset('build/images/externaticLogo.png') }}" style="border-radius:0.5rem" height="30rem" alt="logo">
+	</li>
+</ul></div><div class="navbar">
+<div class="row align-items-center justify-content-end">
+
+	<div class="col-auto">
+		{% if is_granted('ROLE_USER') %}
+			<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_logout') }}">
+				<i class="bi bi-box-arrow-right"></i>
+				Déconnexion</a>
+		{% else %}
+
+			<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_login') }}">
+				<i class="bi bi-person-fill"></i>
+				Connexion</a>
+			<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_register') }}">
+				<i class="bi bi-file-person-fill"></i>
+				Inscription</a>
+		{% endif %}
+	</div>
+</div></div>
