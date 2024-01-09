@@ -41,9 +41,7 @@
 						<td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
 						<td>{{ user.nationality }}</td>
 						<td>{{ user.maritalStatusName }}</td>
-						<td>
-							<a href="{{ path('user_roles', {'id': user.id}) }}">{{ user.rolesName }}</a>
-						</td>
+						<td>{{ user.roles|json_encode }}</td>
 						<td>
 							<a href="{{ path('user_delete', {'id': user.id}) }}">Supprimer</a>
 							<a href="{{ path('user_edit', {'id': user.id}) }}">Editer</a>
