@@ -71,7 +71,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $maritalStatus = null;
     #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'user')]
     private Collection $offer;
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class, cascade: ['remove'])]
+    #[ORM\JoinColumn(onDelete:"CASCADE")]
     private Collection $process;
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?CurriculumVitae $curriculum = null;
@@ -97,7 +98,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?AdditionalInfo $additionalInfo = null;
 
     #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: Process::class)]
-    #[ORM\JoinColumn(onDelete:"CASCADE")]
     private Collection $processes;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'candidates')]
@@ -106,6 +106,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: self::class)]
     private Collection $candidates;
 
+    #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'Favorited')]
+    #[ORM\JoinTable(name: 'user_favorites')]
+    private Collection $favorites;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
@@ -113,6 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->criteria = new ArrayCollection();
         $this->processes = new ArrayCollection();
         $this->candidates = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -539,6 +544,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $candidate->setCollaborateur(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Offer $favorite): static
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Offer $favorite): static
+    {
+        $this->favorites->removeElement($favorite);
 
         return $this;
     }

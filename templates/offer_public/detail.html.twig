@@ -50,6 +50,7 @@
 		<div class="container mt-4 d-flex justify-content-center">
 			<a href="{{ path('process_apply', {'offer_id': offer.id}) }}" class="btn btn-primary">Postuler</a>
 			<a href="{{ path('offer_public_list') }}" class="btn btn-primary">Retour aux offres</a>
+			<a href="{{ path('favorites_apply', {'offer_id': offer.id}) }}" class="btn btn-primary">Ajouter à mes favoris</a>
 		</div>
 	</div>
 {% endblock %}
