@@ -96,7 +96,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?AdditionalInfo $additionalInfo = null;
 
-    #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: Process::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: Process::class)]
+    #[ORM\JoinColumn(onDelete:"CASCADE")]
     private Collection $processes;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'candidates')]

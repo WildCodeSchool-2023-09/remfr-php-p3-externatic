@@ -154,15 +154,52 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    /** Supprimer un utilisateur */
+
+    #[Route('/public/{id}', name: 'pubdelete', methods: ['POST'])]
+    public function publicDelete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $processes = $user->getProcess();
+
+            foreach ($processes as $process) {
+                $entityManager->remove($process);
+            }
+
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            // Logout l'utilisateur sans CSRF
+            $this->security->logout(false);
+        }
+
+        return $this->redirectToRoute('app_home');
+    }
+
     /** Accès aux données personnelles (en connexion candidat) */
 
     #[Route('/{id}/editUser', name: 'edit_user', methods: ['GET', 'POST'])]
-    public function editUser(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
+    public function editUser(
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher,
+    ): Response {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
