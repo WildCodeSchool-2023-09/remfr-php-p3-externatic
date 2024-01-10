@@ -8,6 +8,6 @@
     <div class="form-container form-new-criteria">
         {{ include('criteria/_form.html.twig') }}
     </div>
-    <a href="{{ path('criteria_index') }}">Retour à la liste des critères</a>
+    <a href="{{ path('criteria_index', {'id': user.id}) }}">Retour à la liste des critères</a>
 </div>
 {% endblock %}

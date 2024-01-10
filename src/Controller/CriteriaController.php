@@ -25,38 +25,57 @@ class CriteriaController extends AbstractController
     }
 
     /** Affichage des critères du candidat */
-    #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(CriteriaRepository $criteriaRepository): Response
-    {
+    #[Route('/{id}/index', name: 'index', methods: ['GET'])]
+    public function index(
+        CriteriaRepository $criteriaRepository,
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager
+    ): Response {
         if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
+
+        $criteria = $user->getCriteria();
+
+        if ($criteria->isEmpty()) {
+            $criterion = new Criteria();
+            $criterion->addUser($user);
+            $entityManager->persist($criterion);
+            $entityManager->flush();
+        }
         return $this->render('criteria/index.html.twig', [
-            'criterias' => $criteriaRepository->findAll(),
+        'criteria' => $criteria,
         ]);
     }
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    #[Route('/{id}/new', name: 'new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        User $user
+    ): Response {
         if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
 
-        $criterion = new Criteria();
-        $form = $this->createForm(CriteriaType::class, $criterion);
+        $criteria = new Criteria();
+        $criteria->addUser($user);
+
+        $form = $this->createForm(CriteriaType::class, $criteria);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($criterion);
+            $entityManager->persist($criteria);
             $entityManager->flush();
 
-            return $this->redirectToRoute('criteria_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('criteria_index', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('criteria/new.html.twig', [
-            'criterion' => $criterion,
-            'form' => $form,
+            'criteria' => $criteria,
+            'form' => $form->createView(),
+            'user' => $user,
         ]);
     }
 
@@ -73,30 +92,42 @@ class CriteriaController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Criteria $criterion, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Criteria $criterion,
+        EntityManagerInterface $entityManager,
+        User $user
+    ): Response {
         if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
+
+        $criteria = $user->getCriteria();
 
         $form = $this->createForm(CriteriaType::class, $criterion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($criterion);
             $entityManager->flush();
 
-            return $this->redirectToRoute('criteria_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('criteria_index', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('criteria/edit.html.twig', [
-            'criterion' => $criterion,
-            'form' => $form,
+            'criteria' => $criteria,
+            'form' => $form->createView(),
+            'user' => $user,
         ]);
     }
 
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, Criteria $criterion, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        Criteria $criterion,
+        User $user,
+        EntityManagerInterface $entityManager
+    ): Response {
         if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
@@ -106,7 +137,7 @@ class CriteriaController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('criteria_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('criteria_index', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
     }
 
     /** Affichage des critères par candidat (en connexion collaborateur) */

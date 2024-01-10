@@ -40,16 +40,18 @@ class Criteria
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profil = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $contract = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $remote = null;
+
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'criteria')]
     private Collection $user;
+
     #[ORM\ManyToMany(targetEntity: Offer::class, mappedBy: 'criteria')]
     private Collection $offers;
     public function __construct()

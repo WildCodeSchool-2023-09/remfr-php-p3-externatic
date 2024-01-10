@@ -8,6 +8,6 @@
         <div class="form-container form-new">
             {{ include('criteria/_form.html.twig', {'button_label': 'Enregistrer'}) }}
         </div>
-        <a href="{{ path('criteria_index') }}" class="btn btn-link" style="margin-top:1rem" >Retour à la liste des critères</a>
+        <a href="{{ path('criteria_index', {'id': user.id}) }}" class="btn btn-link" style="margin-top:1rem" >Retour à la liste des critères</a>
     </div>
 {% endblock %}
