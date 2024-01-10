@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Criteria;
+use App\Entity\User;
 use App\Form\CriteriaType;
 use App\Repository\CriteriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,13 +24,13 @@ class CriteriaController extends AbstractController
         $this->security = $security;
     }
 
+    /** Affichage des critères du candidat */
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(CriteriaRepository $criteriaRepository): Response
     {
-        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+        if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
-
         return $this->render('criteria/index.html.twig', [
             'criterias' => $criteriaRepository->findAll(),
         ]);
@@ -38,7 +39,7 @@ class CriteriaController extends AbstractController
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+        if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -62,7 +63,7 @@ class CriteriaController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Criteria $criterion): Response
     {
-        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+        if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -74,7 +75,7 @@ class CriteriaController extends AbstractController
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Criteria $criterion, EntityManagerInterface $entityManager): Response
     {
-        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+        if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -96,7 +97,7 @@ class CriteriaController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Criteria $criterion, EntityManagerInterface $entityManager): Response
     {
-        if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+        if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
 
@@ -107,4 +108,16 @@ class CriteriaController extends AbstractController
 
         return $this->redirectToRoute('criteria_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /** Affichage des critères par candidat (en connexion collaborateur) */
+    // #[Route('/collaborateurs', name: 'index_collaborateurs', methods: ['GET'])]
+    // public function indexCollaborateurs(CriteriaRepository $criteriaRepository): Response
+    // {
+    //     if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
+    //         return $this->redirectToRoute('app_home');
+    //     }
+    //     return $this->render('criteria/index.html.twig', [
+    //             'criterias' => $criteriaRepository->findAll(),
+    //     ]);
+    // }
 }

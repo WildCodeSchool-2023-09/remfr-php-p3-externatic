@@ -17,10 +17,10 @@ class OfferFixtures extends Fixture
 
         for ($i = 0; $i < 50; $i++) {
             $offer = new Offer();
-            $offer->setName($faker->realText(30));
+            $offer->setName($faker->jobTitle());
             $offer->setDescription($faker->realText(250));
             $offer->setAssignment($faker->realText(250));
-            $offer->setCollaborator($faker->realText(50));
+            $offer->setCollaborator($faker->name());
             $companyReference = 'company_' . $i;
             $offer->setCompany($this->getReference($companyReference));
             $offer->setMinSalary($salary);

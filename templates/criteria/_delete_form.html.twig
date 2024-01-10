@@ -1,4 +1,4 @@
 <form method="post" action="{{ path('criteria_delete', {'id': criterion.id}) }}" onsubmit="return confirm('Etes-vous sûr(e) de voiloir supprimer ces critères ?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ criterion.id) }}">
-    <button class="btn">Supprimer</button>
+    <button class="btn"><i class="bi bi-trash3"></i></button>
 </form>

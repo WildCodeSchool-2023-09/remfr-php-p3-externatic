@@ -14,9 +14,9 @@ class CompanyFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         for ($i = 0; $i < 50; $i++) {
             $company = new Company();
-            $company->setName($faker->realText(10));
-            $company->setField($faker->realText(250));
-            $company->setAddress($faker->realText(250));
+            $company->setName($faker->company());
+            $company->setField($faker->jobTitle());
+            $company->setAddress($faker->city());
             $company->setDetails($faker->paragraphs(3, true));
             $companyReference = 'company_' . $i;
             $this->addReference($companyReference, $company);

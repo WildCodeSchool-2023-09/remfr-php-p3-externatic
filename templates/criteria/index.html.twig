@@ -3,12 +3,11 @@
 {% block title %}Criteria index{% endblock %}
 
 {% block body %}
-    <h1>Criteria index</h1>
-
+<div class="container-sm form-container-wide shadow">	
+    <h1 class="titre-form1">Mes critères de recherche</h1>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Salaire</th>
                 <th>Profil</th>
                 <th>Type de contrat</th>
@@ -20,24 +19,25 @@
         <tbody>
         {% for criterion in criterias %}
             <tr>
-                <td>{{ criterion.id }}</td>
                 <td>{{ criterion.salary }}</td>
                 <td>{{ criterion.profil }}</td>
-                <td>{{ criterion.contract }}</td>
+                <td>{{ criterion.getContractTypeLabel() }}</td>
                 <td>{{ criterion.location }}</td>
-                <td>{{ criterion.remote }}</td>
-                <td>
-                    <a href="{{ path('criteria_show', {'id': criterion.id}) }}">Voir</a>
-                    <a href="{{ path('criteria_edit', {'id': criterion.id}) }}">Editer</a>
+                <td>{{ criterion.getRemoteStatusLabel() }}</td>
+                <td class="actions">
+                    <a href="{{ path('criteria_edit', {'id': criterion.id}) }}">
+                    <i class="bi bi-pencil-square"></i></a>
+                    {{ include('criteria/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">Aucun enregistrement</td>
+                <td colspan="7">Aucun critère enregistré</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('criteria_new') }}">Créer des nouveaux critères</a>
+    <a href="{{ path('criteria_new') }}" class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" >Créer des nouveaux critères</a>
+</div>
 {% endblock %}

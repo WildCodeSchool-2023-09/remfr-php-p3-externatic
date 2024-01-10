@@ -146,7 +146,7 @@ class OfferController extends AbstractController
         $userCriteria = $user->getCriteria();
 
         // Récupère les offres correspondant aux critères du candidat
-        $matchingOffers = $criteriaRepository->findMatchingOffers($userCriteria);
+        $matchingOffers = $offerRepository->findMatchingCriteria($userCriteria);
 
         return $this->render('offer/user_offer.html.twig', [
             'offers' => $matchingOffers,

@@ -4,8 +4,10 @@
 {% endblock %}
 
 {% block body %}
+<div class="container-sm form-container-wide shadow">
     <h1>Edition de l'offre</h1>
 	{{ include('offer/_form.html.twig', {'button_label': 'Mise à jour'}) }}
-    <a href="{{ path('offer_index') }}">Retour à la liste des offres</a>
 	{{ include('offer/_delete_form.html.twig') }}
+    <a href="{{ path('offer_index') }}" class="btn btn-link" style="margin-top:1rem" >Retour à la liste des offres</a>
+</div>
 {% endblock %}
