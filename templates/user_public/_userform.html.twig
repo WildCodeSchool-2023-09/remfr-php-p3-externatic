@@ -8,20 +8,12 @@
 			{% set colSize = 12 / columns %}
 
 			<div class="col-md-{{ colSize }} text-md-end col-form">
-				{{ form_label(form.firstname, 'Prénom') }}
-				{{ form_widget(form.firstname) }}
-			</div>
-			<div class="col-md-{{ colSize }} text-md-end col-form">
 				{{ form_label(form.address, 'Adresse') }}
 				{{ form_widget(form.address) }}
 			</div>
 			<div class="col-md-{{ colSize }} text-md-end col-form">
 				{{ form_label(form.phone, 'Téléphone') }}
 				{{ form_widget(form.phone) }}
-			</div>
-			<div class="col-md-{{ colSize }} text-md-end col-form">
-				{{ form_label(form.lastname, 'Nom') }}
-				{{ form_widget(form.lastname) }}
 			</div>
 			<div class="col-md-{{ colSize }} text-md-end col-form">
 				{{ form_label(form.zipcode, 'Code postal') }}
@@ -55,7 +47,6 @@
 				{{ form_label(form.password, 'Mot de passe') }}
 				{{ form_widget(form.password) }}
 			</div>
-			{{ form_widget(form.collaborateur, { 'attr': {'hidden': 'true', 'disabled': 'disabled'} }) }}
 		</div>
 		{{ form_rest(form) }}
 	</br>

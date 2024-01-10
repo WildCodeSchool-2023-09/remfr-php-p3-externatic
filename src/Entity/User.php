@@ -587,4 +587,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
 
         return $this;
     }
+
+    public function getRolesName(): ?string
+    {
+        $rolesName = 'ROLE_USER';
+        foreach ($this->roles as $role) {
+            $rolesName .= ', ' . $role;
+        }
+        return $rolesName;
+    }
 }
