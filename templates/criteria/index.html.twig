@@ -38,6 +38,6 @@
         </tbody>
     </table>
 
-    <a href="#" class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" >Créer des nouveaux critères</a>
+    <a href="{{ path('criteria_new', {'id': user.id}) }}" class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" >Créer des nouveaux critères</a>
 </div>
 {% endblock %}

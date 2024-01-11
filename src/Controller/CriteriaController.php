@@ -46,6 +46,7 @@ class CriteriaController extends AbstractController
         }
         return $this->render('criteria/index.html.twig', [
         'criteria' => $criteria,
+        'user' => $user,
         ]);
     }
 
@@ -102,24 +103,23 @@ class CriteriaController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $criteria = $user->getCriteria();
-
         $form = $this->createForm(CriteriaType::class, $criterion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($criterion);
             $entityManager->flush();
 
             return $this->redirectToRoute('criteria_index', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('criteria/edit.html.twig', [
-            'criteria' => $criteria,
+            'criteria' => $criterion,
             'form' => $form->createView(),
             'user' => $user,
         ]);
     }
+
+
 
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(
