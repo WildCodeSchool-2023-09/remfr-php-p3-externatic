@@ -52,4 +52,19 @@ class FavoriteController extends AbstractController
             'user' => $this->getUser(),
         ]);
     }
+
+    #[Route('/remove/{offer_id}', name: 'remove', methods:['GET'])]
+    public function remove(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(mapping: ['offer_id' => 'id'])] Offer $offer
+    ): Response {
+        $user = $this->getUser();
+        $user->removeFavorite($offer);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('offer_public_detail', ['id' => $offer->getId()]);
+    }
 }
