@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favoris
+{% endblock %}
+
+{% block body %}
+	<h1>Mes Favoris</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Prénom</th>
+				<th>Nom</th>
+				<th>Nom de l'entreprise</th>
+				<th>Poste</th>
+				<th>Localisation</th>
+				<th>Type d'offre</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for favorite in user.favorites %}
+				<tr>
+					<td>{{ user.firstname }}</td>
+					<td>{{ user.lastname }}</td>
+					<td>{{ favorite.company.name }}</td>
+					<td>
+						<a href="{{ path('offer_public_detail', {'id': favorite.id}) }}">{{ favorite.name }}</a>
+					</td>
+					<td>{{ favorite.assignment }}</td>
+					<td>{{ favorite.contractType }}</td>
+
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
+</div></div></div>{% endblock %}

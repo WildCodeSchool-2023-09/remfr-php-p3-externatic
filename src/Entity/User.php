@@ -73,7 +73,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'user')]
     private Collection $offer;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class, cascade: ['remove'])]
+    #[ORM\JoinColumn(onDelete:"CASCADE")]
     private Collection $process;
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
@@ -101,7 +102,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     private ?AdditionalInfo $additionalInfo = null;
 
     #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: Process::class)]
-    #[ORM\JoinColumn(onDelete:"CASCADE")]
     private Collection $processes;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'candidates')]
@@ -110,6 +110,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: self::class)]
     private Collection $candidates;
 
+    #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'Favorited')]
+    #[ORM\JoinTable(name: 'user_favorites')]
+    private Collection $favorites;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
@@ -117,6 +121,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         $this->criteria = new ArrayCollection();
         $this->processes = new ArrayCollection();
         $this->candidates = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -557,5 +562,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Offer $favorite): static
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Offer $favorite): static
+    {
+        $this->favorites->removeElement($favorite);
+
+        return $this;
+    }
+
+    public function getRolesName(): ?string
+    {
+        $rolesName = 'ROLE_USER';
+        foreach ($this->roles as $role) {
+            $rolesName .= ', ' . $role;
+        }
+        return $rolesName;
     }
 }
