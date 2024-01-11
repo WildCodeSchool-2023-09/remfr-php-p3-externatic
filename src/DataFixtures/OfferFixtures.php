@@ -2,46 +2,40 @@
 
 namespace App\DataFixtures;
 
-use Faker\Factory;
-use App\Entity\Company;
 use App\Entity\Offer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-
-;
+use Faker\Factory;
 
 class OfferFixtures extends Fixture
 {
-    public const OFFER = [
-        [
-            'name' => 'dev full stack',
-            'assignement' => 'recrutement',
-            'description' => 'symfont',
-            'collaborator' => 'adrien',
-            'company' => 'externatic',
-        ],
-        [
-            'name' => 'dev front ',
-            'assignement' => 'recrutement',
-            'description' => 'javascript',
-            'collaborator' => 'jessica',
-            'company' => 'wild code school',
-        ],
-    ];
-
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
+        $faker = Factory::create('fr_FR');
+        $salary = $faker->numberBetween(28000, 45000);
+        $salary2 = $faker->numberBetween(45000, 60000);
 
-        $offresObj = new Offer();
-        $offresObj->setName("Offre #1");
-        $offresObj->setAssignment("Assignement de l'offre");
-        $offresObj->setDescription("Assignement de l'offre");
-        $offresObj->setCollaborator("colab");
-        $offresObj->setCompany($this->getReference(self::OFFER[0]['company']));
+        for ($i = 0; $i < 50; $i++) {
+            $offer = new Offer();
+            $offer->setName($faker->realText(30));
+            $offer->setDescription($faker->realText(250));
+            $offer->setAssignment($faker->realText(250));
+            $offer->setCollaborator($faker->realText(50));
+            $companyReference = 'company_' . $i;
+            $offer->setCompany($this->getReference($companyReference));
+            $offer->setMinSalary($salary);
+            $offer->setMaxSalary($salary2);
+            $offer->setContractType($i % 2 + 1);
+            $offer->setRemote($i % 2);
 
-        $manager->persist($offresObj);
+            $manager->persist($offer);
+        }
         $manager->flush();
+    }
+    public function getDependencies(): array
+    {
+        return [
+            CompanyFixtures::class,
+        ];
     }
 }
