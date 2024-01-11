@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidate index
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Liste des candidats</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Prénom</th>
+					<th>Nom</th>
+					<th>Email</th>
+					<th>Téléphone</th>
+					<th>Adresse</th>
+					<th>CP</th>
+					<th>Ville</th>
+					<th>Préférence de contact</th>
+					<th>Date de naissance</th>
+					<th>Nationalité</th>
+					<th>Etat civil</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr>
+						<td>{{ user.firstname }}</td>
+						<td>{{ user.lastname }}</td>
+						<td>{{ user.email }}</td>
+						<td>{{ user.phone }}</td>
+						<td>{{ user.address }}</td>
+						<td>{{ user.zipcode }}</td>
+						<td>{{ user.city }}</td>
+						<td>{{ user.contactPreference }}</td>
+						<td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
+						<td>{{ user.nationality }}</td>
+						<td>{{ user.maritalStatusName }}</td>
+						<td>
+							<a href="{{ path('user_show', {'id': user.id}) }}">Show</a>
+							<a href="{{ path('user_edit', {'id': user.id}) }}">Edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="5">Aucun candidat</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

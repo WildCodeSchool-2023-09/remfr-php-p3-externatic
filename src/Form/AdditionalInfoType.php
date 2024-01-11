@@ -16,6 +16,7 @@ class AdditionalInfoType extends AbstractType
             ->add('nationality')
             ->add('gender')
             ->add('license')
+            ->add('interests')
         ;
     }
 
