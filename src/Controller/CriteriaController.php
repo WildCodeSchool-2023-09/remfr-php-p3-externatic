@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\CriteriaType;
 use App\Repository\CriteriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,25 +96,25 @@ class CriteriaController extends AbstractController
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
-        Criteria $criterion,
+        Criteria $criteria,
         EntityManagerInterface $entityManager,
-        User $user
     ): Response {
         if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
-
-        $form = $this->createForm(CriteriaType::class, $criterion);
+        $user = $this->getUser();
+        $userId = $user->getId();
+        $form = $this->createForm(CriteriaType::class, $criteria);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('criteria_index', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('criteria_index', ['id' => $userId], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('criteria/edit.html.twig', [
-            'criteria' => $criterion,
+            'criteria' => $criteria,
             'form' => $form->createView(),
             'user' => $user,
         ]);
@@ -125,7 +126,6 @@ class CriteriaController extends AbstractController
     public function delete(
         Request $request,
         Criteria $criterion,
-        User $user,
         EntityManagerInterface $entityManager
     ): Response {
         if (!($this->security->isGranted('ROLE_USER'))) {
@@ -137,7 +137,7 @@ class CriteriaController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('criteria_index', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('criteria_index', ['id' => $this->getUser()->getId()], Response::HTTP_SEE_OTHER);
     }
 
     /** Affichage des critères par candidat (en connexion collaborateur) */
