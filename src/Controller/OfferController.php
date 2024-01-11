@@ -86,8 +86,12 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        $user = $this->getUser();
+        $isFavorited = $user->getFavorites()->contains($offer);
+
         return $this->render('offer_public/detail.html.twig', [
             'offer' => $offer,
+            'isFavorited' => $isFavorited,
         ]);
     }
 

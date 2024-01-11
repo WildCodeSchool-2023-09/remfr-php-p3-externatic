@@ -23,7 +23,9 @@
 					<td>{{ user.firstname }}</td>
 					<td>{{ user.lastname }}</td>
 					<td>{{ favorite.company.name }}</td>
-					<td>{{ favorite.name }}</td>
+					<td>
+						<a href="{{ path('offer_public_detail', {'id': favorite.id}) }}">{{ favorite.name }}</a>
+					</td>
 					<td>{{ favorite.assignment }}</td>
 					<td>{{ favorite.contractType }}</td>
 
