@@ -9,10 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/static', name: 'static_')]
 class StaticController extends AbstractController
 {
-    #[Route('/ml', name: 'ml')]
-    public function ml(): Response
+    #[Route('/mentionslegales', name: 'mentionslegales')]
+    public function mentionslegales(): Response
     {
-        return $this->render('static/ml.html.twig');
+        return $this->render('static/mentionslegales.html.twig');
     }
 
     #[Route('/cgu', name: 'cgu')]
