@@ -28,29 +28,37 @@ class OfferRepository extends ServiceEntityRepository
             ->leftJoin('o.criteria', 'c');
 
         $counter = 0;
-        foreach ($offerCollection as $offers) {
-            $queryBuilder
-                ->andWhere("o.name = :name$counter")
-                ->andWhere("o.description = :description$counter")
-                ->andWhere("o.assignment = :assignment$counter")
-                ->andWhere("o.collaborator = :collaborator$counter")
-                ->andWhere("o.minSalary = :minSalary$counter")
-                ->andWhere("o.maxSalary = :maxSalary$counter")
-                ->andWhere("o.contractType = :contractTypey$counter")
-                ->andWhere("o.remote = :remote$counter")
-                ->setParameter("name$counter", $offers->getName())
-                ->setParameter("description$counter", $offers->getDescription())
-                ->setParameter("assignment$counter", $offers->getassignment())
-                ->setParameter("collaborator$counter", $offers->getcollaborator())
-                ->setParameter("minSalary$counter", $offers->getminSalary())
-                ->setParameter("maxSalary$counter", $offers->getmaxSalary())
-                ->setParameter("contractType$counter", $offers->getcontractType())
-                ->setParameter("remote$counter", $offers->getRemote());
+        $orConditions = $queryBuilder->expr()->orX();
+
+        foreach ($offerCollection as $criteria) {
+            $orConditions->add(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('o.name', ":name$counter"),
+                    $queryBuilder->expr()->eq('o.description', ":description$counter"),
+                    $queryBuilder->expr()->gte('o.assignment', ":assignment$counter"),
+                    $queryBuilder->expr()->eq('o.collaborator', ":collaborator$counter"),
+                    $queryBuilder->expr()->gte('o.minSalary', ":minSalary$counter"),
+                    $queryBuilder->expr()->lte('o.maxSalary', ":maxSalary$counter"),
+                    $queryBuilder->expr()->eq('o.contractType', ":contractType$counter"),
+                    $queryBuilder->expr()->eq('o.remote', ":remote$counter"),
+                )
+            );
+                $queryBuilder
+                    ->setParameter("name$counter", $criteria->getProfil())
+                    ->setParameter("description$counter", $criteria->getProfil())
+                    ->setParameter("assignment$counter", $criteria->getProfil())
+                    ->setParameter("collaborator$counter", $criteria->getRemoteStatusLabel())
+                    ->setParameter("minSalary$counter", $criteria->getSalary())
+                    ->setParameter("maxSalary$counter", $criteria->getSalary())
+                    ->setParameter("contractType$counter", $criteria->getContract())
+                    ->setParameter("remote$counter", $criteria->getRemote());
 
             $counter++;
         }
+        $queryBuilder->andWhere($orConditions);
         return $queryBuilder->getQuery()->getResult();
     }
+
 
 //    /**
 //     * @return Offer[] Returns an array of Offer objects

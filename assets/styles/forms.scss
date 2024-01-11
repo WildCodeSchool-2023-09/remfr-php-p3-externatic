@@ -79,7 +79,7 @@ label{
     border:none;
     box-shadow:0.5em;
     height: 2.5rem;
-    width: 17rem;
+    width: 15rem;
     margin: 0.5rem;
 }
 .form-container-wide input[type="date"] {
@@ -138,7 +138,9 @@ td.actions{
 #criteria input[type="select"],
 select#criteria_contract,
 select#criteria_remote,
-input#criteria_salary
+input#criteria_salary,
+input#offer_minSalary,
+input#offer_maxSalary
 {
     border-radius: 0.5rem;
     border:none;
@@ -159,4 +161,9 @@ input#criteria_salary
     display: flex;
     flex-direction: column;
     align-items: center; 
+}
+input#file-upload-button {
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
 }
