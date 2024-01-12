@@ -19,7 +19,7 @@ class OfferFixtures extends Fixture
             $offer = new Offer();
             $offer->setName($faker->jobTitle());
             $offer->setDescription($faker->realText(250));
-            $offer->setAssignment($faker->realText(250));
+            $offer->setAssignment($faker->city());
             $offer->setCollaborator($faker->name());
             $companyReference = 'company_' . $i;
             $offer->setCompany($this->getReference($companyReference));
