@@ -2,17 +2,24 @@
 
 namespace App\Controller;
 
-use App\Entity\CurriculumVitae;
 use App\Entity\User;
-use App\Form\CurriculumVitaeType;
 use App\Form\CvType;
-use App\Repository\CurriculumVitaeRepository;
+use App\Entity\Links;
+use App\Entity\Skill;
+use App\Entity\Language;
+use App\Entity\Education;
+use App\Entity\Experience;
+use App\Entity\CurriculumVitae;
+use App\Form\CurriculumVitaeType;
+use Symfony\Component\DomCrawler\Link;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use App\Repository\CurriculumVitaeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/cv', name: 'cv_')]
@@ -125,55 +132,29 @@ class CurriculumVitaeController extends AbstractController
         Request $request,
         User $user,
         int $id,
+        CurriculumVitae $curriculum,
         EntityManagerInterface $entityManager
     ): Response {
         if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
-
         $user = $entityManager->getRepository(User::class)->find($id);
+        $cvCollection = new ArrayCollection();
         $form = $this->createForm(CvType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            /** Créer et persister les formations  */
-            $education = $data['education'];
-            $this->education($education, $entityManager);
-
-            /** Créer et persister les expériences pro  */
-            $experience = $data['experience'];
-            $this->experience($experience, $entityManager);
-
-            /** Créer et persister les langues  */
-            $language = $data['language'];
-            foreach ($language as $language) {
-                $language->setUser($this->getUser());
-                $entityManager->persist($language);
+            foreach($curriculum as $curriculumData) {
+                $curriculum->addEducation($curriculumData);
+                $curriculum->addExperience($curriculumData);
+                $curriculum->addLanguage($curriculumData);
+                $curriculum->addLink($curriculumData);
+                $curriculum->addSkill($curriculumData);
             }
 
-            /** Créer et persister les liens  */
-            $links = $data['links'];
-            foreach ($links as $link) {
-                $link->setUser($this->getUser());
-                $entityManager->persist($link);
-            }
-
-            /** Créer et persister les skills  */
-            $skill = $data['skill'];
-            foreach ($skill as $skill) {
-                $skill->setUser($this->getUser());
-                $entityManager->persist($skill);
-            }
-
-            // /** Créer et persister les infos complémentaires  */
-            // $additionalInfo = $data['additionalInfo'];
-            // foreach ($additionalInfo as $additionalInfo) {
-            //     $additionalInfo->setUser($this->getUser());
-            //     $entityManager->persist($additionalInfo);
-            // }
-
+            $entityManager->persist($cvCollection);
             $entityManager->flush();
             return $this->redirectToRoute('user_dashboard', [], Response::HTTP_SEE_OTHER);
         }
@@ -182,20 +163,47 @@ class CurriculumVitaeController extends AbstractController
             'user' => $user,
         ]);
     }
-
-    private function education(array $education, EntityManagerInterface $entityManager): void
-    {
-        foreach ($education as $education) {
-            $education->setUser($this->getUser());
-            $entityManager->persist($education);
-        }
-    }
-
-    private function experience(array $experience, EntityManagerInterface $entityManager): void
-    {
-        foreach ($experience as $experience) {
-            $experience->setUser($this->getUser());
-            $entityManager->persist($experience);
-        }
-    }
+    // private function education(array $data, EntityManagerInterface $entityManager): void
+    // {
+    //     foreach ($data as $educationData) {
+    //         $education->addName($educationData['name']);
+    //         $education->setSchool($educationData['school']);
+    //         $education->setCity($educationData['city']);
+    //         $education->setBeginDate($educationData['beginDate']);
+    //         $education->setEndDate($educationData['endDate']);
+    //         $entityManager->persist($education);
+    //     }
+    // }
+    // private function experience(array $experiences, EntityManagerInterface $entityManager): void
+    // {
+    //     foreach ($experiences as $experienceData) {
+    //         $experience = new Experience();
+    //         $experience->setName($experienceData['name']);
+    //         $entityManager->persist($experience);
+    //     }
+    // }
+    // private function language(array $languages, EntityManagerInterface $entityManager): void
+    // {
+    //     foreach ($languages as $languageData) {
+    //         $language = new Language();
+    //         // $languageData->setUser($this->getUser());
+    //         $entityManager->persist($language);
+    //     }
+    // }
+    // private function links(array $links, EntityManagerInterface $entityManager): void
+    // {
+    //     foreach ($links as $linksData) {
+    //         $link = new Links();
+    //         // $linksData->setUser($this->getUser());
+    //         $entityManager->persist($link);
+    //     }
+    // }
+    // private function skills(array $skills, EntityManagerInterface $entityManager): void
+    // {
+    //     foreach ($skills as $skillsData) {
+    //         $skill = new Skill();
+    //         // $skillsData->setUser($this->getUser());
+    //         $entityManager->persist($skill);
+    //     }
+    // }
 }

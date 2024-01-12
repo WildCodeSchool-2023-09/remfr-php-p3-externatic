@@ -8,7 +8,7 @@
     </div>
     <h1 class="h3 mb-3 font-weight-normal titre-form" style="margin-top:3rem">Créer un CV</h1>
     {{ form_start(form) }}
-    <form id="CvForm" method="post" enctype="multipart/form-data">
+    <div id="CvForm">
         {# Render each sub-form for entities #}
         <div id="step1" class="form-step">
             <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">	
@@ -53,7 +53,7 @@
                 <button type="submit">Enregistrer</button>
             </div>
         </div>
-    </form>
+    </div>
     {{ form_end(form) }}
 
 <script>
