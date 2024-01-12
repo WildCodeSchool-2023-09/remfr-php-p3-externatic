@@ -121,12 +121,59 @@ class CurriculumVitaeController extends AbstractController
     }
     /** Créer un CV (en connexion candidat) */
     #[Route('/{id}/userCreateCV', name: 'user_create', methods: ['GET', 'POST'])]
-    public function userCreateCV(Request $request, User $user, int $id, EntityManagerInterface $entityManager): Response
-    {
+    public function userCreateCV(
+        Request $request,
+        User $user,
+        int $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createForm(CvType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            /** Créer et persister les formations  */
+            $education = $data['education'];
+            $this->education($education, $entityManager);
+
+            /** Créer et persister les expériences pro  */
+            $experience = $data['experience'];
+            $this->experience($experience, $entityManager);
+
+            /** Créer et persister les langues  */
+            $language = $data['language'];
+            foreach ($language as $language) {
+                $language->setUser($this->getUser());
+                $entityManager->persist($language);
+            }
+
+            /** Créer et persister les liens  */
+            $links = $data['links'];
+            foreach ($links as $link) {
+                $link->setUser($this->getUser());
+                $entityManager->persist($link);
+            }
+
+            /** Créer et persister les skills  */
+            $skill = $data['skill'];
+            foreach ($skill as $skill) {
+                $skill->setUser($this->getUser());
+                $entityManager->persist($skill);
+            }
+
+            // /** Créer et persister les infos complémentaires  */
+            // $additionalInfo = $data['additionalInfo'];
+            // foreach ($additionalInfo as $additionalInfo) {
+            //     $additionalInfo->setUser($this->getUser());
+            //     $entityManager->persist($additionalInfo);
+            // }
+
             $entityManager->flush();
             return $this->redirectToRoute('user_dashboard', [], Response::HTTP_SEE_OTHER);
         }
@@ -134,5 +181,21 @@ class CurriculumVitaeController extends AbstractController
             'form' => $form,
             'user' => $user,
         ]);
+    }
+
+    private function education(array $education, EntityManagerInterface $entityManager): void
+    {
+        foreach ($education as $education) {
+            $education->setUser($this->getUser());
+            $entityManager->persist($education);
+        }
+    }
+
+    private function experience(array $experience, EntityManagerInterface $entityManager): void
+    {
+        foreach ($experience as $experience) {
+            $experience->setUser($this->getUser());
+            $entityManager->persist($experience);
+        }
     }
 }
