@@ -52,6 +52,7 @@
 
 			{% if isFavorited  %}
 				<a href="{{ path('favorites_remove', {'offer_id': offer.id, "from":"detail" }) }}" class="btn btn-primary">Retirer de mes favoris</a>
+
 			{% else %}
 				<a href="{{ path('favorites_apply', {'offer_id': offer.id}) }}" class="btn btn-primary">Ajouter à mes favoris</a>
 			{% endif %}
