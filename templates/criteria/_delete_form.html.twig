@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_criteria_delete', {'id': criterion.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ criterion.id) }}">
-    <button class="btn">Delete</button>
+<form method="post" action="{{ path('criteria_delete', {'id': criteria.id}) }}" onsubmit="return confirm('Etes-vous sûr(e) de voiloir supprimer ces critères ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ criteria.id) }}">
+    <button class="btn"><i class="bi bi-trash3"></i></button>
 </form>

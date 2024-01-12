@@ -65,6 +65,10 @@ class FavoriteController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        if ($_GET["from"] == "list") {
+            return $this->redirectToRoute('favorites_list');
+        }
+
         return $this->redirectToRoute('offer_public_detail', ['id' => $offer->getId()]);
     }
 }
