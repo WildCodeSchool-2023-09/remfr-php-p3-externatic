@@ -55,6 +55,11 @@
 			{{ button_label|default('Enregistrer') }}
 		</button>
 	</div>
-</form>
-{{ include('user_public/_delete_form.html.twig') }}</br><div class="text-center">
-<a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a></div></div>{{ form_end(form) }}</div>
+	</form>
+		<div class="text-center">
+			<a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
+		</div>
+		{{ include('user_public/_delete_form.html.twig') }}
+		</div>
+	{{ form_end(form) }}
+</div>
