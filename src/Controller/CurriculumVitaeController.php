@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\CvType;
 use App\Entity\Links;
 use App\Entity\Skill;
 use App\Entity\Language;
@@ -11,6 +10,7 @@ use App\Entity\Education;
 use App\Entity\Experience;
 use App\Entity\CurriculumVitae;
 use App\Form\CurriculumVitaeType;
+use App\Form\CvType;
 use Symfony\Component\DomCrawler\Link;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -132,78 +132,64 @@ class CurriculumVitaeController extends AbstractController
         Request $request,
         User $user,
         int $id,
-        CurriculumVitae $curriculum,
         EntityManagerInterface $entityManager
     ): Response {
+
         if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
         $user = $entityManager->getRepository(User::class)->find($id);
-        $cvCollection = new ArrayCollection();
         $form = $this->createForm(CvType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
 
-            foreach($curriculum as $curriculumData) {
-                $curriculum->addEducation($curriculumData);
-                $curriculum->addExperience($curriculumData);
-                $curriculum->addLanguage($curriculumData);
-                $curriculum->addLink($curriculumData);
-                $curriculum->addSkill($curriculumData);
+            /** Créer et persister le CV */
+            $curriculumVitaes = $form->getData();
+            $curriculumVitaes->setUsers($this->getUser());
+            $entityManager->persist($curriculumVitaes);
+
+            /** Créer et persister les formations */
+            $educations = $form->get('educations')->getData();
+            foreach ($educations as $education) {
+                $curriculumVitaes->addEducation($education);
+                $entityManager->persist($education);
             }
 
-            $entityManager->persist($cvCollection);
+            /** Créer et persister les expériences pro */
+            $experiences = $form->get('experiences')->getData();
+            foreach ($experiences as $experience) {
+                $curriculumVitaes->addExperience($experience);
+                $entityManager->persist($experience);
+            }
+
+            /** Créer et persister les langues */
+            $languages = $form->get('languages')->getData();
+            foreach ($languages as $language) {
+                $curriculumVitaes->addLanguage($language);
+                $entityManager->persist($language);
+            }
+
+            /** Créer et persister les liens */
+            $links = $form->get('links')->getData();
+            foreach ($links as $link) {
+                $curriculumVitaes->addLink($link);
+                $entityManager->persist($link);
+            }
+
+            /** Créer et persister les skills */
+            $skills = $form->get('skills')->getData();
+            foreach ($skills as $skill) {
+                $curriculumVitaes->addSkill($skill);
+                $entityManager->persist($skill);
+            }
+            $entityManager->persist($curriculumVitaes);
             $entityManager->flush();
             return $this->redirectToRoute('user_dashboard', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('curriculum_vitae/candidat/newcv.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'user' => $user,
         ]);
     }
-    // private function education(array $data, EntityManagerInterface $entityManager): void
-    // {
-    //     foreach ($data as $educationData) {
-    //         $education->addName($educationData['name']);
-    //         $education->setSchool($educationData['school']);
-    //         $education->setCity($educationData['city']);
-    //         $education->setBeginDate($educationData['beginDate']);
-    //         $education->setEndDate($educationData['endDate']);
-    //         $entityManager->persist($education);
-    //     }
-    // }
-    // private function experience(array $experiences, EntityManagerInterface $entityManager): void
-    // {
-    //     foreach ($experiences as $experienceData) {
-    //         $experience = new Experience();
-    //         $experience->setName($experienceData['name']);
-    //         $entityManager->persist($experience);
-    //     }
-    // }
-    // private function language(array $languages, EntityManagerInterface $entityManager): void
-    // {
-    //     foreach ($languages as $languageData) {
-    //         $language = new Language();
-    //         // $languageData->setUser($this->getUser());
-    //         $entityManager->persist($language);
-    //     }
-    // }
-    // private function links(array $links, EntityManagerInterface $entityManager): void
-    // {
-    //     foreach ($links as $linksData) {
-    //         $link = new Links();
-    //         // $linksData->setUser($this->getUser());
-    //         $entityManager->persist($link);
-    //     }
-    // }
-    // private function skills(array $skills, EntityManagerInterface $entityManager): void
-    // {
-    //     foreach ($skills as $skillsData) {
-    //         $skill = new Skill();
-    //         // $skillsData->setUser($this->getUser());
-    //         $entityManager->persist($skill);
-    //     }
-    // }
 }
