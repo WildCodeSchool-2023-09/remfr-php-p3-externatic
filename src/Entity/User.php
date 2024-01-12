@@ -46,13 +46,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     private ?string $lastname = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $phone = null;
+    private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $zipcode = null;
+    private ?string $zipcode = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $city = null;
@@ -222,12 +222,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return in_array($role, $this->roles);
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): static
+    public function setPhone(?string $phone): static
     {
         $this->phone = $phone;
 
@@ -261,12 +261,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return $this;
     }
 
-    public function getZipcode(): ?int
+    public function getZipcode(): ?string
     {
         return $this->zipcode;
     }
 
-    public function setZipcode(?int $zipcode): static
+    public function setZipcode(?string $zipcode): static
     {
         $this->zipcode = $zipcode;
 

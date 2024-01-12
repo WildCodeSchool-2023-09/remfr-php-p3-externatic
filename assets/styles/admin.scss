@@ -24,20 +24,26 @@
     align-items: center; 
 }
 
-#offer > div {
+#offer > div, 
+#criteria > div {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-#offer label {
+#offer label, 
+#criteria label {
     width: 150px;
     text-align: left;
     margin-right: 10px;
 }
 
 #offer input[type="text"],
-#offer button.submit-form {
+#offer button.submit-form,
+#criteria input[type="text"],
+#criteria input[type="select"],
+#criteria button.submit-form 
+{
     width: 100%;
     max-width: 300px;
 }
@@ -75,7 +81,8 @@ select#user_roles_roles{
     text-align: center;
 }
 @media (max-width: 600px) {
-    #offer label {
+    #offer label,
+    #criteria label {
         width: auto;
         text-align: left;
         margin-right: 0;

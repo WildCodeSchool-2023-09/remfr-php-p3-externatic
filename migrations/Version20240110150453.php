@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240104182035 extends AbstractMigration
+final class Version20240110150453 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20240104182035 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE curriculum_vitae ADD cv_file_path VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE criteria CHANGE salary salary INT DEFAULT NULL, CHANGE profil profil VARCHAR(255) DEFAULT NULL, CHANGE location location VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE curriculum_vitae DROP cv_file_path');
+        $this->addSql('ALTER TABLE criteria CHANGE salary salary VARCHAR(255) NOT NULL, CHANGE profil profil VARCHAR(255) NOT NULL, CHANGE location location VARCHAR(255) NOT NULL');
     }
 }
