@@ -114,6 +114,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\JoinTable(name: 'user_favorites')]
     private Collection $favorites;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $notificationWaiting = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Criteria::class, orphanRemoval: true)]
+    private Collection $criterias;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
@@ -122,6 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         $this->processes = new ArrayCollection();
         $this->candidates = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->criterias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -410,29 +417,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return $this;
     }
 
-    /**
-     * @return Collection<int, Criteria>
-     */
-    public function getCriteria(): Collection
-    {
-        return $this->criteria;
-    }
-
-    public function addCriterion(Criteria $criterion): static
-    {
-        if (!$this->criteria->contains($criterion)) {
-            $this->criteria->add($criterion);
-        }
-
-        return $this;
-    }
-
-    public function removeCriterion(Criteria $criterion): static
-    {
-        $this->criteria->removeElement($criterion);
-        return $this;
-    }
-
     public function setContacts(Collection $contacts): User
     {
         $this->contacts = $contacts;
@@ -595,5 +579,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
             $rolesName .= ', ' . $role;
         }
         return $rolesName;
+    }
+
+    public function isNotificationWaiting(): ?bool
+    {
+        return $this->notificationWaiting;
+    }
+
+    public function setNotificationWaiting(?bool $notificationWaiting): static
+    {
+        $this->notificationWaiting = $notificationWaiting;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Criteria>
+     */
+    public function getCriterias(): Collection
+    {
+        return $this->criterias;
+    }
+
+    public function addCriteria(Criteria $criteria): static
+    {
+        if (!$this->criterias->contains($criteria)) {
+            $this->criterias->add($criteria);
+            $criteria->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCriteria(Criteria $criteria): static
+    {
+        if ($this->criterias->removeElement($criteria)) {
+            // set the owning side to null (unless already changed)
+            if ($criteria->getUser() === $this) {
+                $criteria->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

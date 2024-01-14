@@ -37,7 +37,7 @@ class CriteriaController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $criteria = $user->getCriteria();
+        $criteria = $user->getCriterias();
 
         return $this->render('criteria/index.html.twig', [
             'criteria' => $criteria,
@@ -56,7 +56,7 @@ class CriteriaController extends AbstractController
         }
 
         $criteria = new Criteria();
-        $criteria->addUser($user);
+        $criteria->setUser($user);
 
         $form = $this->createForm(CriteriaType::class, $criteria);
         $form->handleRequest($request);

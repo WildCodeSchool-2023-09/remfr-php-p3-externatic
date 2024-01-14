@@ -49,14 +49,14 @@ class Criteria
     #[ORM\Column(nullable: true)]
     private ?int $remote = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'criteria')]
-    private Collection $user;
-
     #[ORM\ManyToMany(targetEntity: Offer::class, mappedBy: 'criteria')]
     private Collection $offers;
+
+    #[ORM\ManyToOne(inversedBy: 'criterias')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
     public function __construct()
     {
-        $this->user = new ArrayCollection();
         $this->offers = new ArrayCollection();
     }
 
@@ -144,33 +144,6 @@ class Criteria
     }
 
     /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): static
-    {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-            $user->addCriterion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        if ($this->user->removeElement($user)) {
-            $user->removeCriterion($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Offer>
      */
     public function getOffers(): Collection
@@ -193,6 +166,18 @@ class Criteria
         if ($this->offers->removeElement($offer)) {
             $offer->removeCriterion($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

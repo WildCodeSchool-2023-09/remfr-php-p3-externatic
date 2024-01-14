@@ -30,6 +30,7 @@ class UserFixtures extends Fixture
             $user->setNationality($faker->countryCode());
             $user->setMaritalStatus($i % 2 + 1);
             $manager->persist($user);
+            $this->addReference('user_' . $i, $user);
         }
         $manager->flush();
     }

@@ -4,10 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Criteria;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class CriteriaFixtures extends Fixture
+class CriteriaFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -20,8 +21,16 @@ class CriteriaFixtures extends Fixture
             $criteria->setContract($i % 2 + 1);
             $criteria->setLocation($faker->city());
             $criteria->setRemote($i % 2);
+            $criteria->setUser($this->getReference('user_' . rand(0, 19)));
             $manager->persist($criteria);
         }
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
     }
 }

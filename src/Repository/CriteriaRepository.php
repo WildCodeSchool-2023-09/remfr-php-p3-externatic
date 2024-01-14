@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Criteria;
+use App\Entity\Offer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,20 @@ class CriteriaRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Criteria::class);
+    }
+
+    public function findMatchingCriteria(Offer $offer): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->where('(c.salary >= :minSalary) +
+                (c.salary <= :maxSalary) +
+                (c.contractType = :contractType) +
+                (c.remote = :remote) +
+                (c.profil LIKE :jobTitle) +
+                (c.location LIKE :location) >= 2');
+
+        $query = $qb->getQuery();
+        return $query->getArrayResult();
     }
 
 //    /**
