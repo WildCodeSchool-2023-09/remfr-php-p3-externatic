@@ -39,15 +39,9 @@ class CriteriaController extends AbstractController
 
         $criteria = $user->getCriteria();
 
-        if ($criteria->isEmpty()) {
-            $criterion = new Criteria();
-            $criterion->addUser($user);
-            $entityManager->persist($criterion);
-            $entityManager->flush();
-        }
         return $this->render('criteria/index.html.twig', [
-        'criteria' => $criteria,
-        'user' => $user,
+            'criteria' => $criteria,
+            'user' => $user,
         ]);
     }
 

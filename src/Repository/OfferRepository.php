@@ -56,6 +56,7 @@ class OfferRepository extends ServiceEntityRepository
             $counter++;
         }
         $queryBuilder->andWhere($orConditions);
+
         return $queryBuilder->getQuery()->getResult();
     }
 
