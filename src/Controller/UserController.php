@@ -148,15 +148,50 @@ class UserController extends AbstractController
         ]);
     }
 
-    /** Supprimer un utilisateur */
+    /** Supprimer un utilisateur (côté admin) */
 
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        User $user,
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepo,
+    ): Response {
         if (!($this->security->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('app_home');
         }
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $user->setRoles(['ROLE_USER']);
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $users = $userRepo->findAll();
+            foreach ($users as $k => $collaborateur) {
+                if (!($collaborateur->hasRole('ROLE_ADMIN') || $collaborateur->hasRole('ROLE_COLLABORATEUR'))) {
+                    unset($users[$k]);
+                }
+            }
+
+                $collaborateur = $users[array_rand($users)];
+
+            $processes = $user->getProcess();
+
+            foreach ($processes as $process) {
+                $entityManager->remove($process);
+            }
+            $processes = $user->getProcesses();
+
+            foreach ($processes as $process) {
+                $process->setCollaborateur($collaborateur);
+
+                $entityManager->persist($process);
+            }
+            $candidates = $user->getCandidates();
+
+            foreach ($candidates as $candidate) {
+                $candidate->setCollaborateur($collaborateur);
+            }
+
             $entityManager->remove($user);
             $entityManager->flush();
         }

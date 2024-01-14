@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,7 +39,8 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher,
         UserAuthenticatorInterface $userAuthenticator,
         LoginAuthenticator $authenticator,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepo
     ): Response {
         if ($this->security->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_home');
@@ -57,6 +59,18 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            // Attribution d'un collaborateur lors de l'inscription"
+
+            $users = $userRepo->findAll();
+            foreach ($users as $k => $collaborateur) {
+                if (!($collaborateur->hasRole('ROLE_ADMIN') || $collaborateur->hasRole('ROLE_COLLABORATEUR'))) {
+                    unset($users[$k]);
+                }
+            }
+
+            $collaborateur = $users[array_rand($users)];
+            $user->setCollaborateur($collaborateur);
 
             $entityManager->persist($user);
             $entityManager->flush();
