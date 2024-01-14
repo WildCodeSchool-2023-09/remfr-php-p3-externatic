@@ -16,60 +16,60 @@ class UserFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         // création admin
-        $user = new User();
-        $user->setEmail($faker->email());
-        $user->setPassword($faker->password());
-        $user->setFirstname($faker->firstName());
-        $user->setLastname($faker->lastName());
-        $user->setPhone($faker->phoneNumber());
-        $user->setAddress($faker->address());
-        $user->addRole("ROLE_ADMIN");
-        $user->setZipcode($faker->postcode());
-        $user->setCity($faker->city());
-        $user->setContactPreference($faker->text(10));
-        $user->setBirthdate($faker->dateTime());
-        $user->setNationality($faker->countryCode());
-        $user->setMaritalStatus(1);
-        $manager->persist($user);
+        $admin = new User();
+        $admin->setEmail($faker->email());
+        $admin->setPassword($faker->password());
+        $admin->setFirstname($faker->firstName());
+        $admin->setLastname($faker->lastName());
+        $admin->setPhone($faker->phoneNumber());
+        $admin->setAddress($faker->address());
+        $admin->addRole("ROLE_ADMIN");
+        $admin->setZipcode($faker->postcode());
+        $admin->setCity($faker->city());
+        $admin->setContactPreference($faker->text(10));
+        $admin->setBirthdate($faker->dateTime());
+        $admin->setNationality($faker->countryCode());
+        $admin->setMaritalStatus(1);
+        $manager->persist($admin);
 
         // création collaborateur
-        $collaborateur = [];
+        $collaborateurArray = [];
         for ($i = 0; $i < 5; $i++) {
-            $user = new User();
-            $user->setEmail($faker->email());
-            $user->setPassword($faker->password());
-            $user->setFirstname($faker->firstName());
-            $user->setLastname($faker->lastName());
-            $user->setPhone($faker->phoneNumber());
-            $user->setAddress($faker->address());
-            $user->addRole("ROLE_COLLABORATEUR");
-            $user->setZipcode($faker->postcode());
-            $user->setCity($faker->city());
-            $user->setContactPreference($faker->text(10));
-            $user->setBirthdate($faker->dateTime());
-            $user->setNationality($faker->countryCode());
-            $user->setMaritalStatus($i % 2 + 1);
-            $manager->persist($user);
-            $collaborateur[] = $user;
+            $collaborator = new User();
+            $collaborator->setEmail($faker->email());
+            $collaborator->setPassword($faker->password());
+            $collaborator->setFirstname($faker->firstName());
+            $collaborator->setLastname($faker->lastName());
+            $collaborator->setPhone($faker->phoneNumber());
+            $collaborator->setAddress($faker->address());
+            $collaborator->addRole("ROLE_COLLABORATEUR");
+            $collaborator->setZipcode($faker->postcode());
+            $collaborator->setCity($faker->city());
+            $collaborator->setContactPreference($faker->text(10));
+            $collaborator->setBirthdate($faker->dateTime());
+            $collaborator->setNationality($faker->countryCode());
+            $collaborator->setMaritalStatus($i % 2 + 1);
+            $manager->persist($collaborator);
+            $collaborateurArray[] = $collaborator;
         }
 
         //création candidats
         for ($i = 0; $i < 20; $i++) {
-            $user = new User();
-            $user->setEmail($faker->email());
-            $user->setPassword($faker->password());
-            $user->setFirstname($faker->firstName());
-            $user->setLastname($faker->lastName());
-            $user->setPhone($faker->phoneNumber());
-            $user->setCollaborateur($collaborateur[array_rand($collaborateur)]);
-            $user->setAddress($faker->address());
-            $user->setZipcode($faker->postcode());
-            $user->setCity($faker->city());
-            $user->setContactPreference($faker->text(10));
-            $user->setBirthdate($faker->dateTime());
-            $user->setNationality($faker->countryCode());
-            $user->setMaritalStatus($i % 2 + 1);
-            $manager->persist($user);
+            $candidat = new User();
+            $candidat->setEmail($faker->email());
+            $candidat->setPassword($faker->password());
+            $candidat->setFirstname($faker->firstName());
+            $candidat->setLastname($faker->lastName());
+            $candidat->setPhone($faker->phoneNumber());
+            $candidat->setCollaborateur($collaborateurArray[array_rand($collaborateurArray)]);
+            $candidat->setAddress($faker->address());
+            $candidat->setZipcode($faker->postcode());
+            $candidat->setCity($faker->city());
+            $candidat->setContactPreference($faker->text(10));
+            $candidat->setBirthdate($faker->dateTime());
+            $candidat->setNationality($faker->countryCode());
+            $candidat->setMaritalStatus($i % 2 + 1);
+            $manager->persist($candidat);
         }
         $manager->flush();
     }
