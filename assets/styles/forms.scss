@@ -186,3 +186,31 @@ div.card-header.offer-header {
     background-color: $secondary;
     color:$association1;
 }
+.h2-createCV {
+    color: $secondary !important;
+}
+.btn.button_login.mt-4.text-uppercase.btn-progress {
+    color:$primary;
+}
+.btn.btn-danger.btn-sm.mt-2 {
+    background-color: $secondary;
+    color:$association1;
+}
+.progress {
+    margin-bottom: 5rem;
+}
+input#cv_languages_0_level,
+input#cv_skills_0_level,
+input#cv_languages_1_level,
+input#cv_skills_1_level
+{
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    text-align: center;
+    width:12rem;
+    height:2rem;
+    font-size: 0.8rem;
+    padding-left: 12px;
+    margin-left: 8px;
+}
