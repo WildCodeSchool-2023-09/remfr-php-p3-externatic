@@ -1,5 +1,8 @@
+.form-container, .form-container-wide, .formcv {
+    width: 100% !important;
+}
 .form-container {
-    width: 24rem !important;
+    // width: 24rem !important;
     background-color: $cards-background;
     padding:4rem;
     border-radius: 0.5rem;
@@ -115,7 +118,7 @@ input#curriculum_vitae_cvfile_file {
     margin-bottom: 1rem !important;
 }
 .formcv {
-    width: 30rem !important;
+    width: 50% !important;
     background-color: $cards-background;
     padding:4rem;
     border-radius: 0.5rem;
@@ -163,7 +166,7 @@ input#offer_maxSalary
     flex-direction: column;
     align-items: center; 
 }
-input#file-upload-button {
+input#curriculum_vitae_cvFile_file>input#file-upload-button {
     border-radius: 0.5rem;
     border:none;
     box-shadow:0.5em;
@@ -213,4 +216,9 @@ input#cv_skills_1_level
     font-size: 0.8rem;
     padding-left: 12px;
     margin-left: 8px;
+}
+@media (max-width: 768px) {
+    .formcv {
+        width: 100% !important;
+    }
 }
