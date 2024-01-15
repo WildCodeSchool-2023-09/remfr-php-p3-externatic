@@ -17,47 +17,50 @@ use Doctrine\Common\Collections\Collection;
  */
 class OfferRepository extends ServiceEntityRepository
 {
+    //private $registry;
     public function __construct(ManagerRegistry $registry)
     {
+        //$this->registry = $registry;
         parent::__construct($registry, Offer::class);
     }
 
     public function findMatchingCriteria(Collection $offerCollection): array
     {
-        $queryBuilder = $this->createQueryBuilder('o')
-            ->leftJoin('o.criteria', 'c');
+        $manager = $this->getEntityManager();
+        $queryBuilder = $manager->createQueryBuilder();
+        $expr = $queryBuilder->expr();
+
+        $mainQuery = $queryBuilder->select('o')
+            ->from('App\Entity\Offer', 'o');
 
         $counter = 0;
-        $orConditions = $queryBuilder->expr()->orX();
+        $orConditions = [];
 
         foreach ($offerCollection as $criteria) {
-            $orConditions->add(
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->eq('o.name', ":name$counter"),
-                    $queryBuilder->expr()->eq('o.description', ":description$counter"),
-                    $queryBuilder->expr()->gte('o.assignment', ":assignment$counter"),
-                    $queryBuilder->expr()->eq('o.collaborator', ":collaborator$counter"),
-                    $queryBuilder->expr()->gte('o.minSalary', ":minSalary$counter"),
-                    $queryBuilder->expr()->lte('o.maxSalary', ":maxSalary$counter"),
-                    $queryBuilder->expr()->eq('o.contractType', ":contractType$counter"),
-                    $queryBuilder->expr()->eq('o.remote', ":remote$counter"),
-                )
+            $orConditions[] = $queryBuilder->expr()->gte(
+                '(' .
+                "CASE WHEN o.name LIKE :name$counter THEN 1 ELSE 0 END + " .
+                "CASE WHEN o.assignment LIKE :assignment$counter THEN 1 ELSE 0 END + " .
+                "CASE WHEN (o.minSalary >= :salary$counter OR o.maxSalary <= :salary$counter) THEN 1 ELSE 0 END + " .
+                "CASE WHEN o.contractType = :contract$counter THEN 1 ELSE 0 END + " .
+                "CASE WHEN o.remote = :remote$counter THEN 1 ELSE 0 END)",
+                '2'
             );
-                $queryBuilder
-                    ->setParameter("name$counter", $criteria->getProfil())
-                    ->setParameter("description$counter", $criteria->getProfil())
-                    ->setParameter("assignment$counter", $criteria->getProfil())
-                    ->setParameter("collaborator$counter", $criteria->getRemoteStatusLabel())
-                    ->setParameter("minSalary$counter", $criteria->getSalary())
-                    ->setParameter("maxSalary$counter", $criteria->getSalary())
-                    ->setParameter("contractType$counter", $criteria->getContract())
-                    ->setParameter("remote$counter", $criteria->getRemote());
+
+            $queryBuilder->setParameter("name$counter", '%' . $criteria->getProfil() . '%');
+            $queryBuilder->setParameter("assignment$counter", '%' . $criteria->getLocation() . '%');
+            $queryBuilder->setParameter("salary$counter", $criteria->getSalary());
+            $queryBuilder->setParameter("contract$counter", $criteria->getContract());
+            $queryBuilder->setParameter("remote$counter", $criteria->getRemote());
 
             $counter++;
         }
-        $queryBuilder->andWhere($orConditions);
 
-        return $queryBuilder->getQuery()->getResult();
+        $mainQuery->where(
+            $expr->orX(...$orConditions)
+        );
+
+        return $mainQuery->getQuery()->getResult();
     }
 
 

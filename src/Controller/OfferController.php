@@ -65,7 +65,6 @@ class OfferController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($offer);
 
-            //TODO: Appeler le service permettant de matcher User/Offre
             $alert->checkForAlerts($offer);
 
             $entityManager->flush();
