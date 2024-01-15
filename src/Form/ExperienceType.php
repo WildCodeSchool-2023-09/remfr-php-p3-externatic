@@ -18,7 +18,7 @@ class ExperienceType extends AbstractType
                 'attr' => ['class' => 'form-control text-left'],])
             ->add('city', null, ['label' => 'Ville',
                 'attr' => ['class' => 'form-control text-left'],])
-                ->add('beginDate', null, ['label' => 'Année de début',
+            ->add('beginDate', null, ['label' => 'Année de début',
                 'attr' => ['class' => 'form-control text-left'],
                 'widget' => 'single_text',
                 'html5' => false,

@@ -124,6 +124,7 @@ class CurriculumVitaeController extends AbstractController
         return $this->render('curriculum_vitae/candidat/moncv.html.twig', [
             'curriculum' => $curriculum,
             'form' => $form,
+            'user' => $user,
         ]);
     }
     /** Créer un CV (en connexion candidat) */
