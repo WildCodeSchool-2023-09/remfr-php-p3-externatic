@@ -24,16 +24,39 @@ class CriteriaRepository extends ServiceEntityRepository
 
     public function findMatchingCriteria(Offer $offer): array
     {
-        $qb = $this->createQueryBuilder('c')
-            ->where('(c.salary >= :minSalary) +
-                (c.salary <= :maxSalary) +
-                (c.contractType = :contractType) +
-                (c.remote = :remote) +
-                (c.profil LIKE :jobTitle) +
-                (c.location LIKE :location) >= 2');
+        $qb = $this->createQueryBuilder('c');
+        /*$qb->where(
+            $qb->expr()->gte(
+                $qb->expr()->sum(
+                    $qb->expr()->sum('c.salary >= :minSalary', 'c.salary <= :maxSalary'),
+                    $qb->expr()->sum(
+                        'c.contractType = :contractType',
+                        $qb->expr()->sum(
+                            'c.remote = :remote',
+                            $qb->expr()->sum(
+                                'c.profil LIKE :jobTitle',
+                                'c.location LIKE :location'
+                            )
+                        )
+                    )
+                ),
+                2
+            )
+        )*/
+        $qb->where('c.salary >= :minSalary')
+            ->setParameter('minSalary', $offer->getMinSalary())
+        ->orWhere('c.contract = :contractType')
+            ->setParameter('contractType', $offer->getContractType())
+        ->orWhere('c.remote = :remote')
+            ->setParameter('remote', $offer->getRemote())
+        ->orWhere('c.profil LIKE :jobTitle')
+            ->setParameter('jobTitle', "%" . $offer->getName() . "%")
+        ->orWhere('c.location LIKE :location')
+            ->setParameter('location', "%" . $offer->getAssignment() . "%");
 
         $query = $qb->getQuery();
-        return $query->getArrayResult();
+
+        return $query->getResult();
     }
 
 //    /**
