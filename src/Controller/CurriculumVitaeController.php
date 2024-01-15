@@ -2,17 +2,24 @@
 
 namespace App\Controller;
 
-use App\Entity\CurriculumVitae;
 use App\Entity\User;
+use App\Entity\Links;
+use App\Entity\Skill;
+use App\Entity\Language;
+use App\Entity\Education;
+use App\Entity\Experience;
+use App\Entity\CurriculumVitae;
 use App\Form\CurriculumVitaeType;
 use App\Form\CvType;
-use App\Repository\CurriculumVitaeRepository;
+use Symfony\Component\DomCrawler\Link;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use App\Repository\CurriculumVitaeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/cv', name: 'cv_')]
@@ -121,17 +128,67 @@ class CurriculumVitaeController extends AbstractController
     }
     /** Créer un CV (en connexion candidat) */
     #[Route('/{id}/userCreateCV', name: 'user_create', methods: ['GET', 'POST'])]
-    public function userCreateCV(Request $request, User $user, int $id, EntityManagerInterface $entityManager): Response
-    {
+    public function userCreateCV(
+        Request $request,
+        User $user,
+        int $id,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
         $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createForm(CvType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /** Créer et persister le CV */
+            $curriculumVitaes = $form->getData();
+            $curriculumVitaes->setUsers($this->getUser());
+            $entityManager->persist($curriculumVitaes);
+
+            /** Créer et persister les formations */
+            $educations = $form->get('educations')->getData();
+            foreach ($educations as $education) {
+                $curriculumVitaes->addEducation($education);
+                $entityManager->persist($education);
+            }
+
+            /** Créer et persister les expériences pro */
+            $experiences = $form->get('experiences')->getData();
+            foreach ($experiences as $experience) {
+                $curriculumVitaes->addExperience($experience);
+                $entityManager->persist($experience);
+            }
+
+            /** Créer et persister les langues */
+            $languages = $form->get('languages')->getData();
+            foreach ($languages as $language) {
+                $curriculumVitaes->addLanguage($language);
+                $entityManager->persist($language);
+            }
+
+            /** Créer et persister les liens */
+            $links = $form->get('links')->getData();
+            foreach ($links as $link) {
+                $curriculumVitaes->addLink($link);
+                $entityManager->persist($link);
+            }
+
+            /** Créer et persister les skills */
+            $skills = $form->get('skills')->getData();
+            foreach ($skills as $skill) {
+                $curriculumVitaes->addSkill($skill);
+                $entityManager->persist($skill);
+            }
+            $entityManager->persist($curriculumVitaes);
             $entityManager->flush();
             return $this->redirectToRoute('user_dashboard', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('curriculum_vitae/candidat/newcv.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'user' => $user,
         ]);
     }
