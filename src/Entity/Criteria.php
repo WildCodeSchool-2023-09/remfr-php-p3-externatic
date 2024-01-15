@@ -34,22 +34,24 @@ class Criteria
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $salary = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?int $salary = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $profil = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $contract = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $remote = null;
+
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'criteria')]
     private Collection $user;
+
     #[ORM\ManyToMany(targetEntity: Offer::class, mappedBy: 'criteria')]
     private Collection $offers;
     public function __construct()
@@ -63,12 +65,12 @@ class Criteria
         return $this->id;
     }
 
-    public function getSalary(): ?string
+    public function getSalary(): ?int
     {
         return $this->salary;
     }
 
-    public function setSalary(string $salary): static
+    public function setSalary(int $salary): static
     {
         $this->salary = $salary;
 
@@ -101,6 +103,16 @@ class Criteria
         $this->contract = $contract;
 
         return $this;
+    }
+
+    public function getContractTypeLabel(): string
+    {
+        return self::CONTRACT_TYPE[$this->getContract()] ?? '';
+    }
+
+    public function getRemoteStatusLabel(): string
+    {
+        return self::REMOTE_CONDITIONS[$this->getRemote()] ?? '';
     }
 
     public function getLocation(): ?string

@@ -3,40 +3,40 @@
 {% block title %}Criteria{% endblock %}
 
 {% block body %}
-    <h1>Criteria</h1>
+    <h1>Mes critères</h1>
 
     <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ criterion.id }}</td>
+                <td>{{ criteria.id }}</td>
             </tr>
             <tr>
-                <th>Salary</th>
-                <td>{{ criterion.salary }}</td>
+                <th>Salaires</th>
+                <td>{{ criteria.salary }}</td>
             </tr>
             <tr>
                 <th>Profil</th>
-                <td>{{ criterion.profil }}</td>
+                <td>{{ criteria.profil }}</td>
             </tr>
             <tr>
-                <th>Contract</th>
-                <td>{{ criterion.contract }}</td>
+                <th>Type de contrat</th>
+                <td>{{ criteria.contract }}</td>
             </tr>
             <tr>
-                <th>Location</th>
-                <td>{{ criterion.location }}</td>
+                <th>Localisation</th>
+                <td>{{ criteria.location }}</td>
             </tr>
             <tr>
-                <th>Remote</th>
-                <td>{{ criterion.remote }}</td>
+                <th>Télétravail</th>
+                <td>{{ criteria.remote }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_criteria_index') }}">back to list</a>
+    <a href="{{ path('criteria_index', {'id': user.id}) }}">Retour à la liste des critères</a>
 
-    <a href="{{ path('app_criteria_edit', {'id': criterion.id}) }}">edit</a>
+    <a href="{{ path('criteria_edit', {'id': criteria.id}) }}">Modifier mes critères</a>
 
     {{ include('criteria/_delete_form.html.twig') }}
 {% endblock %}

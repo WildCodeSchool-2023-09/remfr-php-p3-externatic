@@ -10,32 +10,45 @@
 				<span class="nav_logo-name">Accueil</span>
 			</a>
 			<div class="nav_list">
-				<a href="#" class="nav_link active">
-					<i class="bi bi-card-list"></i>
+				<a href="{{ path('offer_public_list') }}" class="nav_link active">
+					<i class="bi bi-person-workspace"></i>
 					<span class="nav_name">Offres d'emploi</span>
 				</a>
-				<a href="#" class="nav_link">
-					<i class='bi bi-telephone nav_icon'></i>
-					<span class="nav_name">Nous contacter</span>
+				<a href="{{ path('favorites_list') }}" class="nav_link">
+					<i class='bi bi-heart-fill nav_icon'></i>
+					<span class="nav_name">Mes Favoris</span>
 				</a>
-				<a href="{{ path('app_login') }}" class="nav_link">
-					<i class='bi bi-envelope nav_icon'></i>
-					<span class="nav_name">Candidature spontanée</span>
-				</a>
-				<a href="{{ path('app_login') }}" class="nav_link">
-					<i class='bi bi-person-fill nav_icon'></i>
-					<span class="nav_name">Se connecter</span>
-				</a>
+				{% if is_granted('ROLE_USER') %}
+					<a class="nav_link" href="{{ path('app_logout') }}">
+						<i class="bi bi-box-arrow-right"></i>
+						<span class="nav_name">Déconnexion</span>
+					</a>
+				{% else %}
+
+					<a class="nav_link" href="{{ path('app_login') }}">
+						<i class='bi bi-person-fill'></i>
+						<span class="nav_name">Connexion</span>
+					</a>
+
+					<a class="nav_link" href="{{ path('app_register') }}">
+						<i class='bi bi-file-person-fill'></i>
+						<span class="nav_name">Inscription</span>
+					</a>
+				{% endif %}
 				<a href="{{ path('user_dashboard') }}" class="nav_link">
 					<i class="bi bi-card-heading"></i>
 					<span class="nav_name">Mon dashboard</span>
 				</a>
+				{% if is_granted('ROLE_COLLABORATEUR') %}
+					<a href="{{ path('admin_dashboard') }}" class="nav_link">
+						<i class="bi bi-star-fill"></i>
+						<span class="nav_name">Dashboard Administrateur</span>
+					</a>
+				{% endif %}
 			</div>
 		</div>
 	</nav>
 </div>
-
-
 <div>
 	<ul class="nav justify-content-center">
 		<li class="nav-item">
@@ -43,12 +56,23 @@
 		</li>
 	</ul>
 </div>
-
 <div class="navbar">
 	<div class="row align-items-center justify-content-end">
+
 		<div class="col-auto">
-			<a class="navbar-brand externatic-brand" href="{{ path('app_login') }}">
-				<i class="bi bi-person-fill"></i>Se connecter</a>
+			{% if is_granted('ROLE_USER') %}
+				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_logout') }}">
+					<i class="bi bi-box-arrow-right"></i>
+					Déconnexion</a>
+			{% else %}
+
+				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_login') }}">
+					<i class="bi bi-person-fill"></i>
+					Connexion</a>
+				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_register') }}">
+					<i class="bi bi-file-person-fill"></i>
+					Inscription</a>
+			{% endif %}
 		</div>
 	</div>
 </div>

@@ -4,17 +4,17 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Offer index</h1>
-
+<div class="container-sm form-container-wide shadow">	
+	<h1 class="title1">Gestion des offres</h1>
 	<table class="table">
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Name</th>
+				<th>Nom</th>
 				<th>Description</th>
-				<th>Assignment</th>
-				<th>Collaborator</th>
-				<th>actions</th>
+				<th>Assignée</th>
+				<th>Collaborateur</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,17 +26,20 @@
 					<td>{{ offer.assignment }}</td>
 					<td>{{ offer.collaborator }}</td>
 					<td>
-						<a href="{{ path('offer_show', {'id': offer.id}) }}">show</a>
-						<a href="{{ path('offer_edit', {'id': offer.id}) }}">edit</a>
+						<a href="{{ path('offer_show', {'id': offer.id}) }}"><i class="bi bi-eye"></i></a>
+						<a href="{{ path('offer_edit', {'id': offer.id}) }}"><i class="bi bi-pencil-square"></i></a>
 					</td>
 				</tr>
 			{% else %}
 				<tr>
-					<td colspan="6">no records found</td>
+					<td colspan="6">Aucune offre enregistrée</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 
-	<a href="{{ path('offer_new') }}">Create new</a>
+	<a class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" href="{{ path('offer_new') }}">Créer une nouvelle offre</a>
+</br>
+    <a href="{{ path('admin_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard admin</a>
+</div>
 {% endblock %}

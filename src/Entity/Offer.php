@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Criteria;
 use App\Repository\OfferRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -32,6 +33,7 @@ class Offer
     private ?Company $company = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'offer')]
+    #[ORM\JoinTable(name: 'user_offer')]
     private Collection $user;
 
     #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Process::class)]
@@ -40,11 +42,28 @@ class Offer
     #[ORM\ManyToMany(targetEntity: Criteria::class, inversedBy: 'offers')]
     private Collection $criteria;
 
+    #[ORM\Column]
+    private ?int $minSalary = null;
+
+    #[ORM\Column]
+    private ?int $maxSalary = null;
+
+    #[ORM\Column]
+    private ?int $contractType = null;
+
+    #[ORM\Column]
+    private ?int $remote = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorites')]
+    #[ORM\JoinTable(name: 'user_favorites')]
+    private Collection $favorited;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->process = new ArrayCollection();
         $this->criteria = new ArrayCollection();
+        $this->favorited = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -189,6 +208,97 @@ class Offer
     public function removeCriterion(Criteria $criterion): static
     {
         $this->criteria->removeElement($criterion);
+
+        return $this;
+    }
+
+    public function getMinSalary(): ?int
+    {
+        return $this->minSalary;
+    }
+
+    public function setMinSalary(int $minSalary): static
+    {
+        $this->minSalary = $minSalary;
+
+        return $this;
+    }
+
+    public function getMaxSalary(): ?int
+    {
+        return $this->maxSalary;
+    }
+
+    public function setMaxSalary(int $maxSalary): static
+    {
+        $this->maxSalary = $maxSalary;
+
+        return $this;
+    }
+
+    public function getContractType(): ?string
+    {
+        if (!array_key_exists($this->contractType, Criteria::CONTRACT_TYPE)) {
+            return '';
+        }
+
+        return Criteria::CONTRACT_TYPE[$this->contractType];
+    }
+
+    public function setContractType(int $contractType): static
+    {
+        if (!array_key_exists($contractType, Criteria::CONTRACT_TYPE)) {
+            return $this;
+        }
+
+        $this->contractType = $contractType;
+
+        return $this;
+    }
+
+    public function getRemote(): ?string
+    {
+        if (!array_key_exists($this->remote, Criteria::REMOTE_CONDITIONS)) {
+            return '';
+        }
+
+        return Criteria::REMOTE_CONDITIONS[$this->remote];
+    }
+
+    public function setRemote(int $remote): static
+    {
+        if (!array_key_exists($remote, Criteria::REMOTE_CONDITIONS)) {
+            return $this;
+        }
+
+        $this->remote = $remote;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFavorited(): Collection
+    {
+        return $this->favorited;
+    }
+
+    public function addFavorited(User $favorited): static
+    {
+        if (!$this->favorited->contains($favorited)) {
+            $this->favorited->add($favorited);
+            $favorited->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorited(User $favorited): static
+    {
+        if ($this->favorited->removeElement($favorited)) {
+            $favorited->removeFavorite($this);
+        }
 
         return $this;
     }

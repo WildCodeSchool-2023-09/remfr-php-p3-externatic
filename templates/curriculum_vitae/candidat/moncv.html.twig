@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CurriculumVitae{% endblock %}
+
+{% block body %}
+    
+<div class="container-sm form-container shadow formcv">
+    <h1 class="h3 mb-3 font-weight-normal titre-form-cv">Mon CV</h1>
+    <div class="form-style">
+        <div class="row mb-3 form-cv">
+            <h5 class="h5_form">Importer mon CV</h5>
+            {{ include('curriculum_vitae/candidat/_form.html.twig') }}
+        </div>
+        <div class="text-center">
+            <h6 class="text-center" style="margin-top:2rem">ou</h6>
+            <a class="btn btn-primary btn-cv" style="margin-top:2rem" href="#">Créer un CV</a>
+            </br>
+            <a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
+        </div>
+    </div>    
+</div>
+{% endblock %}

@@ -38,6 +38,16 @@ class Process
     #[ORM\ManyToOne(inversedBy: 'process')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'processes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $collaborateur = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
+
     public function getId(): ?int
     {
         return $this-> id;
@@ -84,14 +94,68 @@ class Process
         return $this;
     }
 
-    public function getUsers(): ?User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUsers(?User $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
         return $this;
+    }
+
+    public function getCollaborateur(): ?User
+    {
+        return $this->collaborateur;
+    }
+
+    public function setCollaborateur(?User $collaborateur): static
+    {
+        $this->collaborateur = $collaborateur;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getProcessName(): string
+    {
+        if (array_key_exists($this->process, self::PROCESS)) {
+            return self::PROCESS[$this->process];
+        }
+
+        return "Non défini";
+    }
+
+    public function getStatutName(): string
+    {
+        if (array_key_exists($this->statut, self::STATUT)) {
+            return self::STATUT[$this->statut];
+        }
+
+        return "Non défini";
     }
 }
