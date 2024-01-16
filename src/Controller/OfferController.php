@@ -52,10 +52,20 @@ class OfferController extends AbstractController
     }
 
     #[Route('/public/', name: 'public_list', methods: ['GET'])]
-    public function publicList(OfferRepository $offerRepository): Response
+    public function publicList(
+        OfferRepository $offerRepository,
+        PaginatorInterface $paginator,
+        Request $request
+        ): Response
     {
+        $pagination = $paginator->paginate(
+            $offerRepository->queryFindAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            6 /*limit per page*/
+        );
+
         return $this->render('offer_public/list.html.twig', [
-            'offers' => $offerRepository->findAll(),
+            'offers' => $pagination,
         ]);
     }
 
