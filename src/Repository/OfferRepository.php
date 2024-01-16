@@ -66,7 +66,7 @@ class OfferRepository extends ServiceEntityRepository
 
     public function queryfindAll()
     {
-        return $this->createQueryBuilder('o')->getQuery();
+        return $this->createQueryBuilder(alias:'o')->orderBy(sort:'o.name', order:'ASC')->getQuery();
     }
 
     public function findLikeName(string $search, ?Offer $offer): Query
