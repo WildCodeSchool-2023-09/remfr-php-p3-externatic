@@ -88,7 +88,7 @@ class OfferController extends AbstractController
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1), /*page number*/
-            6 /*limit per page*/
+            9 /*limit per page*/
         );
 
         return $this->render('offer_public/list.html.twig', [
