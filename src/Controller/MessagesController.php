@@ -2,30 +2,33 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use DateTimeImmutable;
 use App\Entity\Messages;
 use App\Form\MessagesType;
-use App\Repository\MessagesRepository;
 use Symfony\Component\Mime\Message;
+use App\Repository\MessagesRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/messages', name: 'messages_')]
 class MessagesController extends AbstractController
 {
-    #[Route('/messages', name: 'messages')]
+    #[Route('/', name: 'index')]
     public function index(MessagesRepository $messagesRepository): Response
     {
-        $user = $this->getUser();
-        $message = $messagesRepository->findAll();
+        $messages = $messagesRepository->findAll();
         return $this->render('messages/index.html.twig', [
-            //'recipient' => $recipient,
-            //'sender' => $sender,
+           'messages' => $messages,
         ]);
     }
-    #[Route('/send', name: 'send')]
-    public function send(Request $request): Response
+    #[Route('/send', name: 'send', methods:['GET', 'POST'])]
+    public function send(Request $request, EntityManagerInterface $entityManager): Response
     {
         $message = new Messages();
         $form = $this->createForm(MessagesType::class, $message);
@@ -34,17 +37,18 @@ class MessagesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $message->setSender($this->getUser()) ;
+            $message->setCreatedAt(new DateTimeImmutable());
 
-            $em = $this->$this->getDoctrine()->getManager();
-            $em->persist($message);
-            $em->fluch();
+            $entityManager->persist($message);
+            $entityManager->flush();
 
             $this->addFlash("message", "message envoyé avec succès");
-            return $this->redirectToRoute("messages");
+            return $this->redirectToRoute("messages_index", [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('messages/send.html.twig', [
-            "form" => $form->createView()
+            "form" => $form,
+            "message" => $message
         ]);
     }
 
@@ -61,24 +65,41 @@ class MessagesController extends AbstractController
         return $this->render('messages/sent.html.twig');
     }
 
-    #[Route('/read', name: 'read')]
-    public function read(Messages $message): Response
+    #[Route('/read/{id}', name: 'read')]
+    public function read(Messages $message, EntityManagerInterface $entityManager): Response
     {
-        $message->setRead(true);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($message);
-        $em->flush();
+        $message->setIsRead(true);
+        $entityManager->persist($message);
+        $entityManager->flush();
 
-        return $this->render('messages/read.html.twig', compact("message"));
+        return $this->render('messages/read.html.twig', [
+            'message' => $message
+        ]);
     }
 
-    #[Route('/delete', name: 'read')]
-    public function delete(Messages $message): Response
+    #[Route('/hasRead/{id}', name: 'hasRead')]
+    public function hasRead(Messages $message, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($message);
-        $em->flush();
 
-        return $this->redirectToRoute("received");
+        if ($this->isCsrfTokenValid('read' . $message->getId(), $request->request->get('_token'))) {
+            if ($message->isRead() === false) {
+                $message->setIsRead(true);
+            } else {
+                $message->setIsRead(false);
+            }
+            $entityManager->persist($message);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('messages_received', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Messages $message, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $message->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($message);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('messages_index', [], Response::HTTP_SEE_OTHER);
     }
 }

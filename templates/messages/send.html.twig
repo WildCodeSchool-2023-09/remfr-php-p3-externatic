@@ -1,35 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Messagerie
-{% endblock %}
+{% block title %}Messagerie{% endblock %}
 
 {% block body %}
-	<section class="container">
-		<div class="row">
-			<div class="col">
-				<h1>Envoyer un message</h1>
-                {{ form(form) }}
-				<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+    <section class="container form-container-wide ">
+        <div class="row justify-content-center">
+            <div class="col-md-6 ">
+                    <h1 class="text-center mb-4 ">Envoyer un message</h1>
+                    {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                    {{ form_widget(form) }}
+
+                    {# Ajouter une condition pour n'afficher le bouton d'envoi que si le formulaire est valide #}
+                    {% if form.vars.valid %}
+                        <button class="btn btn-lg btn-primary btn-block mt-3">Envoyer</button>
+                    {% endif %}
+
+                    <a class="btn btn-lg btn-primary btn-block mt-3" href="{{ path('messages_index') }}">Retour messagerie</a>
+					
+					<a class="btn btn-lg btn-primary btn-block mt-3" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
 					Voir mes dossiers
-				</a>
+					</a>
 			</div>
 		</div>
-	</section>
-	<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-		<div class="offcanvas-header">
-			<h2 class="offcanvas-title" id="offcanvasExampleLabel">Mes dossiers</h2>
-			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-		</div>
-		<div class="offcanvas-body">
+    </section>
+    
+	
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h2 class="offcanvas-title" id="offcanvasExampleLabel">Mes dossiers</h2>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
             <div class="list-group">
-                <a href="{{ path("messages") }}" class="list-group-item list-group-item-action">Accueil</a>
+                <a href="{{ path("messages_index") }}" class="list-group-item list-group-item-action active">Accueil</a>
             </div>
             <div class="list-group">
-                <a href="{{ path("messages") }}" class="list-group-item list-group-item-action">Boîte de réception</a>
+                <a href="{{ path("messages_received") }}" class="list-group-item list-group-item-action">Boîte de réception</a>
             </div>
             <div class="list-group">
-                <a href="{{ path("messages") }}" class="list-group-item list-group-item-action">Eléments envoyés</a>
+                <a href="{{ path("messages_sent") }}" class="list-group-item list-group-item-action">Eléments envoyés</a>
             </div>
-		</div>
-	</div>
+            <div class="list-group">
+                <a href="{{ path("messages_send") }}" class="list-group-item list-group-item-action active">envoyé un message</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

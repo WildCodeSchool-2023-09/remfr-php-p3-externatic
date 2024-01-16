@@ -23,8 +23,8 @@ class Messages
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    private ?bool $read = null;
+    #[ORM\Column(nullable:true)]
+    private ?bool $isRead = false;
 
     #[ORM\ManyToOne(inversedBy: 'sent')]
     #[ORM\JoinColumn(nullable: false)]
@@ -77,12 +77,12 @@ class Messages
 
     public function isRead(): ?bool
     {
-        return $this->read;
+        return $this->isRead;
     }
 
-    public function setRead(bool $read): static
+    public function setIsRead(bool $isRead): static
     {
-        $this->read = $read;
+        $this->isRead = $isRead;
 
         return $this;
     }

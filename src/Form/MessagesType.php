@@ -4,37 +4,37 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Entity\Messages;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MessagesType extends AbstractType
 {
+    public function __construct(private UserRepository $userRepository, private Security $security)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $currentUser = $this->security->getUser();
+        $users = $this->userRepository->findAll();
+        $collaborateurs = [];
+        foreach ($users as $user) {
+            if (in_array('ROLE_COLLABORATEUR', $user->getRoles())) {
+                $collaborateurs[] = $user;
+            }
+        }
+
         $builder
-            ->add('title', TextType::class, [
-                "attr" => [
-                    "class" => "form-control"
-                ]
-            ])
-            ->add('message', TextareaType::class, [
-                "attr" => [
-                    "class" => "form-control"
-                ]
-            ])
+            ->add('title')
+            ->add('message')
             ->add('recipient', EntityType::class, [
-                "class" => User::class,
-                "choice_label" => "id",
-            ])
-            ->add('envoyer', SubmitType::class, [
-                "attr" => [
-                    "class" => "btn btn-primary"
-                ]
+                'class' => User::class,
+                'choices' => in_array('ROLE_COLLABORATEUR', $currentUser->getRoles()) ? $users : $collaborateurs,
+                'choice_label' => 'lastname',
             ])
         ;
     }
