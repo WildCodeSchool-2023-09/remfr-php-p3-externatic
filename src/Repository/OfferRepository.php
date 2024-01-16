@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Offer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 use Doctrine\Common\Collections\Collection;
 
 /**
@@ -62,6 +63,22 @@ class OfferRepository extends ServiceEntityRepository
 
         return $mainQuery->getQuery()->getResult();
     }
+
+    public function queryfindAll()
+    {
+        return $this->createQueryBuilder('o')->getQuery();
+    }
+
+    public function findLikeName(string $search, ?Offer $offer): Query
+    {
+        $query = $this->createQueryBuilder('o')
+            ->andWhere('o.name LIKE :search')
+            ->setParameter('search', '%' . $search . '%');
+
+           return $query->getQuery()->getResult();
+    }
+
+
 
 
 //    /**

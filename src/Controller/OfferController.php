@@ -9,6 +9,8 @@ use App\Form\OfferType;
 use App\Repository\OfferRepository;
 use App\Service\AlertService;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,14 +31,23 @@ class OfferController extends AbstractController
     }
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(OfferRepository $offerRepository): Response
-    {
+    public function index(
+        OfferRepository $offerRepository,
+        PaginatorInterface $paginator,
+        Request $request
+    ): Response {
         if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
             return $this->redirectToRoute('app_home');
         }
 
+        $pagination = $paginator->paginate(
+            $offerRepository->queryFindAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render('offer/index.html.twig', [
-            'offers' => $offerRepository->findAll(),
+            'offers' => $pagination,
         ]);
     }
 
