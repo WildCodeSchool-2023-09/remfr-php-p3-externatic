@@ -158,9 +158,16 @@ class OfferController extends AbstractController
         $userCriteria = $user->getCriterias();
 
         $matchingOffers = [];
+        $appliedJobs = [];
+        $offersToShow = [];
         if (!($userCriteria->isEmpty())) {
             // Récupère les offres correspondant aux critères du candidat
             $matchingOffers = $offerRepository->findMatchingCriteria($userCriteria);
+            $appliedProcesses = $user -> getProcess();
+            foreach ($appliedProcesses as $process) {
+                $appliedJobs[] = $process ->getOffer();
+            }
+            $offersToShow = array_diff($matchingOffers, $appliedJobs);
         }
 
         $user->setNotificationWaiting(false);
@@ -168,7 +175,7 @@ class OfferController extends AbstractController
         $entityManager->flush();
 
         return $this->render('offer/user_offer.html.twig', [
-            'offers' => $matchingOffers,
+            'offers' => $offersToShow,
         ]);
     }
 }
