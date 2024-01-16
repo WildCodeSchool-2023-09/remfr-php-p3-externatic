@@ -15,6 +15,8 @@
             <h6 class="text-center" style="margin-top:2rem">ou</h6>
             <a class="btn btn-primary btn-cv" style="margin-top:2rem" href="{{ path('cv_user_create', {'id': user.id}) }}">Créer un CV</a>
             </br>
+            <a class="btn btn-primary btn-cv" style="margin-top:2rem" href="{{ path('cv_user_show_cv', {'id': user.id}) }}">Voir mon CV</a>
+            </br>
             <a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
         </div>
     </div>    

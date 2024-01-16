@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon CV{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <h1 class="h3 mb-3 font-weight-normal titre-form">CV {{ curriculum.users.firstname }} {{ curriculum.users.lastname }}</h1>
+            </div>
+            <div class="education-form">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">	
+                    <h2 class="h2-createCV">Formations</h2>
+                        <div class="table-responsive">
+                            <table class="table table-borderless form-no-mb cv-table">
+                                <thead>
+                                    <tr>
+                                        <th>Intitulé de la formation</th>
+                                        <th>Ecole</th>
+                                        <th>Ville</th>
+                                        <th>Année de début</th>
+                                        <th>Année de fin</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for education in curriculum.educations %}
+                                        <tr>
+                                            <td>{{ education.name }}</td>
+                                            <td>{{ education.school }}</td>
+                                            <td>{{ education.city }}</td>
+                                            <td>#</td>
+                                            <td>#</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>  
+                </div>
+            </div>
+            <div class="education-form">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">	
+                    <h2 class="h2-createCV">Expériences professionnelles</h2>
+                        <div class="table-responsive">
+                            <table class="table table-borderless form-no-mb cv-table">
+                                <thead>
+                                    <tr>
+                                        <th>Titre</th>
+                                        <th>Company</th>
+                                        <th>Ville</th>
+                                        <th>Année de début</th>
+                                        <th>Année de fin</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for experience in curriculum.experiences %}
+                                        <tr>
+                                            <td>{{ experience.name }}</td>
+                                            <td>{{ experience.company }}</td>
+                                            <td>{{ experience.city }}</td>
+                                            <td>#</td>
+                                            <td>#</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>    
+                </div>
+            </div>
+            <div class="education-form">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">	
+                    <h2 class="h2-createCV">Langues</h2>
+                        <div class="table-responsive">
+                            <table class="table table-borderless form-no-mb cv-table">
+                                <thead>
+                                    <tr>
+                                        <th>Langue</th>
+                                        <th>Niveau</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for languague in curriculum.languages %}
+                                        <tr>
+                                            <td>{{ languague.language }}</td>
+                                            <td>{{ languague.level }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>  
+                </div>
+            </div>
+            <div class="education-form">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">	
+                    <h2 class="h2-createCV">Liens</h2>
+                        <div class="table-responsive">
+                            <table class="table table-borderless form-no-mb cv-table">
+                                <thead>
+                                    <tr>
+                                        <th>Linkedin</th>
+                                        <th>Website</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for link in curriculum.links %}
+                                        <tr>
+                                            <td>{{ link.linkedin }}</td>
+                                            <td>{{ link.website }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>  
+                </div>
+            </div>
+            <div class="education-form">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">	
+                    <h2 class="h2-createCV">Autres Compétences</h2>
+                        <div class="table-responsive">
+                            <table class="table table-borderless form-no-mb cv-table">
+                                <thead>
+                                    <tr>
+                                        <th>Compétence</th>
+                                        <th>Niveau</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for skill in curriculum.skills %}
+                                        <tr>
+                                            <td>{{ skill.name }}</td>
+                                            <td>{{ skill.level }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div> 
+                </div>
+            </div>
+            <a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
+        </div>
+</div>
+</div>
+{% endblock %}

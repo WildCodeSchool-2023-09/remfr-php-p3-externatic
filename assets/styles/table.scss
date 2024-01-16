@@ -1,0 +1,40 @@
+table.table.table-borderless.form-no-mb.cv-table>thead>tr>th,
+table.table.table-borderless.form-no-mb.cv-table>tbody>tr>td 
+{
+    background-color: $cards-background;
+}
+table.table.table-borderless.form-no-mb.cv-table {
+    margin-top:2rem;
+}
+@media (max-width: 768px) {
+    .table {
+      display: block;
+    }
+  
+    .table-responsive {
+      overflow-x: auto;
+    }
+  
+    .table thead, .table tbody, .table th, .table td, .table tr {
+      display: block;
+    }
+  
+    .table thead {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  
+    .table tr {
+      margin-bottom: 0.625rem; /* Ajustez la marge inférieure selon vos besoins */
+    }
+  
+    .table td, .table th {
+      display: block;
+      text-align: left;
+    }
+  
+    .table td {
+      border-top: 1px solid #dee2e6; /* Ajoutez une bordure entre les lignes pour une meilleure lisibilité */
+    }
+  }

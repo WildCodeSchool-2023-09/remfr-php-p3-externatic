@@ -193,4 +193,25 @@ class CurriculumVitaeController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    /** Affichage du CV candidat (en connexion candidat) */
+    #[Route('/{id}/userShowCV', name: 'user_show_cv', methods: ['GET', 'POST'])]
+    public function userShowCV(User $user, int $id, EntityManagerInterface $entityManager): Response
+    {
+        // Récupérer l'utilisateur
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        // Récupérer le CV de l'utilisateur
+        $curriculum = $user->getCurriculum();
+
+        // Vérifier si le CV existe
+        if (!$curriculum) {
+            throw $this->createNotFoundException('CV non trouvé.');
+        }
+
+        return $this->render('curriculum_vitae/candidat/showcv.html.twig', [
+            'curriculum' => $curriculum,
+            'user' => $user,
+        ]);
+    }
 }
