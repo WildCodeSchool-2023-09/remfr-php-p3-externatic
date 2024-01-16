@@ -12,8 +12,10 @@ class SkillType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('level')
+            ->add('name', null, ['label' => 'Compétence',
+                'attr' => ['class' => 'form-control text-left'],])
+            ->add('level', null, ['label' => 'Niveau',
+                'attr' => ['class' => 'form-control text-left'],])
         ;
     }
 

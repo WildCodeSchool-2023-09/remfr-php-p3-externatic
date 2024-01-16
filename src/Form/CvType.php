@@ -21,6 +21,7 @@ class CvType extends AbstractType
         $builder
             ->add('educations', CollectionType::class, [
                 'entry_type' => EducationType::class,
+                'label' => ' ',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
@@ -34,6 +35,7 @@ class CvType extends AbstractType
                 ],])
             ->add('languages', CollectionType::class, [
                 'entry_type' => LanguageType::class,
+                'label' => ' ',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
@@ -47,6 +49,7 @@ class CvType extends AbstractType
                 ],])
             ->add('skills', CollectionType::class, [
                 'entry_type' => SkillType::class,
+                'label' => ' ',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
@@ -60,6 +63,7 @@ class CvType extends AbstractType
                 ],])
             ->add('links', CollectionType::class, [
                 'entry_type' => LinksType::class,
+                'label' => ' ',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
@@ -73,6 +77,7 @@ class CvType extends AbstractType
                 ],])
             ->add('experiences', CollectionType::class, [
                 'entry_type' => ExperienceType::class,
+                'label' => ' ',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
