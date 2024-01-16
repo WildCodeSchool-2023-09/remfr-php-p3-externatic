@@ -17,7 +17,6 @@ class CompanyController extends AbstractController
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(CompanyRepository $companyRepository): Response
     {
-        //TODO create template
         return $this->render('company/index.html.twig', [
             'companies' => $companyRepository->findAll(),
         ]);
@@ -37,7 +36,6 @@ class CompanyController extends AbstractController
             return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        //TODO: create template
         return $this->render('company/new.html.twig', [
             'company' => $company,
             'form' => $form,
@@ -47,7 +45,6 @@ class CompanyController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Company $company): Response
     {
-        //TODO: create template
         return $this->render('company/show.html.twig', [
             'company' => $company,
         ]);
@@ -65,7 +62,6 @@ class CompanyController extends AbstractController
             return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        //TODO: create template
         return $this->render('company/edit.html.twig', [
             'company' => $company,
             'form' => $form,

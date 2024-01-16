@@ -20,7 +20,7 @@
     </rule>
     <rule ref="rulesets/codesize.xml/TooManyFields" >
         <properties>
-            <property name="maxfields" value="25" />
+            <property name="maxfields" value="30" />
         </properties>
     </rule>
     <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity" >

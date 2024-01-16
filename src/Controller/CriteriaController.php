@@ -37,17 +37,11 @@ class CriteriaController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $criteria = $user->getCriteria();
+        $criteria = $user->getCriterias();
 
-        if ($criteria->isEmpty()) {
-            $criterion = new Criteria();
-            $criterion->addUser($user);
-            $entityManager->persist($criterion);
-            $entityManager->flush();
-        }
         return $this->render('criteria/index.html.twig', [
-        'criteria' => $criteria,
-        'user' => $user,
+            'criteria' => $criteria,
+            'user' => $user,
         ]);
     }
 
@@ -62,7 +56,7 @@ class CriteriaController extends AbstractController
         }
 
         $criteria = new Criteria();
-        $criteria->addUser($user);
+        $criteria->setUser($user);
 
         $form = $this->createForm(CriteriaType::class, $criteria);
         $form->handleRequest($request);
