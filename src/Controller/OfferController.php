@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CriteriaRepository;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/offer', name: 'offer_')]
@@ -30,7 +31,7 @@ class OfferController extends AbstractController
         $this->security = $security;
     }
 
-    #[Route('/', name: 'index', methods: ['GET'])]
+    #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function index(
         OfferRepository $offerRepository,
         PaginatorInterface $paginator,
@@ -39,15 +40,28 @@ class OfferController extends AbstractController
         if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
             return $this->redirectToRoute('app_home');
         }
+        $form = $this->createFormBuilder(null, [
+            'method' => 'get'
+        ])
+            ->add(child:'search', type: SearchType::class)
+            ->getForm();
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->get('search')->getData();
+            $query = $offerRepository->findLikeName($search);
+        } else {
+            $query = $offerRepository->queryfindAll();
+        }
         $pagination = $paginator->paginate(
-            $offerRepository->queryFindAll(),
+            $query,
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );
 
         return $this->render('offer/index.html.twig', [
             'offers' => $pagination,
+            'form' => $form,
         ]);
     }
 
@@ -56,16 +70,30 @@ class OfferController extends AbstractController
         OfferRepository $offerRepository,
         PaginatorInterface $paginator,
         Request $request
-        ): Response
-    {
+    ): Response {
+        $form = $this->createFormBuilder(null, [
+            'method' => 'get'
+        ])
+            ->add(child:'search', type: SearchType::class)
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->get('search')->getData();
+            $query = $offerRepository->findLikeName($search);
+        } else {
+            $query = $offerRepository->queryfindAll();
+        }
+
         $pagination = $paginator->paginate(
-            $offerRepository->queryFindAll(),
+            $query,
             $request->query->getInt('page', 1), /*page number*/
             6 /*limit per page*/
         );
 
         return $this->render('offer_public/list.html.twig', [
             'offers' => $pagination,
+            'form' => $form,
         ]);
     }
 

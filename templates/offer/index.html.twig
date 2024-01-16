@@ -6,6 +6,10 @@
 {% block body %}
 <div class="container-sm form-container-wide shadow">	
 	<h1 class="title1">Gestion des offres</h1>
+	<div class="d-flex justify-content-center">
+		{{ form(form) }}
+		<a class="btn btn-info" href="{{ path('offer_index') }}" >Reset</a>
+	</div>
 	<table class="table">
 		<thead>
 			<tr>
