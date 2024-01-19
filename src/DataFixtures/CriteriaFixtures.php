@@ -18,9 +18,9 @@ class CriteriaFixtures extends Fixture implements DependentFixtureInterface
             $criteria = new Criteria();
             $criteria->setSalary($faker->numberBetween(28000, 60000));
             $criteria->setProfil($faker->sentence(1));
-            $criteria->setContract($i % 2 + 1);
+            $criteria->setContract($i % 6 + 1);
             $criteria->setLocation($faker->city());
-            $criteria->setRemote($i % 2);
+            $criteria->setRemote($i % 6);
             $criteria->setUser($this->getReference('user_' . rand(0, 19)));
             $manager->persist($criteria);
         }

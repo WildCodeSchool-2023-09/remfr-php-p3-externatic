@@ -65,9 +65,9 @@ class OfferController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($offer);
 
-            $alert->checkForAlerts($offer);
-
             $entityManager->flush();
+
+            $alert->checkForAlerts($offer);
 
             return $this->redirectToRoute('offer_index', [], Response::HTTP_SEE_OTHER);
         }
