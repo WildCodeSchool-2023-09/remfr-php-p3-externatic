@@ -8,6 +8,7 @@ use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Form\UserRolesType;
 use App\Form\LoginType;
+use App\Service\PasswordService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -233,33 +234,36 @@ class UserController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
         MailerInterface $mailer,
+        PasswordService $passwordService,
     ): Response {
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $passwordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
+            if ($passwordService->checkPasswordStrength($form->get('plainPassword')->getData())) {
+                $user->setPassword(
+                    $passwordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
 
-            $collaborateur = $user->getCollaborateur();
+                $collaborateur = $user->getCollaborateur();
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            /** Informer le collaborateur que l'utilisateur a modifié des informations sur son profil */
-            $email = (new Email())
-            ->from('updates@externatic.com')
-            ->to($collaborateur->getEmail())
-            ->subject('Un candidat a mis ses informations à jour !')
-            ->html('<p>L\'utilisateur ' . $user->getFullname() . ' a mis ses informations à jour !</p>');
+                /** Informer le collaborateur que l'utilisateur a modifié des informations sur son profil */
+                $email = (new Email())
+                ->from('updates@externatic.com')
+                ->to($collaborateur->getEmail())
+                ->subject('Un candidat a mis ses informations à jour !')
+                ->html('<p>L\'utilisateur ' . $user->getFullname() . ' a mis ses informations à jour !</p>');
 
-            $mailer->send($email);
+                $mailer->send($email);
 
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('user_public/edit.html.twig', [

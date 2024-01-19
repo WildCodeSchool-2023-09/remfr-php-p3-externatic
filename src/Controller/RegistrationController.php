@@ -7,6 +7,7 @@ use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginAuthenticator;
+use App\Service\PasswordService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,7 +41,8 @@ class RegistrationController extends AbstractController
         UserAuthenticatorInterface $userAuthenticator,
         LoginAuthenticator $authenticator,
         EntityManagerInterface $entityManager,
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        PasswordService $passwordService
     ): Response {
         if ($this->security->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('app_home');
@@ -52,46 +54,47 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            if ($passwordService->checkPasswordStrength($form->get('plainPassword')->getData())) {
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
 
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+                // Attribution d'un collaborateur lors de l'inscription"
 
-            // Attribution d'un collaborateur lors de l'inscription"
-
-            $users = $userRepo->findAll();
-            foreach ($users as $k => $collaborateur) {
-                if (!($collaborateur->hasRole('ROLE_ADMIN') || $collaborateur->hasRole('ROLE_COLLABORATEUR'))) {
-                    unset($users[$k]);
+                $users = $userRepo->findAll();
+                foreach ($users as $k => $collaborateur) {
+                    if (!($collaborateur->hasRole('ROLE_ADMIN') || $collaborateur->hasRole('ROLE_COLLABORATEUR'))) {
+                        unset($users[$k]);
+                    }
                 }
+
+                $collaborateur = $users[array_rand($users)];
+                $user->setCollaborateur($collaborateur);
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation(
+                    'app_verify_email',
+                    $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('mailer@your-domain.com', 'Inscription Externataic'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+                // do anything else you need here, like send an email
+
+                return $userAuthenticator->authenticateUser(
+                    $user,
+                    $authenticator,
+                    $request
+                );
             }
-
-            $collaborateur = $users[array_rand($users)];
-            $user->setCollaborateur($collaborateur);
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address('mailer@your-domain.com', 'Inscription Externataic'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-            // do anything else you need here, like send an email
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
         }
 
         return $this->render('registration/register.html.twig', [
