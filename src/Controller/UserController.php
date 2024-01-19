@@ -12,6 +12,7 @@ use App\Service\PasswordService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -240,11 +241,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($passwordService->checkPasswordStrength($form->get('plainPassword')->getData())) {
+            $password = $form->get('password')->getData();
+
+            if ($passwordService->checkPasswordStrength($password)) {
                 $user->setPassword(
                     $passwordHasher->hashPassword(
                         $user,
-                        $form->get('password')->getData()
+                        $password
                     )
                 );
 
@@ -263,7 +266,13 @@ class UserController extends AbstractController
                 $mailer->send($email);
 
                 return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+            } else {
+                $form->addError(new FormError('Le mot de passe n\'est pas assez sécurisé. 
+                Il vous faut au minimum: 
+                    1 Majuscule, 1 Minuscule, 1 Chiffre, 1 Caractère spécial'));
             }
+        } elseif ($form->isSubmitted()) {
+            dd($form->getErrors(true));
         }
 
         return $this->render('user_public/edit.html.twig', [
