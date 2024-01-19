@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -94,6 +95,10 @@ class RegistrationController extends AbstractController
                     $authenticator,
                     $request
                 );
+            } else {
+                $form->addError(new FormError('Le mot de passe n\'est pas assez sécurisé. 
+                Il vous faut au minimum: 
+                    1 Majuscule, 1 Minuscule, 1 Chiffre, 1 Caractère spécial'));
             }
         }
 
