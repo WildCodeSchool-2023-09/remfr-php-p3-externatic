@@ -120,6 +120,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Criteria::class, orphanRemoval: true)]
     private Collection $criterias;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $activeSearch = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $idealJob = null;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
@@ -619,6 +625,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
                 $criteria->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isActiveSearch(): ?bool
+    {
+        return $this->activeSearch;
+    }
+
+    public function setActiveSearch(?bool $activeSearch): static
+    {
+        $this->activeSearch = $activeSearch;
+
+        return $this;
+    }
+
+    public function getIdealJob(): ?string
+    {
+        return $this->idealJob;
+    }
+
+    public function setIdealJob(?string $idealJob): static
+    {
+        $this->idealJob = $idealJob;
 
         return $this;
     }
