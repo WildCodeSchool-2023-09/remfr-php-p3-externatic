@@ -5,15 +5,16 @@
 
 {% block body %}
 <main class="main_home">    
-    <div class="section-hero-offer">
-        <img class="img-offer"src="{{ asset('build/images/banniere_offre.png') }}" alt="banniere offre" style="width: 100%;">
-    	<div class="hero-text-offer">
-			Nos offres d'emplois
-		</div>
-  <div class="container">	
-      <div class="d-flex justify-content-center">
+  <div class="section-hero-offer">
+      <img class="img-offer"src="{{ asset('build/images/banniere_offre.png') }}" alt="banniere offre" style="width: 100%;">
+      <div class="hero-text-offer">
+        Nos offres d'emplois
+      </div>
+  </div>
+  <div class="container offer-container">	
+      <div class="d-flex justify-content-center offer-search">
         {{ form(form) }}
-        <a class="btn btn-info" href="{{ path('offer_public_list') }}" >Reset</a>
+        <a class="btn btn-info" href="{{ path('offer_public_list') }}" >Réinitialiser</a>
       </div>
     <div class="container mt-4">
       <div class="row row-cols-1 row-cols-md-3 mx-auto">
