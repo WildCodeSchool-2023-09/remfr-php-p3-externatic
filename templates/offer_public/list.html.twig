@@ -4,15 +4,17 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">	
-	<div>
-		<h1 class="h3 mb-3 font-weight-normal titre-form">Nos offres</h1>
+<main class="main_home">    
+    <div class="section-hero-offer">
+        <img class="img-offer"src="{{ asset('build/images/banniere_offre.png') }}" alt="banniere offre" style="width: 100%;">
+    	<div class="hero-text-offer">
+			Nos offres d'emplois
+		</div>
 	</div>
-
 	<div class="container mt-4">
-		<div class="row">
+		<div class="row row-cols-1 row-cols-md-3 mx-auto">
 			{% for offer in offers %}
-				<div class="col-4">
+				<div class="col mb-4">
 					<div class="card border-secondary mb-3 offer-cards">
 						<div class="card-header offer-header">{{ offer.name }}</div>
 
