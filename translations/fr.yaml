@@ -1,7 +1,0 @@
-label_previous: "Précédent"
-label_next: "Suivant"
-filter_searchword: "Recherche"
-
-knp_paginator:
-    previous: "Précédent"
-    next: "Suivant"
