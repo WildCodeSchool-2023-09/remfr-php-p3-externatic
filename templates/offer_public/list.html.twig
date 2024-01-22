@@ -4,57 +4,56 @@
 {% endblock %}
 
 {% block body %}
-
-<div class="container">	
-	<h1 class="h3 mb-3 font-weight-normal titre-form">Nos offres</h1>
-	<div class="d-flex justify-content-center">
-		{{ form(form) }}
-		<a class="btn btn-info" href="{{ path('offer_public_list') }}" >Reset</a>
-	</div>
-	<div class="container mt-4">
-		<div class="row">
-			{% for offer in offers %}
-				<div class="col-4">
-					<div class="card border-secondary mb-3 offer-cards">
-						<div class="card-header offer-header">{{ offer.name }}</div>
-
-
-							<div class="card-body text-secondary">
-								{% if app.user %}
-									<p class="card-text offer-card-text">
-										<i class="bi bi-building"></i>
-										{{ offer.company.name }}
-									</p>
-								{% endif %}
-								<p class="card-text offer-card-text">
-									<i class="bi bi-file-person-fill"></i>
-									{{ offer.contractType }}
-								</p>
-								<p class="card-text offer-card-text">
-									<i class="bi bi-geo-alt"></i>
-									{{ offer.assignment }}
-								</p>
-								{% if app.user %}
-									<p class="card-text offer-card-text">
-										<i class="bi bi-currency-exchange"></i>
-										{{ offer.minSalary }}
-										à
-										{{ offer.maxSalary }}
-										€ annuel brut
-									</p>
-									<a href="{{ path('offer_public_detail', {'id': offer.id}) }}" class="card-link offer-btn">Visualiser l'offre</a>
-								{% endif %}
-							</div>
-
-						</div>
-					</div>
-				{% endfor %}
-			</div>
+<main class="main_home">    
+    <div class="section-hero-offer">
+        <img class="img-offer"src="{{ asset('build/images/banniere_offre.png') }}" alt="banniere offre" style="width: 100%;">
+    	<div class="hero-text-offer">
+			Nos offres d'emplois
 		</div>
-	</div>
-</div>
-<div class="d-flex justify-content-center" style="margin-top:2rem">
-    {{ knp_pagination_render(offers) }}
-</div>
+  <div class="container">	
+      <div class="d-flex justify-content-center">
+        {{ form(form) }}
+        <a class="btn btn-info" href="{{ path('offer_public_list') }}" >Reset</a>
+      </div>
+    <div class="container mt-4">
+      <div class="row row-cols-1 row-cols-md-3 mx-auto">
+        {% for offer in offers %}
+          <div class="col mb-4">
+            <div class="card border-secondary mb-3 offer-cards">
+              <div class="card-header offer-header">{{ offer.name }}</div>
 
+              <div class="card-body text-secondary">
+                <p class="card-text offer-card-text">
+                  <i class="bi bi-building"></i>
+                  {{ offer.company.name }}
+                </p>
+                <p class="card-text offer-card-text">
+                  <i class="bi bi-file-person-fill"></i>
+                  {{ offer.contractType }}
+                </p>
+                <p class="card-text offer-card-text">
+                  <i class="bi bi-geo-alt"></i>
+                  {{ offer.assignment }}
+                </p>
+                <p class="card-text offer-card-text">
+                  <i class="bi bi-currency-exchange"></i>
+                  {{ offer.minSalary }}
+                  à
+                  {{ offer.maxSalary }}
+                  € annuel brut
+                </p>
+                <a href="{{ path('offer_public_detail', {'id': offer.id}) }}" class="card-link offer-btn">Visualiser l'offre</a>
+              </div>
+
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center" style="margin-top:2rem">
+      {{ knp_pagination_render(offers) }}
+  </div>
+</div>
+</main>
 {% endblock %}

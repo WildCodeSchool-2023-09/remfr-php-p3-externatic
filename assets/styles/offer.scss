@@ -1,0 +1,55 @@
+.section-hero-offer {
+    width: 100%;
+    height: 60vh;
+    display: block;
+    background-size: cover;
+    background-position: center;
+    margin-left: 0;
+    box-shadow: -2px 3px 5px $association1(0 0 0 / 20%);
+    text-align: right;
+    padding: 0;
+    margin-bottom: 4rem;
+
+    .img-offer {
+        width: 100%;
+        height: 24rem;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        box-shadow: -2px 3px 5px $association1(0 0 0 / 20%);
+    }
+}
+.hero-text-offer {
+    transform: translateY(-350%);
+    color: $association1;
+    font-size: 2.2rem;
+    z-index: 1;
+    margin-right: 4rem;
+    font-size: 3rem;
+}
+div.card.border-secondary.mb-3.offer-cards {
+    background-color: $cards-background;
+    max-width: 18rem;
+    height:20rem;
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    margin-bottom: 2rem !important;
+}
+p.card-text.offer-card-text{
+    color:$association2;
+    font-size:1rem;
+}
+div.card-header.offer-header {
+    background-color: $secondary;
+    color:$association1;
+}
+div.card-body.text-secondary {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+a.card-link.offer-btn {
+    margin-top: auto;
+    align-self: flex-start;
+    text-align: left;
+}
