@@ -61,13 +61,13 @@
 				{% if app.user.notificationWaiting %}
 					<div>
 						<a class="nav-link navbar-brand externatic-brand" href="{{ path('offer_user_offer', {id: app.user.id}) }}">
-							<i class="bi bi-bell-fill"></i>
+							<i class="bi bi-bell-fill" style="font-size:25px;"></i>
 						</a>
 					</div>
 				{% else %}
 					<div>
 						<a class="nav-link navbar-brand externatic-brand" href="{{ path('offer_user_offer', {id: app.user.id}) }}">
-							<i class="bi bi-bell-slash-fill"></i>
+							<i class="bi bi-bell-slash-fill" style="font-size:25px;"></i>
 						</a>
 					</div>
 				{% endif %}

@@ -19,8 +19,6 @@ class ExperienceType extends AbstractType
                 'attr' => ['class' => 'form-control text-left'],])
             ->add('company', null, ['label' => 'Entreprise',
                 'attr' => ['class' => 'form-control text-left'],])
-            ->add('city', null, ['label' => 'Ville',
-                'attr' => ['class' => 'form-control text-left'],])
             ->add('beginDate', null, ['label' => 'Année de début',
                 'attr' => ['class' => 'form-control text-left'],
                 'widget' => 'single_text',
@@ -31,6 +29,8 @@ class ExperienceType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'format' => 'yyyy', ])
+            ->add('city', null, ['label' => 'Ville',
+                'attr' => ['class' => 'form-control text-left'],])
         ;
     }
 

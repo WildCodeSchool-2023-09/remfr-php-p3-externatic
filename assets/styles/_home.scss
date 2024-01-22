@@ -1,12 +1,30 @@
-body{
-    height: 100%;
-    background: #ffffff;
-    font-family: Helvetica, Helvetica, Arial, sans-serif;
-    font-size: 14px;
+.section-hero {
+    width: 100%;
+    height: 70vh;
+    display: block;
+    background-size: cover;
+    background-position: center;
+    margin-left: 0;
+    box-shadow: -2px 3px 5px $association1(0 0 0 / 20%);
+    
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 0.5rem;
+    }
+}
+.hero-text {
+    text-align: right;
+    color: $secondary;
+    font-size: 2.2rem;
+    margin-bottom: 4rem;
+    margin-right: 6rem;
 }
 /* text avant card*/
 .container-text-center .text p {
     text-align: center;
+    margin-bottom: 4rem;
 }
 
 .container-text-center .text p{
@@ -15,18 +33,30 @@ body{
 }
 
 .container-text-center .text p a{
-    color: #CA2061;
+    color: $primary;
+    font-weight: bold;
 }
-
+.container-text-center .text2 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-top: 4rem;
+    margin-bottom: 6rem;
+}
+div.container.mt-4.intro_text{
+    margin-bottom: 3rem;
+    margin-top: 4rem;
+}
 /*card fixe*/
 .fixe{
+    width: 100%;
     margin-left: 2rem; 
     margin-right: 2rem; 
 }
 
 .col-header{
-    color: #CA2061;
-    font-size: 20px; /* Taille de police de l'en-tête */
+    color: $primary;
+    font-size: 1.5rem; /* Taille de police de l'en-tête */
     font-weight: bold; /* Police en gras pour l'en-tête */
     margin-bottom: 10px; /* Marge en bas de l'en-tête */
 }
@@ -37,6 +67,9 @@ body{
 }
 
 /* Styles du carrousel Swiper */
+div.container.mt-4.swiper_class {
+    margin-top: 2rem;
+}
 .swiper {
     width: 100%;
     height: 100%;
@@ -44,13 +77,16 @@ body{
 
 .swiper-slide {
     text-align: center;
-    font-size: 18px;
-    background: #ffffff;
+    font-size: 1rem;
+    background: $cards-background;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 200px;
-    height: 150px; 
+    height: 15rem;
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em; 
 }
 
 .swiper-slide img {
@@ -68,33 +104,59 @@ body{
 
 /* Styles spécifiques à .carrousel2 */
 .carrousel2 {
-    
     bottom: -30px;
 }
 
 /* Styles spécifiques à h1 */
 h1 {
-    color: #CA2061;
+    color: $primary;
 }
 
 .card1 {
-    background-color: #f2f2f2;
+    background-color: $cards-background;
     padding: 5px;
-    border-radius: 10px;
-    width: 18rem; 
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    width: 100%;
     height: 15rem;
-    margin-top: 10rem;
-    margin-bottom: 10rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    text-align: start;
+    padding: 1rem;
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .card-text-align {
+        align-self: flex-start;
+        text-align: left;
+    }
+
+    .card-link-align {
+        margin-top: auto;
+        align-self: flex-start;
+        text-align: left;
+    }
 }
 .card1 h5 {
-    color: #851342;
+    color: $primary;
+    padding-bottom: 1rem;
 }
 
 .card1 a {
-    color: #851342;
+    color: $primary;
     margin-bottom: 0;
+    text-align: left;
 }
 
 .card1 p{
-    color: #000;
+    color: $association2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }

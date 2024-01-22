@@ -24,7 +24,12 @@ class CriteriaRepository extends ServiceEntityRepository
 
     public function findMatchingCriteria(Offer $offer): array
     {
-        $qb = $this->createQueryBuilder('c');
+        $manager = $this->getEntityManager();
+        $queryBuilder = $manager->createQueryBuilder();
+
+        $mainQuery = $queryBuilder->select('c')
+            ->from('App\Entity\Criteria', 'c');
+
         /*$qb->where(
             $qb->expr()->gte(
                 $qb->expr()->sum(
@@ -43,7 +48,8 @@ class CriteriaRepository extends ServiceEntityRepository
                 2
             )
         )*/
-        $qb->where('c.salary >= :minSalary')
+
+        /*$qb->where('c.salary >= :minSalary')
             ->setParameter('minSalary', $offer->getMinSalary())
         ->orWhere('c.contract = :contractType')
             ->setParameter('contractType', $offer->getContractType())
@@ -52,35 +58,30 @@ class CriteriaRepository extends ServiceEntityRepository
         ->orWhere('c.profil LIKE :jobTitle')
             ->setParameter('jobTitle', "%" . $offer->getName() . "%")
         ->orWhere('c.location LIKE :location')
-            ->setParameter('location', "%" . $offer->getAssignment() . "%");
+            ->setParameter('location', "%" . $offer->getAssignment() . "%");*/
 
-        $query = $qb->getQuery();
+        $condition = $queryBuilder->expr()->gte(
+            '(' .
+            "CASE WHEN c.profil LIKE :profil THEN 1 ELSE 0 END + " .
+            "CASE WHEN c.location LIKE :location THEN 1 ELSE 0 END + " .
+            "CASE WHEN (c.salary >= :minSalary AND c.salary <= :maxSalary) THEN 1 ELSE 0 END + " .
+            "CASE WHEN c.contract = :contract THEN 1 ELSE 0 END + " .
+            "CASE WHEN c.remote = :remote THEN 1 ELSE 0 END)",
+            '2'
+        );
 
-        return $query->getResult();
+        $queryBuilder->setParameter("profil", '%' . $offer->getName() . '%');
+        $queryBuilder->setParameter("location", '%' . $offer->getAssignment() . '%');
+        $queryBuilder->setParameter("minSalary", $offer->getMinSalary());
+        $queryBuilder->setParameter("maxSalary", $offer->getMaxSalary());
+        $queryBuilder->setParameter("contract", $offer->getContractType());
+        $queryBuilder->setParameter("remote", $offer->getRemote());
+
+        $mainQuery->where($condition);
+
+        //$query = $qb->getQuery();
+
+        //return $query->getResult();
+        return $mainQuery->getQuery()->getResult();
     }
-
-//    /**
-//     * @return Criteria[] Returns an array of Criteria objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Criteria
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
