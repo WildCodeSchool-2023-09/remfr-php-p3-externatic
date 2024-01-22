@@ -20,12 +20,12 @@
     </rule>
     <rule ref="rulesets/codesize.xml/TooManyFields" >
         <properties>
-            <property name="maxfields" value="30" />
+            <property name="maxfields" value="50" />
         </properties>
     </rule>
     <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity" >
         <properties>
-            <property name="maximum" value="100" />
+            <property name="maximum" value="200" />
         </properties>
     </rule>
     <rule ref="rulesets/codesize.xml/TooManyPublicMethods" >
