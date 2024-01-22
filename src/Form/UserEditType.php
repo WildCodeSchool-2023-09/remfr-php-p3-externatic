@@ -43,6 +43,13 @@ class UserEditType extends AbstractType
             ->add('maritalStatus', ChoiceType::class, [
                 'choices' => array_flip(User::MARITAL_STATUS)
             ])
+            ->add('activeSearch', ChoiceType::class, [
+                'choices' => [
+                    'Recherche passive' => false,
+                    'Recherche active' => true,
+                ],
+            ])
+            ->add('idealJob', TextType::class)
         ;
     }
 

@@ -25,8 +25,8 @@ class OfferFixtures extends Fixture
             $offer->setCompany($this->getReference($companyReference));
             $offer->setMinSalary($salary);
             $offer->setMaxSalary($salary2);
-            $offer->setContractType($i % 2 + 1);
-            $offer->setRemote($i % 2);
+            $offer->setContractType($i % 6 + 1);
+            $offer->setRemote($i % 6);
 
             $manager->persist($offer);
         }
