@@ -34,13 +34,15 @@ class AlertService
 
             $this->entityManager->persist($user);
 
-            $email = (new Email())
+            if ($user->isActiveSearch()) {
+                $email = (new Email())
                 ->from('your_email@example.com')
                 ->to($user->getEmail())
                 ->subject('Une nouvelle offre vient d\'être publiée !')
                 ->html('<p>Une nouvelle offre correspondant à vos critères vient d\'être publiée sur Externatic !</p>');
 
-            $this->mailer->send($email);
+                $this->mailer->send($email);
+            }
         }
 
         $this->entityManager->flush();

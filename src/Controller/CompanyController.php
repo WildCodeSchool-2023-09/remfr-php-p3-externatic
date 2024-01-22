@@ -76,7 +76,7 @@ class CompanyController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('company_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/details', name: 'details', methods: ['GET'])]
