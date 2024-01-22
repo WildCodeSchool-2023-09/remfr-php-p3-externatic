@@ -24,7 +24,7 @@
         <div class="col dashboard-col">
             <div class="card shadow dashboard-card">
                 <div class="card-body">
-                    <a href="#" class="dashboard-link">Mes offres et alertes</a>
+                    <a href="{{ path('offer_user_offer', {'id': user.id}) }}" class="dashboard-link">Mes offres personnalisées</a>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
         <div class="col dashboard-col">
             <div class="card shadow dashboard-card">
                 <div class="card-body">
-                    <a href="#" class="dashboard-link">Mes critères de recherche</a>
+                    <a href="{{ path('criteria_index', {'id': user.id}) }}" class="dashboard-link">Mes critères de recherche</a>
                 </div>
             </div>
         </div>

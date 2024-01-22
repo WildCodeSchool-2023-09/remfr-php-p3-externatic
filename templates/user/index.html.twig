@@ -15,13 +15,15 @@
 					<th>Nom</th>
 					<th>Email</th>
 					<th>Téléphone</th>
-					<th>Adresse</th>
-					<th>CP</th>
-					<th>Ville</th>
-					<th>Préférence de contact</th>
-					<th>Date de naissance</th>
-					<th>Nationalité</th>
-					<th>Etat civil</th>
+					{% if type == 'candidats' %}
+						<th>Adresse</th>
+						<th>CP</th>
+						<th>Ville</th>
+						<th>Préférence de contact</th>
+						<th>Date de naissance</th>
+						<th>Nationalité</th>
+						<th>Etat civil</th>
+					{% endif %}
 					<th>Rôles</th>
 					<th>Actions</th>
 				</tr>
@@ -34,14 +36,18 @@
 						<td>{{ user.lastname }}</td>
 						<td>{{ user.email }}</td>
 						<td>{{ user.phone }}</td>
-						<td>{{ user.address }}</td>
-						<td>{{ user.zipcode }}</td>
-						<td>{{ user.city }}</td>
-						<td>{{ user.contactPreference }}</td>
-						<td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
-						<td>{{ user.nationality }}</td>
-						<td>{{ user.maritalStatusName }}</td>
-						<td>{{ user.roles|json_encode }}</td>
+						{% if type == 'candidats' %}
+							<td>{{ user.address }}</td>
+							<td>{{ user.zipcode }}</td>
+							<td>{{ user.city }}</td>
+							<td>{{ user.contactPreference }}</td>
+							<td>{{ user.birthdate ? user.birthdate|date('d-m-Y') : '' }}</td>
+							<td>{{ user.nationality }}</td>
+							<td>{{ user.maritalStatusName }}</td>
+						{% endif %}
+						<td>
+							<a href="{{ path('user_roles', {'id': user.id}) }}">{{ user.rolesName }}</a>
+						</td>
 						<td>
 							<a href="{{ path('user_delete', {'id': user.id}) }}">Supprimer</a>
 							<a href="{{ path('user_edit', {'id': user.id}) }}">Editer</a>

@@ -12,8 +12,10 @@ class LinksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('linkedin')
-            ->add('website')
+            ->add('linkedin', null, ['label' => 'Lien Linkedin',
+                'attr' => ['class' => 'form-control text-left'],])
+            ->add('website', null, ['label' => 'Site internet',
+                'attr' => ['class' => 'form-control text-left'],])
         ;
     }
 

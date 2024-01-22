@@ -34,27 +34,29 @@ class Criteria
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $salary = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?int $salary = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $profil = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $contract = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $remote = null;
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'criteria')]
-    private Collection $user;
+
     #[ORM\ManyToMany(targetEntity: Offer::class, mappedBy: 'criteria')]
     private Collection $offers;
+
+    #[ORM\ManyToOne(inversedBy: 'criterias')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
     public function __construct()
     {
-        $this->user = new ArrayCollection();
         $this->offers = new ArrayCollection();
     }
 
@@ -63,12 +65,12 @@ class Criteria
         return $this->id;
     }
 
-    public function getSalary(): ?string
+    public function getSalary(): ?int
     {
         return $this->salary;
     }
 
-    public function setSalary(string $salary): static
+    public function setSalary(int $salary): static
     {
         $this->salary = $salary;
 
@@ -103,6 +105,16 @@ class Criteria
         return $this;
     }
 
+    public function getContractTypeLabel(): string
+    {
+        return self::CONTRACT_TYPE[$this->getContract()] ?? '';
+    }
+
+    public function getRemoteStatusLabel(): string
+    {
+        return self::REMOTE_CONDITIONS[$this->getRemote()] ?? '';
+    }
+
     public function getLocation(): ?string
     {
         return $this->location;
@@ -132,33 +144,6 @@ class Criteria
     }
 
     /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): static
-    {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-            $user->addCriterion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        if ($this->user->removeElement($user)) {
-            $user->removeCriterion($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Offer>
      */
     public function getOffers(): Collection
@@ -181,6 +166,18 @@ class Criteria
         if ($this->offers->removeElement($offer)) {
             $offer->removeCriterion($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

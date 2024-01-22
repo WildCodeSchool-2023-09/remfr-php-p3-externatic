@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@a2lix/symfony-collection@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.npmjs.org/@a2lix/symfony-collection/-/symfony-collection-0.6.1.tgz"
+  integrity sha512-JUvd3POKziCtqtmDE28qHoa7s/EqvBxP0JoThtrZKkt6OZ2/9EqddXTXWQcDNETZEtIEacMK6s0j2HUyVNboVg==
+
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
@@ -1087,6 +1092,11 @@
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
+"@symfony/ux-live-component@file:vendor/symfony/ux-live-component/assets":
+  version "1.0.0"
+  dependencies:
+    morphdom "^2.6.1"
+
 "@symfony/webpack-encore@^4.0.0":
   version "4.1.1"
   resolved "https://registry.npmjs.org/@symfony/webpack-encore/-/webpack-encore-4.1.1.tgz"
@@ -1696,12 +1706,12 @@ boolbase@^1.0.0:
 
 bootstrap-icons@^1.11.2:
   version "1.11.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-icons/-/bootstrap-icons-1.11.2.tgz#e1c75daec154e25958db04c4eb3cbda6041e7118"
+  resolved "https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.11.2.tgz"
   integrity sha512-TgdiPv+IM9tgDb+dsxrnGIyocsk85d2M7T0qIgkvPedZeoZfyeG/j+yiAE4uHCEayKef2RP05ahQ0/e9Sv75Wg==
 
 bootstrap@^5.3.2:
   version "5.3.2"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.3.2.tgz#97226583f27aae93b2b28ab23f4c114757ff16ae"
+  resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.2.tgz"
   integrity sha512-D32nmNWiQHo94BKHLmOrdjlL05q1c8oxbtBphQFb9Z5to6eGRDCm0QgeaZ4zFBHzfg2++rqa2JkqCcxDy0sH0g==
 
 brace-expansion@^1.1.7:
@@ -3271,6 +3281,11 @@ minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
+
+morphdom@^2.6.1:
+  version "2.7.1"
+  resolved "https://registry.npmjs.org/morphdom/-/morphdom-2.7.1.tgz"
+  integrity sha512-LwrrjplMolniWtOGluKF1EHZ0y78Fa4sq7f/MXCydyNkDof+POf+ruCn+k08l7H7b/JISfRo8Zd0HazuqySY9w==
 
 ms@2.0.0:
   version "2.0.0"

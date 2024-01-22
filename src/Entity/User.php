@@ -46,13 +46,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     private ?string $lastname = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $phone = null;
+    private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $zipcode = null;
+    private ?string $zipcode = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $city = null;
@@ -73,7 +73,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'user')]
     private Collection $offer;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Process::class, cascade: ['remove'])]
+    #[ORM\JoinColumn(onDelete:"CASCADE")]
     private Collection $process;
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
@@ -101,7 +102,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     private ?AdditionalInfo $additionalInfo = null;
 
     #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: Process::class)]
-    #[ORM\JoinColumn(onDelete:"CASCADE")]
     private Collection $processes;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'candidates')]
@@ -109,6 +109,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
 
     #[ORM\OneToMany(mappedBy: 'collaborateur', targetEntity: self::class)]
     private Collection $candidates;
+
+    #[ORM\ManyToMany(targetEntity: Offer::class, inversedBy: 'Favorited')]
+    #[ORM\JoinTable(name: 'user_favorites')]
+    private Collection $favorites;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $notificationWaiting = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Criteria::class, orphanRemoval: true)]
+    private Collection $criterias;
 
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Messages::class, orphanRemoval: true)]
     private Collection $sent;
@@ -123,6 +133,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         $this->criteria = new ArrayCollection();
         $this->processes = new ArrayCollection();
         $this->candidates = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
+        $this->criterias = new ArrayCollection();
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
     }
@@ -225,12 +237,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return in_array($role, $this->roles);
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): static
+    public function setPhone(?string $phone): static
     {
         $this->phone = $phone;
 
@@ -264,12 +276,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return $this;
     }
 
-    public function getZipcode(): ?int
+    public function getZipcode(): ?string
     {
         return $this->zipcode;
     }
 
-    public function setZipcode(?int $zipcode): static
+    public function setZipcode(?string $zipcode): static
     {
         $this->zipcode = $zipcode;
 
@@ -413,29 +425,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return $this;
     }
 
-    /**
-     * @return Collection<int, Criteria>
-     */
-    public function getCriteria(): Collection
-    {
-        return $this->criteria;
-    }
-
-    public function addCriterion(Criteria $criterion): static
-    {
-        if (!$this->criteria->contains($criterion)) {
-            $this->criteria->add($criterion);
-        }
-
-        return $this;
-    }
-
-    public function removeCriterion(Criteria $criterion): static
-    {
-        $this->criteria->removeElement($criterion);
-        return $this;
-    }
-
     public function setContacts(Collection $contacts): User
     {
         $this->contacts = $contacts;
@@ -561,6 +550,81 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
             // set the owning side to null (unless already changed)
             if ($candidate->getCollaborateur() === $this) {
                 $candidate->setCollaborateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Offer $favorite): static
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Offer $favorite): static
+    {
+        $this->favorites->removeElement($favorite);
+
+        return $this;
+    }
+
+    public function getRolesName(): ?string
+    {
+        $rolesName = 'ROLE_USER';
+        foreach ($this->roles as $role) {
+            $rolesName .= ', ' . $role;
+        }
+        return $rolesName;
+    }
+
+    public function isNotificationWaiting(): ?bool
+    {
+        return $this->notificationWaiting;
+    }
+
+    public function setNotificationWaiting(?bool $notificationWaiting): static
+    {
+        $this->notificationWaiting = $notificationWaiting;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Criteria>
+     */
+    public function getCriterias(): Collection
+    {
+        return $this->criterias;
+    }
+
+    public function addCriteria(Criteria $criteria): static
+    {
+        if (!$this->criterias->contains($criteria)) {
+            $this->criterias->add($criteria);
+            $criteria->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCriteria(Criteria $criteria): static
+    {
+        if ($this->criterias->removeElement($criteria)) {
+            // set the owning side to null (unless already changed)
+            if ($criteria->getUser() === $this) {
+                $criteria->setUser(null);
             }
         }
 

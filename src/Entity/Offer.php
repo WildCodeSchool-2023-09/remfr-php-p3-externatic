@@ -33,6 +33,7 @@ class Offer
     private ?Company $company = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'offer')]
+    #[ORM\JoinTable(name: 'user_offer')]
     private Collection $user;
 
     #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Process::class)]
@@ -53,11 +54,16 @@ class Offer
     #[ORM\Column]
     private ?int $remote = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorites')]
+    #[ORM\JoinTable(name: 'user_favorites')]
+    private Collection $favorited;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->process = new ArrayCollection();
         $this->criteria = new ArrayCollection();
+        $this->favorited = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -266,6 +272,33 @@ class Offer
         }
 
         $this->remote = $remote;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFavorited(): Collection
+    {
+        return $this->favorited;
+    }
+
+    public function addFavorited(User $favorited): static
+    {
+        if (!$this->favorited->contains($favorited)) {
+            $this->favorited->add($favorited);
+            $favorited->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorited(User $favorited): static
+    {
+        if ($this->favorited->removeElement($favorited)) {
+            $favorited->removeFavorite($this);
+        }
 
         return $this;
     }

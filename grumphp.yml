@@ -6,6 +6,7 @@ grumphp:
             project: '8.0'
         phpcpd:
             directory: [ 'src' ]
+            min_lines: 30
         phpcs:
             standard: ~
         phpstan:

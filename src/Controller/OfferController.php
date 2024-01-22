@@ -3,14 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Offer;
+use App\Entity\User;
+use App\Entity\Criteria;
 use App\Form\OfferType;
 use App\Repository\OfferRepository;
+use App\Service\AlertService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CriteriaRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/offer', name: 'offer_')]
 class OfferController extends AbstractController
@@ -44,8 +49,11 @@ class OfferController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        AlertService $alert
+    ): Response {
         if (!($this->security->isGranted('ROLE_COLLABORATEUR'))) {
             return $this->redirectToRoute('app_home');
         }
@@ -56,6 +64,9 @@ class OfferController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($offer);
+
+            $alert->checkForAlerts($offer);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('offer_index', [], Response::HTTP_SEE_OTHER);
@@ -86,8 +97,12 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        $user = $this->getUser();
+        $isFavorited = $user->getFavorites()->contains($offer);
+
         return $this->render('offer_public/detail.html.twig', [
             'offer' => $offer,
+            'isFavorited' => $isFavorited,
         ]);
     }
 
@@ -126,5 +141,34 @@ class OfferController extends AbstractController
         }
 
         return $this->redirectToRoute('offer_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/user_offer', name: 'user_offer', methods: ['GET'])]
+    public function userOffer(
+        OfferRepository $offerRepository,
+        CriteriaRepository $criteriaRepository,
+        User $user,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if (!($this->security->isGranted('ROLE_USER'))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Récupère les critères du candidat connecté
+        $userCriteria = $user->getCriterias();
+
+        $matchingOffers = [];
+        if (!($userCriteria->isEmpty())) {
+            // Récupère les offres correspondant aux critères du candidat
+            $matchingOffers = $offerRepository->findMatchingCriteria($userCriteria);
+        }
+
+        $user->setNotificationWaiting(false);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->render('offer/user_offer.html.twig', [
+            'offers' => $matchingOffers,
+        ]);
     }
 }
