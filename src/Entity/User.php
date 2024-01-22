@@ -114,6 +114,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     #[ORM\JoinTable(name: 'user_favorites')]
     private Collection $favorites;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $notificationWaiting = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Criteria::class, orphanRemoval: true)]
+    private Collection $criterias;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $activeSearch = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $idealJob = null;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Messages::class, orphanRemoval: true)]
+    private Collection $sent;
+
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Messages::class, orphanRemoval: true)]
+    private Collection $received;
+
     public function __construct()
     {
         $this->offer = new ArrayCollection();
@@ -122,6 +140,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         $this->processes = new ArrayCollection();
         $this->candidates = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->criterias = new ArrayCollection();
+        $this->sent = new ArrayCollection();
+        $this->received = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -410,29 +431,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return $this;
     }
 
-    /**
-     * @return Collection<int, Criteria>
-     */
-    public function getCriteria(): Collection
-    {
-        return $this->criteria;
-    }
-
-    public function addCriterion(Criteria $criterion): static
-    {
-        if (!$this->criteria->contains($criterion)) {
-            $this->criteria->add($criterion);
-        }
-
-        return $this;
-    }
-
-    public function removeCriterion(Criteria $criterion): static
-    {
-        $this->criteria->removeElement($criterion);
-        return $this;
-    }
-
     public function setContacts(Collection $contacts): User
     {
         $this->contacts = $contacts;
@@ -595,5 +593,131 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
             $rolesName .= ', ' . $role;
         }
         return $rolesName;
+    }
+
+    public function isNotificationWaiting(): ?bool
+    {
+        return $this->notificationWaiting;
+    }
+
+    public function setNotificationWaiting(?bool $notificationWaiting): static
+    {
+        $this->notificationWaiting = $notificationWaiting;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Criteria>
+     */
+    public function getCriterias(): Collection
+    {
+        return $this->criterias;
+    }
+
+    public function addCriteria(Criteria $criteria): static
+    {
+        if (!$this->criterias->contains($criteria)) {
+            $this->criterias->add($criteria);
+            $criteria->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCriteria(Criteria $criteria): static
+    {
+        if ($this->criterias->removeElement($criteria)) {
+            // set the owning side to null (unless already changed)
+            if ($criteria->getUser() === $this) {
+                $criteria->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isActiveSearch(): ?bool
+    {
+        return $this->activeSearch;
+    }
+
+    public function setActiveSearch(?bool $activeSearch): static
+    {
+        $this->activeSearch = $activeSearch;
+
+        return $this;
+    }
+
+    public function getIdealJob(): ?string
+    {
+        return $this->idealJob;
+    }
+
+    public function setIdealJob(?string $idealJob): static
+    {
+        $this->idealJob = $idealJob;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getSent(): Collection
+    {
+        return $this->sent;
+    }
+
+    public function addSent(Messages $sent): static
+    {
+        if (!$this->sent->contains($sent)) {
+            $this->sent->add($sent);
+            $sent->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSent(Messages $sent): static
+    {
+        if ($this->sent->removeElement($sent)) {
+            // set the owning side to null (unless already changed)
+            if ($sent->getSender() === $this) {
+                $sent->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getReceived(): Collection
+    {
+        return $this->received;
+    }
+
+    public function addReceived(Messages $received): static
+    {
+        if (!$this->received->contains($received)) {
+            $this->received->add($received);
+            $received->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceived(Messages $received): static
+    {
+        if ($this->received->removeElement($received)) {
+            // set the owning side to null (unless already changed)
+            if ($received->getRecipient() === $this) {
+                $received->setRecipient(null);
+            }
+        }
+
+        return $this;
     }
 }

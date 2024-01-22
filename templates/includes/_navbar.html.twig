@@ -24,12 +24,10 @@
 						<span class="nav_name">Déconnexion</span>
 					</a>
 				{% else %}
-
 					<a class="nav_link" href="{{ path('app_login') }}">
 						<i class='bi bi-person-fill'></i>
 						<span class="nav_name">Connexion</span>
 					</a>
-
 					<a class="nav_link" href="{{ path('app_register') }}">
 						<i class='bi bi-file-person-fill'></i>
 						<span class="nav_name">Inscription</span>
@@ -58,14 +56,29 @@
 </div>
 <div class="navbar">
 	<div class="row align-items-center justify-content-end">
-
+		<div class="col-auto">
+			{% if is_granted('ROLE_USER') %}
+				{% if app.user.notificationWaiting %}
+					<div>
+						<a class="nav-link navbar-brand externatic-brand" href="{{ path('offer_user_offer', {id: app.user.id}) }}">
+							<i class="bi bi-bell-fill" style="font-size:25px;"></i>
+						</a>
+					</div>
+				{% else %}
+					<div>
+						<a class="nav-link navbar-brand externatic-brand" href="{{ path('offer_user_offer', {id: app.user.id}) }}">
+							<i class="bi bi-bell-slash-fill" style="font-size:25px;"></i>
+						</a>
+					</div>
+				{% endif %}
+			{% endif %}
+		</div>
 		<div class="col-auto">
 			{% if is_granted('ROLE_USER') %}
 				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_logout') }}">
 					<i class="bi bi-box-arrow-right"></i>
 					Déconnexion</a>
 			{% else %}
-
 				<a class="nav-link navbar-brand externatic-brand" href="{{ path('app_login') }}">
 					<i class="bi bi-person-fill"></i>
 					Connexion</a>

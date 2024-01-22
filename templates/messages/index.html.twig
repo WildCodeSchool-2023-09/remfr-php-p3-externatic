@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}messagerie{% endblock %}
+
+{% block body %}
+    <section class="container-messagerie form-container-wide" style="width: 100%;">
+        <div class="container text-center">
+            <h1>Messagerie</h1>
+            <div class="row justify-center mt-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title btn-primary">Boîte de réception</h2>
+                            <p>Vous avez reçu {{ app.user.received|length }} messages.</p>
+                            <a href="{{ path("messages_received") }}" class="btn btn-primary">voir plus</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100" >
+                        <div class="card-body">
+                            <h2 class="card-title btn-primary">Eléments envoyés</h2>
+                            <p class="card-text">Vous avez envoyés {{ app.user.sent|length }} messages.</p>
+                            <a href="{{ path("messages_sent") }}" class="btn btn-primary">voir plus</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card  h-100">
+                        <div class="card-body">
+                            <h2 class="card-title btn-primary">envoyer un message</h2>
+                            <p class="card-text">N'hésitez pas a contacté un collaborateur.</p>
+                            <a href="{{ path("messages_send") }}" class="btn btn-primary">voir plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+				<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+					Voir mes dossiers
+				</a>
+		</div>
+    </section>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+		<div class="offcanvas-header">
+			<h2 class="offcanvas-title" id="offcanvasExampleLabel">Mes dossiers</h2>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+            <div class="list-group">
+                <a href="{{ path("messages_index") }}" class="list-group-item list-group-item-action active">Accueil</a>
+            </div>
+            <div class="list-group">
+                <a href="{{ path("messages_received") }}" class="list-group-item list-group-item-action">Boîte de réception</a>
+            </div>
+            <div class="list-group">
+                <a href="{{ path("messages_sent") }}" class="list-group-item list-group-item-action">Eléments envoyés</a>
+            </div>
+            <div class="list-group">
+                <a href="{{ path("messages_send") }}" class="list-group-item list-group-item-action active">envoyé un message</a>
+            </div>
+		</div>
+	</div>
+{% endblock %}

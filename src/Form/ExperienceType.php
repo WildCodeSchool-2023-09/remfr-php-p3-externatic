@@ -7,16 +7,30 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @SuppressWarnings(PHPCPD)
+ */
 class ExperienceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('company')
-            ->add('city')
-            ->add('beginDate')
-            ->add('endDate')
+            ->add('name', null, ['label' => 'Titre',
+                'attr' => ['class' => 'form-control text-left'],])
+            ->add('company', null, ['label' => 'Entreprise',
+                'attr' => ['class' => 'form-control text-left'],])
+            ->add('beginDate', null, ['label' => 'Année de début',
+                'attr' => ['class' => 'form-control text-left'],
+                'widget' => 'single_text',
+                'html5' => false,
+                'format' => 'yyyy', ])
+            ->add('endDate', null, ['label' => 'Année de fin',
+                'attr' => ['class' => 'form-control text-left'],
+                'widget' => 'single_text',
+                'html5' => false,
+                'format' => 'yyyy', ])
+            ->add('city', null, ['label' => 'Ville',
+                'attr' => ['class' => 'form-control text-left'],])
         ;
     }
 

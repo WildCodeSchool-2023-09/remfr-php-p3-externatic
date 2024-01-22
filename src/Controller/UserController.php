@@ -8,9 +8,11 @@ use App\Form\UserType;
 use App\Form\UserEditType;
 use App\Form\UserRolesType;
 use App\Form\LoginType;
+use App\Service\PasswordService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -233,33 +235,44 @@ class UserController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
         MailerInterface $mailer,
+        PasswordService $passwordService,
     ): Response {
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $passwordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
+            $password = $form->get('password')->getData();
 
-            $collaborateur = $user->getCollaborateur();
+            if ($passwordService->checkPasswordStrength($password)) {
+                $user->setPassword(
+                    $passwordHasher->hashPassword(
+                        $user,
+                        $password
+                    )
+                );
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                $collaborateur = $user->getCollaborateur();
 
-            /** Informer le collaborateur que l'utilisateur a modifié des informations sur son profil */
-            $email = (new Email())
-            ->from('updates@externatic.com')
-            ->to($collaborateur->getEmail())
-            ->subject('Un candidat a mis ses informations à jour !')
-            ->html('<p>L\'utilisateur ' . $user->getFullname() . ' a mis ses informations à jour !</p>');
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $mailer->send($email);
+                /** Informer le collaborateur que l'utilisateur a modifié des informations sur son profil */
+                $email = (new Email())
+                ->from('updates@externatic.com')
+                ->to($collaborateur->getEmail())
+                ->subject('Un candidat a mis ses informations à jour !')
+                ->html('<p>L\'utilisateur ' . $user->getFullname() . ' a mis ses informations à jour !</p>');
 
-            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+                $mailer->send($email);
+
+                return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+            } else {
+                $form->addError(new FormError('Le mot de passe n\'est pas assez sécurisé. 
+                Il vous faut au minimum: 
+                    1 Majuscule, 1 Minuscule, 1 Chiffre, 1 Caractère spécial'));
+            }
+        } elseif ($form->isSubmitted()) {
+            dd($form->getErrors(true));
         }
 
         return $this->render('user_public/edit.html.twig', [
