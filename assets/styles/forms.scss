@@ -7,6 +7,9 @@
     padding:4rem;
     border-radius: 0.5rem;
 }
+.registerForm {
+    margin-top: 4rem;
+}
 .form-container-wide {
     background-color: $cards-background;
     padding:4rem;
@@ -32,10 +35,15 @@
 .form-text>a {
     color:$secondary !important;
 }
-
+div.col-form.register-col {
+    display:flex;
+    flex-direction: column;
+    padding: 0.2rem;
+    margin-bottom: 1rem;
+}
 #registration_form_firstname,#registration_form_lastname,#registration_form_email,
 #registration_form_plainPassword,#registration_form_phone,#registration_form_address,
-#registration_form_zipcode,#registration_form_city
+#registration_form_zipcode,#registration_form_city, #registration_form_idealJob
 {
     border-radius: 0.5rem;
     border:none;
@@ -44,7 +52,7 @@
     width: 17rem;
     margin: 0.5rem;
 }
-#registration_form_contactPreference,
+#registration_form_contactPreference,#registration_form_activeSearch,
 .form-container-wide select 
 {
     border-radius: 0.5rem;
@@ -53,7 +61,7 @@
     height: 1.5rem;
     align-items:end;
     width: 10rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin-right: 0.5rem;
     margin-top: 1rem;
 }
@@ -84,6 +92,7 @@ label{
     height: 2.5rem;
     width: 15rem;
     margin: 0.5rem;
+    font-size: 0.9rem;
 }
 .form-container-wide input[type="date"] {
     border-radius: 0.5rem;
@@ -202,5 +211,17 @@ input#cv_skills_1_level
 @media (max-width: 768px) {
     .formcv {
         width: 100% !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-form {
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .col-form label {
+        margin-right: 1rem;
     }
 }

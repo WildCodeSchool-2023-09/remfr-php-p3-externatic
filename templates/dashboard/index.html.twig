@@ -4,8 +4,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container text-center">
-		<h1>Bienvenue
+<main class="mb-5">
+	<div class="container text-center dashboard-container">
+		<h1 class="dashboard-h1">Bienvenue
 			{{ user.firstname }}
 			{{ user.lastname }}
 			!</h1>
@@ -13,21 +14,21 @@
 			<div class="col dashboard-col">
 				<div class="card shadow dashboard-card">
 					<div class="card-body">
-						<a href="{{ path('user_edit_user', {'id': user.id}) }}" class="dashboard-link">Mes coordonnées</a>
+						<a href="{{ path('user_edit_user', {'id': user.id}) }}" class="dashboard-link"><i class="bi bi-person-vcard"></i> Mes coordonnées</a>
 					</div>
 				</div>
 			</div>
 			<div class="col dashboard-col">
 				<div class="card shadow dashboard-card">
 					<div class="card-body">
-						<a href="{{ path('cv_user_cv', {'id': user.id}) }}" class="dashboard-link">Mon CV</a>
+						<a href="{{ path('cv_user_cv', {'id': user.id}) }}" class="dashboard-link"><i class="bi bi-journal-text"></i> Mon CV</a>
 					</div>
 				</div>
 			</div>
 			<div class="col dashboard-col">
 				<div class="card shadow dashboard-card">
 					<div class="card-body">
-						<a href="{{ path('offer_user_offer', {'id': user.id}) }}" class="dashboard-link">Mes offres personnalisées</a>
+						<a href="{{ path('offer_user_offer', {'id': user.id}) }}" class="dashboard-link"><i class="bi bi-person-rolodex"></i> Mes offres personnalisées</a>
 					</div>
 				</div>
 			</div>
@@ -36,25 +37,25 @@
 			<div class="col dashboard-col">
 				<div class="card shadow dashboard-card">
 					<div class="card-body">
-						<a href="{{ path('criteria_index', {'id': user.id}) }}" class="dashboard-link">Mes critères de recherche</a>
+						<a href="{{ path('criteria_index', {'id': user.id}) }}" class="dashboard-link"><i class="bi bi-person-lines-fill"></i> Mes critères de recherche</a>
 					</div>
 				</div>
 			</div>
 			<div class="col dashboard-col">
 				<div class="card shadow dashboard-card">
 					<div class="card-body">
-						<a href="{{ path('process_list') }}" class="dashboard-link">Mes processus en cours</a>
+						<a href="{{ path('process_list') }}" class="dashboard-link"><i class="bi bi-card-checklist"></i> Mes processus en cours</a>
 					</div>
 				</div>
 			</div>
 			<div class="col dashboard-col">
 				<div class="card shadow dashboard-card">
 					<div class="card-body">
-						<i class="bi bi-box-arrow-right"></i>
-						<a href="/logout" class="dashboard-link">Déconnexion</a>
+						<a href="/logout" class="dashboard-link"><i class="bi bi-box-arrow-right"></i> Déconnexion</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</main>
 {% endblock %}
