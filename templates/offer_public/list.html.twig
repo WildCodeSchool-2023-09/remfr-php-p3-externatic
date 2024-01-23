@@ -24,10 +24,12 @@
               <div class="card-header offer-header">{{ offer.name }}</div>
 
               <div class="card-body text-secondary">
+              {% if app.user %}
                 <p class="card-text offer-card-text">
                   <i class="bi bi-building"></i>
                   {{ offer.company.name }}
                 </p>
+              {% endif %}
                 <p class="card-text offer-card-text">
                   <i class="bi bi-file-person-fill"></i>
                   {{ offer.contractType }}
@@ -36,6 +38,7 @@
                   <i class="bi bi-geo-alt"></i>
                   {{ offer.assignment }}
                 </p>
+                {% if app.user %}
                 <p class="card-text offer-card-text">
                   <i class="bi bi-currency-exchange"></i>
                   {{ offer.minSalary }}
@@ -44,6 +47,7 @@
                   € annuel brut
                 </p>
                 <a href="{{ path('offer_public_detail', {'id': offer.id}) }}" class="card-link offer-btn">Visualiser l'offre</a>
+                {% endif %}
               </div>
 
             </div>
