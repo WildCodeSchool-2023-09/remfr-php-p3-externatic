@@ -4,14 +4,16 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container-sm form-container-wide shadow">
-		<h1>A propros</h1>
+<main class="main_home">
+	<div class="container-sm form-container shadow offer-details">
+		<h1>En savoir plus sur l'entreprise</h1>
 		<h2>
 			{{ company.name }}
 		</h2>
 		{{ company.details }}
 		<div>
-			<a href="{{ path('offer_public_list') }}" class="btn btn-primary" style="margin-top:2rem">Retour aux offres</a>
+			<a href="{{ path('offer_public_list') }}" class="btn btn-primary" style="margin-top:4rem">Retour aux offres</a>
 		</div>
 	</div>
+</main>
 {% endblock %}
