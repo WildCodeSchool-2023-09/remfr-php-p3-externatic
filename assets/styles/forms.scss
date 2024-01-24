@@ -215,6 +215,13 @@ div.container-sm.form-container.cv-create-form {
     border-radius: 0;
     width: 40rem !important;
 }
+table.table.user-show>tbody>tr>th,
+table.table.user-show>tbody>tr>td {
+    background-color: $cards-background;
+}
+h1.h1_user {
+    padding-bottom: 1rem;
+}
 @media (max-width: 768px) {
     .formcv {
         width: 100% !important;

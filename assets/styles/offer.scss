@@ -76,7 +76,7 @@ a.btn.btn-info {
 }
 div.container-sm.form-container.shadow.offer-details {
     border-radius: 0.3rem;
-    width: 30rem !important;
+    width: 34rem !important;
     background-color: $cards-background;
     border:none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -110,4 +110,24 @@ div.container-sm.form-container.shadow.offer-details {
     z-index: 1;
     margin-right: 4rem;
     font-size: 3rem;
+}
+select#offer_company,
+input#offer_Name,
+input#offer_description,
+input#offer_assignment,
+input#offer_collaborator,
+select#offer_contractType,
+select#offer_remote
+{
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    text-align: center;
+    width:12rem;
+    height:2rem;
+    font-size: 0.8rem;
+}
+input#offer_description {
+    height:3rem;
+    white-space: pre-wrap;
 }
