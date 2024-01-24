@@ -4,44 +4,47 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Mes Favoris</h1>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Prénom</th>
-				<th>Nom</th>
-				<th>Nom de l'entreprise</th>
-				<th>Poste</th>
-				<th>Localisation</th>
-				<th>Type d'offre</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for favorite in user.favorites %}
+<main class="main_home">
+	<div class="container-sm form-container-wide shadow">	
+		<h1>Mes Favoris</h1>
+		<table class="table">
+			<thead>
 				<tr>
-					<td>{{ user.firstname }}</td>
-					<td>{{ user.lastname }}</td>
-					<td>{{ favorite.company.name }}</td>
-					<td>
-						<a href="{{ path('offer_public_detail', {'id': favorite.id}) }}">{{ favorite.name }}</a>
-					</td>
-					<td>{{ favorite.assignment }}</td>
-					<td>{{ favorite.contractType }}</td>
-					<td>
-						<a href="{{ path('favorites_remove', {'offer_id': favorite.id, "from": "list"}) }}">
-							<i class="bi bi-trash3"></i>
-						</a>
-					</td>
-
+					<th>Prénom</th>
+					<th>Nom</th>
+					<th>Nom de l'entreprise</th>
+					<th>Poste</th>
+					<th>Localisation</th>
+					<th>Type d'offre</th>
+					<th> </th>
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="6">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{% for favorite in user.favorites %}
+					<tr>
+						<td>{{ user.firstname }}</td>
+						<td>{{ user.lastname }}</td>
+						<td>{{ favorite.company.name }}</td>
+						<td>
+							<a href="{{ path('offer_public_detail', {'id': favorite.id}) }}">{{ favorite.name }}</a>
+						</td>
+						<td>{{ favorite.assignment }}</td>
+						<td>{{ favorite.contractType }}</td>
+						<td>
+							<a href="{{ path('favorites_remove', {'offer_id': favorite.id, "from": "list"}) }}">
+								<i class="bi bi-trash3"></i>
+							</a>
+						</td>
 
-	<a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
-</div></div></div>{% endblock %}
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<a class="btn btn-link" style="margin-top:1rem" href="{{ path('user_dashboard') }}">Retour au dashboard</a>
+	</div>
+</main>
+{% endblock %}

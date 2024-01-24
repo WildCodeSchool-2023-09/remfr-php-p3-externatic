@@ -3,9 +3,13 @@
 {% block title %}New User{% endblock %}
 
 {% block body %}
-<div class="container-sm form-container-wide shadow">
-	<h1>Créer un utilisateur</h1>
-		{{ include('user/_form.html.twig') }}
-</div>
-<a class="btn btn-link" href="{{ path('user_index') }}" style="margin-top:1rem">Retour à la liste des utilisateurs</a>
+<main class="main_home">
+	<div class="container-sm form-container-wide shadow">
+		<h1>Créer un utilisateur</h1>
+			{{ include('user/_form.html.twig') }}
+	</div>
+	<p class="text-center">
+		<a class="btn btn-link" href="{{ path('user_index') }}" style="margin-top:1rem">Retour à la liste des utilisateurs</a>
+	</p>
+</main>
 {% endblock %}

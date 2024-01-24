@@ -4,12 +4,14 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-sm form-container-wide shadow roles-container">
-	<div class="centered-container">
-		{{ form_start(form) }}
-		{{ form_widget(form) }}
-	<button class="btn btn-lg btn-primary submit-form role-btn">{{ button_label|default('Enregistrer') }}</button>
-		{{ form_end(form) }}
+<main class="main_home">
+	<div class="container-sm form-container-wide shadow roles-container">
+		<div class="centered-container">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+		<button class="btn btn-lg btn-primary submit-form role-btn">{{ button_label|default('Enregistrer') }}</button>
+			{{ form_end(form) }}
+		</div>
 	</div>
-</div>
+</main>
 {% endblock %}

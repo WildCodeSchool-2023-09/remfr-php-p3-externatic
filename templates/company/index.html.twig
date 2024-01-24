@@ -4,37 +4,42 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Company index</h1>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Domaine</th>
-				<th>Adresse</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for company in companies %}
+<main class="main_home">
+	<div class="container-sm form-container-wide shadow">	
+		<h1>Company index</h1>
+		<table class="table">
+			<thead>
 				<tr>
-					<td>{{ company.id }}</td>
-					<td>{{ company.name }}</td>
-					<td>{{ company.field }}</td>
-					<td>{{ company.address }}</td>
-					<td>
-						<a href="{{ path('company_show', {'id': company.id}) }}">show</a>
-						<a href="{{ path('company_edit', {'id': company.id}) }}">edit</a>
-					</td>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Domaine</th>
+					<th>Adresse</th>
+					<th>actions</th>
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="6">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<a href="{{ path('company_new') }}">Create new</a>
+			</thead>
+			<tbody>
+				{% for company in companies %}
+					<tr>
+						<td>{{ company.id }}</td>
+						<td>{{ company.name }}</td>
+						<td>{{ company.field }}</td>
+						<td>{{ company.address }}</td>
+						<td>
+							<a href="{{ path('company_show', {'id': company.id}) }}"><i class="bi bi-eye"></i></a>
+							<a href="{{ path('company_edit', {'id': company.id}) }}"><i class="bi bi-pencil-square"></i></a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<a class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" href="{{ path('company_new') }}">Créer une nouvelle fiche entreprise</a>
+		<p class="text-center">
+			<a href="{{ path('admin_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard admin</a>
+		</p>
+	</div>
+</main>
 {% endblock %}
