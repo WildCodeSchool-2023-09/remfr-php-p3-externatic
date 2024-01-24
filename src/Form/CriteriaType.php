@@ -31,6 +31,7 @@ class CriteriaType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Criteria::class,
+            'csrf_protection' => false,
         ]);
     }
 }
