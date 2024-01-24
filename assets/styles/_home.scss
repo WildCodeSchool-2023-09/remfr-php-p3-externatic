@@ -12,6 +12,7 @@
         height: auto;
         display: block;
         border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 }
 .hero-text {
@@ -86,7 +87,7 @@ div.container.mt-4.swiper_class {
     height: 15rem;
     border-radius: 0.5rem;
     border:none;
-    box-shadow:0.5em; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .swiper-slide img {

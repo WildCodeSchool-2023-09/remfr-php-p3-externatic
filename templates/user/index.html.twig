@@ -4,9 +4,9 @@
 {% endblock %}
 
 {% block body %}
+<main class="main_home">
 	<div class="container-sm form-container-wide shadow">
 		<h1 class="title1">Liste des utilisateurs</h1>
-
 		<table class="table">
 			<thead>
 				<tr>
@@ -49,8 +49,8 @@
 							<a href="{{ path('user_roles', {'id': user.id}) }}">{{ user.rolesName }}</a>
 						</td>
 						<td>
-							<a href="{{ path('user_delete', {'id': user.id}) }}">Supprimer</a>
-							<a href="{{ path('user_edit', {'id': user.id}) }}">Editer</a>
+							<a href="{{ path('user_delete', {'id': user.id}) }}"><i class="bi bi-trash3"></i></a>
+							<a href="{{ path('user_edit', {'id': user.id}) }}"><i class="bi bi-pencil-square"></i></a>
 						</td>
 					</tr>
 				{% else %}
@@ -60,7 +60,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
 		<a class="btn btn-lg btn-primary submit-form" href="{{ path('user_new') }}">Créer un nouvel utilisateur</a>
 	</div>
+</main>
 {% endblock %}

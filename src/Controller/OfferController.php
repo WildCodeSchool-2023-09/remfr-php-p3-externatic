@@ -143,7 +143,7 @@ class OfferController extends AbstractController
     public function publicDetail(Offer $offer): Response
     {
         if (!($this->security->isGranted('ROLE_USER'))) {
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_login');
         }
 
         $user = $this->getUser();

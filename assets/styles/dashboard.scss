@@ -4,9 +4,10 @@
     align-items: center;
     height: 16rem;
     padding:2rem;
-    background-color: $cards-background;
+    // background-color: $cards-background;
     font-size:1.8rem;
     color:$association2 !important;
+    background: linear-gradient(to left top, #CA2061, #f3f3f3);
 }
 .dashboard-col {
     margin-top: 2rem;

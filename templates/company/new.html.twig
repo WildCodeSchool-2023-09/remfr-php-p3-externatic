@@ -4,9 +4,13 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Create new Company</h1>
-
-	{{ include('company/_form.html.twig') }}
-
-	<a href="{{ path('company_index') }}">back to list</a>
+<main class="main_home">
+    <div class="container-sm form-container shadow formcv">	
+		<h1 class="h1-form">Créer une nouvelle entreprise</h1>
+		{{ include('company/_form.html.twig') }}
+		<p class="text-center">
+			<a href="{{ path('company_index') }}">Retour à la liste des entreprises</a>
+		</p>
+    </div>
+</main>
 {% endblock %}

@@ -4,49 +4,51 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-sm form-container-wide shadow">	
-	<h1 class="title1">Gestion des offres</h1>
-	<div class="d-flex justify-content-center">
-		{{ form(form) }}
-		<a class="btn btn-info" href="{{ path('offer_index') }}" >Reset</a>
-	</div>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Nom</th>
-				<th>Description</th>
-				<th>Assignée</th>
-				<th>Collaborateur</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for offer in offers %}
+<main class="main_home">  	
+	<div class="container-sm form-container-wide shadow">	
+		<h1 class="title1">Gestion des offres</h1>
+		<div class="d-flex justify-content-center mb-5">
+			{{ form(form) }}
+			<a class="btn btn-info" href="{{ path('offer_index') }}" >Reset</a>
+		</div>
+		<table class="table">
+			<thead>
 				<tr>
-					<td>{{ offer.id }}</td>
-					<td>{{ offer.Name }}</td>
-					<td>{{ offer.description }}</td>
-					<td>{{ offer.assignment }}</td>
-					<td>{{ offer.collaborator }}</td>
-					<td>
-						<a href="{{ path('offer_show', {'id': offer.id}) }}"><i class="bi bi-eye"></i></a>
-						<a href="{{ path('offer_edit', {'id': offer.id}) }}"><i class="bi bi-pencil-square"></i></a>
-					</td>
+					<th>Id</th>
+					<th>Nom</th>
+					<th>Description</th>
+					<th>Assignée</th>
+					<th>Collaborateur</th>
+					<th>Actions</th>
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="6">Aucune offre enregistrée</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{% for offer in offers %}
+					<tr>
+						<td>{{ offer.id }}</td>
+						<td>{{ offer.Name }}</td>
+						<td>{{ offer.description }}</td>
+						<td>{{ offer.assignment }}</td>
+						<td>{{ offer.collaborator }}</td>
+						<td>
+							<a href="{{ path('offer_show', {'id': offer.id}) }}"><i class="bi bi-eye"></i></a>
+							<a href="{{ path('offer_edit', {'id': offer.id}) }}"><i class="bi bi-pencil-square"></i></a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">Aucune offre enregistrée</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
-	<a class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" href="{{ path('offer_new') }}">Créer une nouvelle offre</a>
-</br>
-    <a href="{{ path('admin_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard admin</a>
-</div>
-<div class="d-flex justify-content-center" style="margin-top:2rem">
-    {{ knp_pagination_render(offers) }}
-</div>
+		<a class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" href="{{ path('offer_new') }}">Créer une nouvelle offre</a>
+	</br>
+		<a href="{{ path('admin_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard admin</a>
+	</div>
+	<div class="d-flex justify-content-center" style="margin-top:2rem">
+		{{ knp_pagination_render(offers) }}
+	</div>
+</main>
 {% endblock %}

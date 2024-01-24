@@ -3,6 +3,7 @@
 {% block title %}Edit Criteria{% endblock %}
 
 {% block body %}
+<main class="main_home">
     <div class="container-sm form-container shadow formcv">
         <h1 class="titre-form1">Modifier mes critères</h1>
         <div class="form-container form-new">
@@ -10,4 +11,5 @@
         </div>
         <a href="{{ path('criteria_index', {'id': user.id}) }}" class="btn btn-link" style="margin-top:1rem" >Retour à la liste des critères</a>
     </div>
+</main>
 {% endblock %}
