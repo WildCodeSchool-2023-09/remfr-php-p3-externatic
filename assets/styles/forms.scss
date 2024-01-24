@@ -208,6 +208,12 @@ input#cv_skills_1_level
     padding-left: 12px;
     margin-left: 8px;
 }
+div.container-sm.form-container.cv-create-form {
+    background-color: $association1;
+    border-radius: 0;
+    width: 40rem !important;
+}
+
 @media (max-width: 768px) {
     .formcv {
         width: 100% !important;
