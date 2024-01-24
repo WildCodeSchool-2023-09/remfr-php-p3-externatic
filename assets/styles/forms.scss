@@ -153,7 +153,9 @@ select#criteria_contract,
 select#criteria_remote,
 input#criteria_salary,
 input#offer_minSalary,
-input#offer_maxSalary
+input#offer_maxSalary,
+select#process_public_statut,
+select#process_public_process
 {
     border-radius: 0.5rem;
     border:none;
@@ -213,7 +215,6 @@ div.container-sm.form-container.cv-create-form {
     border-radius: 0;
     width: 40rem !important;
 }
-
 @media (max-width: 768px) {
     .formcv {
         width: 100% !important;

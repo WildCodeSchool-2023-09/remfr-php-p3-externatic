@@ -3,11 +3,13 @@
 {% block title %}New Criteria{% endblock %}
 
 {% block body %}
-<div class="container-sm form-container shadow formcv">    
-    <h1 class="h1-form">Créer des critères de recherche</h1>
-    <div class="form-container form-new-criteria">
-        {{ include('criteria/_form.html.twig') }}
+<main class="main_home">
+    <div class="container-sm form-container shadow formcv">    
+        <h1 class="h1-form">Créer des critères de recherche</h1>
+        <div class="form-container form-new-criteria">
+            {{ include('criteria/_form.html.twig') }}
+        </div>
+        <a href="{{ path('criteria_index', {'id': user.id}) }}">Retour à la liste des critères</a>
     </div>
-    <a href="{{ path('criteria_index', {'id': user.id}) }}">Retour à la liste des critères</a>
-</div>
+</main>
 {% endblock %}
