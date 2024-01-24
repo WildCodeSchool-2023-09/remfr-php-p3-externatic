@@ -1,63 +1,63 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-	<div class="container-sm form-container-wide shadow">
+<main class="main_home">
+	<div class="container-sm form-container shadow offer-details">
 
 		<h1>{{ offer.name  }}</h1>
-		<li style="font-size:1rem">
+		<div style="font-size:1rem">
 			<b>Entreprise</b>
-			:
-			<a href="{{ path('company_details', {'id': offer.company.id}) }}" style="font-size:20px">
-				{{ offer.company.name }}
-			</a>
-		</li>
+			<p>
+				<a href="{{ path('company_details', {'id': offer.company.id}) }}" style="font-size:20px">
+					{{ offer.company.name }}
+				</a>
+			</p>
+		</div>
 
-		<li style="font-size:1rem">
+		<div style="font-size:1rem">
 			<b>Type de Contrat</b>
-			:
-			{{ offer.contractType }}
-		</li>
+			<p>{{ offer.contractType }}</p>
+		</div>
 
-		<li style="font-size:1rem">
+		<div style="font-size:1rem">
 			<b>Salaire</b>
-			:
-			{{ offer.minSalary }}
-			à
-			{{ offer.maxSalary }}
-			€ brut annuel
-		</li>
+			<p>
+				{{ offer.minSalary }}
+				à
+				{{ offer.maxSalary }}
+				€ brut annuel
+			</p>
+		</div>
 
-		<li style="font-size:1rem">
+		<div style="font-size:1rem">
 			<b>Lieux</b>
-			:
-			{{ offer.assignment }}
-		</li>
+			</p>{{ offer.assignment }}</p>
+		</div>
 
-		<li style="font-size:1rem">
+		<div style="font-size:1rem">
 			<b>Conditions de travail</b>
-			:
-			{{ offer.remote }}
-		</li>
+			<p>{{ offer.remote }}</p>
+		</div>
 
 		<hr>
 
-		<li style="font-size:1rem">
+		<div style="font-size:1rem">
 			<b>Description du poste</b>
-			:
-			{{ offer.description }}
-		</li>
-		<a href="{{ path('process_apply', {'offer_id': offer.id}) }}" class="btn btn-primary">Postuler</a>
-		<div class="container mt-4 d-flex justify-content-center">
-
+			<p>{{ offer.description }}</p>
+		</div>
+		
+		<div class="text-center mt-5 mb-5 offer-description">
+			<a href="{{ path('process_apply', {'offer_id': offer.id}) }}" class="btn btn-primary" style="margin-right:2rem">Postuler</a>
 			{% if isFavorited  %}
 				<a href="{{ path('favorites_remove', {'offer_id': offer.id, "from":"detail" }) }}" class="btn btn-primary">Retirer de mes favoris</a>
-
 			{% else %}
 				<a href="{{ path('favorites_apply', {'offer_id': offer.id}) }}" class="btn btn-primary">Ajouter à mes favoris</a>
 			{% endif %}
-
 		</div>
-		<a href="{{ path('offer_public_list') }}" class="btn btn-primary">Retour aux offres</a>
+		
+		<p class="text-center">
+			<a href="{{ path('offer_public_list') }}">Retour aux offres</a>
+		</p>
 	</div>
+</main>
 {% endblock %}
