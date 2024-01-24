@@ -83,3 +83,31 @@ div.container-sm.form-container.shadow.offer-details {
     padding-left: 3rem;
     padding-right: 2rem;
 }
+.confirm-offer {
+    width: 100%;
+    height: 60vh;
+    display: block;
+    background-size: cover;
+    background-position: center;
+    margin-left: 0;
+    box-shadow: -2px 3px 5px $association1(0 0 0 / 20%);
+    text-align: right;
+    padding: 0;
+    margin-bottom: 4rem;
+
+    .img-offer {
+        width: 100%;
+        height: 24rem;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+}
+.confirm-text-offer {
+    transform: translateY(-350%);
+    color: $secondary;
+    font-size: 2rem;
+    z-index: 1;
+    margin-right: 4rem;
+    font-size: 3rem;
+}
