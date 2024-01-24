@@ -131,3 +131,20 @@ input#offer_description {
     height:3rem;
     white-space: pre-wrap;
 }
+div#company {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;;
+}
+input#company_name,
+input#company_field,
+input#company_address,
+input#company_details {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0.5em;
+    width: 100%;
+    height: 2rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
+}
