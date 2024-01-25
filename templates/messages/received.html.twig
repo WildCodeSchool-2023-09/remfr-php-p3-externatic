@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Messagerie
+{% block title %}Messages reçus
 {% endblock %}
 
 {% block body %}
@@ -30,14 +30,14 @@
 					{% set bold = "" %}
 					{% if message.isRead == 0 %}
 						{% set bold = "fw-bold" %}
-					<tr>
-						<td>{{ message.sender.email }}</td>
-						<td>
-							<a href="{{ path("messages_read", {id: message.id}) }}">{{ message.title }}</a>
-						</td>
-						<td>{{ message.createdAt|date }}</td>
-						<td>
 					{% endif %}
+					<tr>
+						<td class="{{bold}}">{{ message.sender.email }}</td>
+						<td>
+							<a href="{{ path("messages_read", {id: message.id}) }}" class="{{bold}}">{{ message.title }}</a>
+						</td>
+						<td class="{{bold}}">{{ message.createdAt|date }}</td>
+						<td>
 							<div class="mail-action-button">
     							{{ include('messages/_delete_form.html.twig') }}
 							</div>
@@ -55,7 +55,7 @@
 							</div>
 						</td>
 					</tr>
-			{% endfor %}
+				{% endfor %}
 				</tbody>
 			</table>
     	</div>

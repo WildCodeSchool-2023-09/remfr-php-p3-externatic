@@ -89,7 +89,7 @@ class MessagesController extends AbstractController
         return $this->redirectToRoute('messages_received', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/delete/{id}', name: 'delete')]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Messages $message, EntityManagerInterface $entityManager, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete' . $message->getId(), $request->request->get('_token'))) {
