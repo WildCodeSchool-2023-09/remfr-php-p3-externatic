@@ -186,6 +186,12 @@ class OfferController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete' . $offer->getId(), $request->request->get('_token'))) {
             $entityManager->remove($offer);
+            $processes = $offer->getProcess();
+
+            foreach ($processes as $process) {
+                $entityManager->remove($process);
+            }
+
             $entityManager->flush();
         }
 
