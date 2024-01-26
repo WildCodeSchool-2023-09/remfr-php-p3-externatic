@@ -3,63 +3,78 @@
 {% block title %}messagerie{% endblock %}
 
 {% block body %}
-    <section class="container-messagerie form-container-wide" style="width: 100%;">
-        <div class="container text-center">
-            <h1>Messagerie</h1>
-            <div class="row justify-center mt-4">
-                <div class="col">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h2 class="card-title btn-primary">Boîte de réception</h2>
-                            <p>Vous avez reçu {{ app.user.received|length }} messages.</p>
-                            <a href="{{ path("messages_received") }}" class="btn btn-primary">voir plus</a>
-                        </div>
+<main class="main_home">
+    <div class="section-hero-mail">
+        <img class="img-mail"src="{{ asset('build/images/banniere_messagerie.png') }}" alt="banniere offre" style="width: 100%;">
+            <div class="hero-text-mail">
+                Ma messagerie
+            </div>
+    </div>
+    <div class="container text-center mail-container">
+        <div class="row justify-center mt-4">
+            <div class="col">
+                <div class="card border-secondary mb-3 mail-cards">
+                    <div class="card-header mail-header">Boîte de réception</div>
+                    <div class="card-body text-secondary">
+                        <p class="card-text mail-text">Vous avez reçu {{ app.user.received|length }} messages.</p>
+                        <a href="{{ path("messages_received") }}" class="card-link offer-btn">
+                            <i class="bi bi-envelope-arrow-down"></i> 
+                            Ouvrir ma boîte de réception
+                        </a>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card h-100" >
-                        <div class="card-body">
-                            <h2 class="card-title btn-primary">Eléments envoyés</h2>
-                            <p class="card-text">Vous avez envoyés {{ app.user.sent|length }} messages.</p>
-                            <a href="{{ path("messages_sent") }}" class="btn btn-primary">voir plus</a>
-                        </div>
+            </div>
+            <div class="col">
+                <div class="card border-secondary mb-3 mail-cards" >
+                    <div class="card-header mail-header">Eléments envoyés</div>
+                    <div class="card-body text-secondary">
+                        <p class="card-text mail-text">Vous avez envoyés {{ app.user.sent|length }} messages.</p>
+                        <a href="{{ path("messages_sent") }}" class="card-link offer-btn">
+                            <i class="bi bi-envelope-arrow-up"></i> 
+                            Voir les éléments envoyés
+                        </a>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card  h-100">
-                        <div class="card-body">
-                            <h2 class="card-title btn-primary">envoyer un message</h2>
-                            <p class="card-text">N'hésitez pas a contacté un collaborateur.</p>
-                            <a href="{{ path("messages_send") }}" class="btn btn-primary">voir plus</a>
-                        </div>
+            </div>
+            <div class="col">
+                <div class="card border-secondary mb-3 mail-cards">
+                    <div class="card-header mail-header">Envoyer un message</div>
+                    <div class="card-body text-secondary">
+                        <p class="card-text mail-text">N'hésitez pas a contacter un collaborateur.</p>
+                        <a href="{{ path("messages_send") }}" class="card-link offer-btn">
+                            <i class="bi bi-envelope-plus"></i>
+                            Rédiger un message
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col">
-				<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-					Voir mes dossiers
-				</a>
-		</div>
-    </section>
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-		<div class="offcanvas-header">
-			<h2 class="offcanvas-title" id="offcanvasExampleLabel">Mes dossiers</h2>
-			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-		</div>
-		<div class="offcanvas-body">
+    </div>
+    <div class="offcanvas-mail">
+        <p class="text-center">
+            <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                Voir mes dossiers
+            </a>
+        </p>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h2 class="offcanvas-title" id="offcanvasExampleLabel">Mes dossiers</h2>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+        <div class="offcanvas-body">
             <div class="list-group">
-                <a href="{{ path("messages_index") }}" class="list-group-item list-group-item-action active">Accueil</a>
+                <a href="{{ path("messages_index") }}" class="list-group-item list-group-item-action active">Ma messagerie</a>
             </div>
             <div class="list-group">
-                <a href="{{ path("messages_received") }}" class="list-group-item list-group-item-action">Boîte de réception</a>
+                <a href="{{ path("messages_received") }}" class="list-group-item list-group-item-action active"><i class="bi bi-envelope-arrow-down"></i>  Boîte de réception</a>
             </div>
             <div class="list-group">
-                <a href="{{ path("messages_sent") }}" class="list-group-item list-group-item-action">Eléments envoyés</a>
+                <a href="{{ path("messages_sent") }}" class="list-group-item list-group-item-action active"><i class="bi bi-envelope-arrow-up"></i>  Eléments envoyés</a>
             </div>
             <div class="list-group">
-                <a href="{{ path("messages_send") }}" class="list-group-item list-group-item-action active">envoyé un message</a>
+                <a href="{{ path("messages_send") }}" class="list-group-item list-group-item-action active"><i class="bi bi-envelope-plus"></i>  Rédiger un message</a>
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
+</main>
 {% endblock %}
