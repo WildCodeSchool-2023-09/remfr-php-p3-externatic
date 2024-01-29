@@ -5,14 +5,13 @@
 
 {% block body %}
 <main class="main_home"> 
-	<div class="container form-container shadow formcv">
+	<div class="container-sm form-container shadow form-process">
 		<h1 class="h3 mb-3 font-weight-normal titre-form ">Mettre à jour le process</h1>
-
-		<div class="text-center mb-5 btn-criteria">
 			{{ include('process_public/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 			{{ include('process_public/_delete_form.html.twig') }}
-		</div>
-		<a href="{{ path('process_list') }}">Retour à la liste des process</a>
+		<p class="text-center">
+			<a href="{{ path('process_list') }}">Retour à la liste des process</a>
+		</p>	
 	</div>
 </main>
 {% endblock %}
