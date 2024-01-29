@@ -11,10 +11,12 @@
                 <h1 class="text-xl-left">{{ message.title }}</h1>
                 <p>Message de {{ message.sender.email }}</p>
                 <p class="text-muted">Le {{ message.createdAt|date }}</p>
-                <h4 class="title-read mt-5">Message reçu :</h4>
+                <h4 class="title-read mt-5">Message :</h4>
                 <div class="text-xxl mb-5">{{ message.message }}</div>
                 <p class="text-center mt-4">
-                    <a href="{{ path('messages_index') }}">Retour à la messagerie</a>
+                    <a href="{{ path("messages_received") }}">Retour à la boîte de réception</a>
+                    </br>
+                    <a href="{{ path("messages_index") }}">Retour à la messagerie</a>
                 </p>
             </div>
         </div>

@@ -161,21 +161,13 @@ select#process_public_process
     border:none;
     box-shadow:0.5em;
     text-align: center;
-    width:12rem;
-    height:2rem;
+    width: 100%;
+    height: 2rem;
     font-size: 0.8rem;
+    margin-bottom: 1rem;
 }
 #criteria form {
     text-align: center;
-}
-.form-new-criteria {
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    margin-top: 20px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
 }
 input#curriculum_vitae_cvFile_file>input#file-upload-button {
     border-radius: 0.5rem;
@@ -221,6 +213,9 @@ table.table.user-show>tbody>tr>td {
 }
 h1.h1_user {
     padding-bottom: 1rem;
+}
+h1.h1-form {
+    text-align: center;
 }
 @media (max-width: 768px) {
     .formcv {

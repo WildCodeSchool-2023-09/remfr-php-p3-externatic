@@ -4,12 +4,14 @@
 
 {% block body %}
 <main class="main_home">
-    <div class="container-sm form-container shadow formcv">    
+    <div class="container-sm form-container shadow form-process">    
         <h1 class="h1-form">Créer des critères de recherche</h1>
-        <div class="form-container form-new-criteria">
+        <div class="form-container form-new-process">
             {{ include('criteria/_form.html.twig') }}
         </div>
-        <a href="{{ path('criteria_index', {'id': user.id}) }}">Retour à la liste des critères</a>
+        <p class="text-center">
+            <a href="{{ path('criteria_index', {'id': user.id}) }}">Retour à la liste des critères</a>
+        </p>
     </div>
 </main>
 {% endblock %}

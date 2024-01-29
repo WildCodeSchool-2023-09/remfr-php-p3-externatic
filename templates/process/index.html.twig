@@ -48,7 +48,10 @@
 				{% endfor %}
 			</tbody>
 		</table>
-	<a class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" href="{{ path('process_new') }}">Créer un nouveau process</a>
+		<a class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" href="{{ path('process_new') }}">Créer un nouveau process</a>
+		<p class="text-center">
+            <a href="{{ path('admin_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard admin</a>
+        </p>
 	</div>
 </main>
 {% endblock %}
