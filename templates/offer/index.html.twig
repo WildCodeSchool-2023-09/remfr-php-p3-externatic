@@ -31,7 +31,6 @@
 						<td>{{ offer.assignment }}</td>
 						<td>{{ offer.collaborator }}</td>
 						<td>
-							<a href="{{ path('offer_show', {'id': offer.id}) }}"><i class="bi bi-eye"></i></a>
 							<a href="{{ path('offer_edit', {'id': offer.id}) }}"><i class="bi bi-pencil-square"></i></a>
 						</td>
 					</tr>
@@ -44,8 +43,9 @@
 		</table>
 
 		<a class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" href="{{ path('offer_new') }}">Créer une nouvelle offre</a>
-	</br>
-		<a href="{{ path('admin_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard admin</a>
+	    <p class="text-center">
+            <a href="{{ path('admin_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard admin</a>
+        </p>
 	</div>
 	<div class="d-flex justify-content-center" style="margin-top:2rem">
 		{{ knp_pagination_render(offers) }}

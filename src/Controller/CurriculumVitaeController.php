@@ -186,7 +186,7 @@ class CurriculumVitaeController extends AbstractController
             }
             $entityManager->persist($curriculumVitaes);
             $entityManager->flush();
-            return $this->redirectToRoute('user_dashboard', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('cv_user_show_cv', ['id' => $id], Response::HTTP_SEE_OTHER);
         }
         return $this->render('curriculum_vitae/candidat/newcv.html.twig', [
             'form' => $form->createView(),

@@ -6,7 +6,7 @@
 {% block body %}
 <main class="main_home">
 	<div class="container-sm form-container-wide shadow">	
-		<h1>Company index</h1>
+		<h1>Liste des entreprises</h1>
 		<table class="table">
 			<thead>
 				<tr>
@@ -14,7 +14,7 @@
 					<th>Name</th>
 					<th>Domaine</th>
 					<th>Adresse</th>
-					<th>actions</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,7 +25,6 @@
 						<td>{{ company.field }}</td>
 						<td>{{ company.address }}</td>
 						<td>
-							<a href="{{ path('company_show', {'id': company.id}) }}"><i class="bi bi-eye"></i></a>
 							<a href="{{ path('company_edit', {'id': company.id}) }}"><i class="bi bi-pencil-square"></i></a>
 						</td>
 					</tr>
