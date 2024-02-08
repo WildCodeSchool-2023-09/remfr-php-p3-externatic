@@ -143,7 +143,7 @@ class OfferController extends AbstractController
     public function publicDetail(Offer $offer): Response
     {
         if (!($this->security->isGranted('ROLE_USER'))) {
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_login');
         }
 
         $user = $this->getUser();
@@ -186,6 +186,12 @@ class OfferController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete' . $offer->getId(), $request->request->get('_token'))) {
             $entityManager->remove($offer);
+            $processes = $offer->getProcess();
+
+            foreach ($processes as $process) {
+                $entityManager->remove($process);
+            }
+
             $entityManager->flush();
         }
 

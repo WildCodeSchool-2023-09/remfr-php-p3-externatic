@@ -105,6 +105,7 @@ class CriteriaController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('criteria_index', ['id' => $userId], Response::HTTP_SEE_OTHER);
+        } elseif ($form->isSubmitted()) {
         }
 
         return $this->render('criteria/edit.html.twig', [

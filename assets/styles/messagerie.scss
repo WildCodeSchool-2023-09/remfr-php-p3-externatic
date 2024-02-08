@@ -1,0 +1,92 @@
+.section-hero-mail {
+    width: 100%;
+    height: 60vh;
+    display: block;
+    background-size: cover;
+    background-position: center;
+    margin-left: 0;
+    text-align: left;
+    padding:0;
+    margin-bottom: 4rem;
+
+    .img-mail {
+        width: 100%;
+        height: 24rem;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+}
+.hero-text-mail {
+    transform: translateY(-350%);
+    color: $primary;
+    font-size: 3rem;
+    z-index: 1;
+    margin-left: 4rem;
+    font-size: 3rem;
+    margin-top: 1rem;
+}
+div.container.text-center.mail-container {
+    margin-bottom: 2rem;
+}
+div.card.border-secondary.mb-3.mail-cards {
+    background-color: $cards-background;
+    max-width: 18rem;
+    height:14rem;
+    border-radius: 0.5rem;
+    border:none;
+    box-shadow:0.5em;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+p.card-text.mail-text{
+    color:$association2;
+    font-size:1rem;
+    margin-top: 1rem;
+}
+div.card-header.mail-header {
+    background-color: $secondary;
+    color:$association1;
+}
+div.list-group {
+    margin-bottom: 1rem;
+}
+.mail-action-button {
+    display: inline-flex;
+    align-items: center;
+
+    form {
+        margin-right: 10px;
+    }
+
+    button {
+        margin-right: 10px;
+        color: $primary;
+    }
+}
+h1.text-xl-left {
+    margin-bottom: 1rem;
+    padding-bottom: 0;
+}
+input#messages_title,
+select#messages_recipient {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0.5em;
+    width: 100%;
+    height: 2rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+textarea#messages_message {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0.5em;
+    width: 100%;
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+div.container.form-container-wide.mb-4.read-container {
+    padding-bottom: 0;
+    padding-top: 1.5rem;
+}

@@ -3,58 +3,66 @@
 {% block title %}Créer un CV{% endblock %}
 
 {% block body %}
-    <h1 class="h3 mb-3 font-weight-normal titre-form" style="margin-top:3rem">Créer un CV</h1>
-    <div class="progress">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+<main class="main_home">
+    <div class="container-sm form-container cv-create-form">
+        <h1 class="h3 mb-3 font-weight-normal titre-form" style="margin-top:3rem">Créer un CV</h1>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        {{ form_start(form) }}
+        <div id="CvForm">
+            {# Render each sub-form for entities #}
+            <div id="step1" class="form-step">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">	
+                    <h2 class="h2-createCV">Formations</h2>
+                    {{ form_row(form.educations) }}
+                    <button type="button" onclick="nextStep(1)" class="btn button_login mt-4 text-uppercase btn-progress">Suivant</button>
+                </div>
+            </div>
+
+            <div id="step2" class="form-step" style="display: none;">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">
+                    <h2 class="h2-createCV">Langues</h2>
+                    {{ form_row(form.languages) }}
+                    <button type="button" onclick="prevStep(2)" class="btn button_login mt-4 text-uppercase btn-progress">Précédent</button>
+                    <button type="button" onclick="nextStep(2)" class="btn button_login mt-4 text-uppercase btn-progress">Suivant</button>
+                </div>
+            </div>
+
+            <div id="step3" class="form-step" style="display: none;">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">
+                    <h2 class="h2-createCV">Compétences</h2>
+                    {{ form_row(form.skills) }}
+                    <button type="button" onclick="prevStep(3)" class="btn button_login mt-4 text-uppercase btn-progress">Précédent</button>
+                        <button type="button" onclick="nextStep(3)" class="btn button_login mt-4 text-uppercase btn-progress">Suivant</button>
+                </div>
+            </div>
+
+            <div id="step4" class="form-step" style="display: none;">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">
+                    <h2 class="h2-createCV">Liens</h2>
+                    {{ form_row(form.links) }}
+                    <button type="button" onclick="prevStep(4)" class="btn button_login mt-4 text-uppercase btn-progress">Précédent</button>
+                        <button type="button" onclick="nextStep(4)" class="btn button_login mt-4 text-uppercase btn-progress">Suivant</button>
+                </div>
+            </div>
+
+            <div id="step5" class="form-step" style="display: none;">
+                <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">
+                    <h2 class="h2-createCV">Expériences professionnelles</h2>
+                    {{ form_row(form.experiences) }}
+                    <button type="button" onclick="prevStep(5)" class="btn button_login mt-4 text-uppercase btn-progress">Précédent</button>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-lg btn-primary submit-form">Enregistrer le CV</button>
+                    </br></br>
+                    <a href="{{ path('cv_user_cv', {'id': user.id}) }}">Retour vers mon CV</a>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
     </div>
-    {{ form_start(form) }}
-    <div id="CvForm">
-        {# Render each sub-form for entities #}
-        <div id="step1" class="form-step">
-            <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">	
-                <h2 class="h2-createCV">Formations</h2>
-                {{ form_row(form.educations) }}
-                <button type="button" onclick="nextStep(1)" class="btn button_login mt-4 text-uppercase btn-progress">Suivant</button>
-            </div>
-        </div>
-
-        <div id="step2" class="form-step" style="display: none;">
-            <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">
-                <h2 class="h2-createCV">Langues</h2>
-                {{ form_row(form.languages) }}
-                <button type="button" onclick="prevStep(2)" class="btn button_login mt-4 text-uppercase btn-progress">Précédent</button>
-		        <button type="button" onclick="nextStep(2)" class="btn button_login mt-4 text-uppercase btn-progress">Suivant</button>
-            </div>
-        </div>
-
-        <div id="step3" class="form-step" style="display: none;">
-            <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">
-                <h2 class="h2-createCV">Compétences</h2>
-                {{ form_row(form.skills) }}
-                <button type="button" onclick="prevStep(3)" class="btn button_login mt-4 text-uppercase btn-progress">Précédent</button>
-		            <button type="button" onclick="nextStep(3)" class="btn button_login mt-4 text-uppercase btn-progress">Suivant</button>
-            </div>
-        </div>
-
-        <div id="step4" class="form-step" style="display: none;">
-            <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">
-                <h2 class="h2-createCV">Liens</h2>
-                {{ form_row(form.links) }}
-                <button type="button" onclick="prevStep(4)" class="btn button_login mt-4 text-uppercase btn-progress">Précédent</button>
-		            <button type="button" onclick="nextStep(4)" class="btn button_login mt-4 text-uppercase btn-progress">Suivant</button>
-            </div>
-        </div>
-
-        <div id="step5" class="form-step" style="display: none;">
-            <div class="container-sm form-container-wide shadow" style="margin-bottom:2rem">
-                <h2 class="h2-createCV">Expériences professionnelles</h2>
-                {{ form_row(form.experiences) }}
-                <button type="button" onclick="prevStep(5)" class="btn button_login mt-4 text-uppercase btn-progress">Précédent</button>
-            </div>
-            <button type="submit" class="btn btn-lg btn-primary submit-form">Enregistrer le CV</button>
-        </div>
-    </div>
-    {{ form_end(form) }}
+</main>
 
 <script>
 document.querySelectorAll('.add_item_link').forEach(btn => {

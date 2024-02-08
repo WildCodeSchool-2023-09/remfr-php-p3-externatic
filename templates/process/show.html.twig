@@ -4,45 +4,47 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Process</h1>
-
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Nom</th>
-				<td>{{ process.user.lastname }}</td>
-			</tr>
-			<tr>
-				<th>Prénom</th>
-				<td>{{ process.user.firstname }}</td>
-			</tr>
-			<tr>
-				<th>Email</th>
-				<td>{{ process.user.email }}</td>
-			</tr>
-			<tr>
-				<th>Entreprise</th>
-				<td>{{ process.offer.company.name }}</td>
-			</tr>
-			<tr>
-				<th>Process</th>
-				<td>{{ process.processName }}</td>
-			</tr>
-			<tr>
-				<th>Statut</th>
-				<td>{{ process.statutName }}</td>
-			</tr>
-			<tr>
-				<th>Collaborateur</th>
-				<td>{{ process.collaborateur.firstname }}
-					{{ process.collaborateur.lastname }}</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<a href="{{ path('process_index') }}">back to list</a>
-
-	<a href="{{ path('process_edit', {'id': process.id}) }}">edit</a>
-
-	{{ include('process/_delete_form.html.twig') }}
+<main class="main_home">
+    <div class="container-sm form-container-wide shadow">	
+        <h1 class="titre-form-process">Process en cours</h1>
+        <table class="table">
+			<tbody>
+				<tr>
+					<th>Nom</th>
+					<td>{{ process.user.lastname }}</td>
+				</tr>
+				<tr>
+					<th>Prénom</th>
+					<td>{{ process.user.firstname }}</td>
+				</tr>
+				<tr>
+					<th>Email</th>
+					<td>{{ process.user.email }}</td>
+				</tr>
+				<tr>
+					<th>Entreprise</th>
+					<td>{{ process.offer.company.name }}</td>
+				</tr>
+				<tr>
+					<th>Process</th>
+					<td>{{ process.processName }}</td>
+				</tr>
+				<tr>
+					<th>Statut</th>
+					<td>{{ process.statutName }}</td>
+				</tr>
+				<tr>
+					<th>Collaborateur</th>
+					<td>{{ process.collaborateur.firstname }}
+						{{ process.collaborateur.lastname }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<a class="btn btn-lg btn-primary submit-form" style="margin-top:1rem" href="{{ path('process_edit', {'id': process.id}) }}">Editer le process</a>
+		{{ include('process/_delete_form.html.twig') }}
+		<p class="text-center">
+			<a href="{{ path('process_index') }}">Retour à la liste des process</a>
+		</p>
+    </div>
+</main
 {% endblock %}

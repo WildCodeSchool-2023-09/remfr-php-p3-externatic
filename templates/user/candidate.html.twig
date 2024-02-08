@@ -4,9 +4,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+<main class="main_home">
+	<div class="container-sm form-container-wide shadow">	
 		<h1>Liste des candidats</h1>
-
 		<table class="table">
 			<thead>
 				<tr>
@@ -21,6 +21,7 @@
 					<th>Date de naissance</th>
 					<th>Nationalité</th>
 					<th>Etat civil</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -38,8 +39,7 @@
 						<td>{{ user.nationality }}</td>
 						<td>{{ user.maritalStatusName }}</td>
 						<td>
-							<a href="{{ path('user_show', {'id': user.id}) }}">Show</a>
-							<a href="{{ path('user_edit', {'id': user.id}) }}">Edit</a>
+							<a href="{{ path('user_edit', {'id': user.id}) }}"><i class="bi bi-pencil-square"></i></a>
 						</td>
 					</tr>
 				{% else %}
@@ -49,5 +49,9 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		<p class="text-center">
+            <a href="{{ path('admin_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard admin</a>
+        </p>
 	</div>
+</main>
 {% endblock %}

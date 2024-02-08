@@ -4,11 +4,14 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Modifier</h1>
-
-	{{ include('process_public/_form.html.twig', {'button_label': 'Update'}) }}
-
-	<a href="{{ path('process_list') }}">Retour à la liste</a>
-
-	{{ include('process_public/_delete_form.html.twig') }}
+<main class="main_home"> 
+	<div class="container-sm form-container shadow form-process">
+		<h1 class="h3 mb-3 font-weight-normal titre-form ">Mettre à jour le process</h1>
+			{{ include('process_public/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+			{{ include('process_public/_delete_form.html.twig') }}
+		<p class="text-center">
+			<a href="{{ path('process_list') }}">Retour à la liste des process</a>
+		</p>	
+	</div>
+</main>
 {% endblock %}

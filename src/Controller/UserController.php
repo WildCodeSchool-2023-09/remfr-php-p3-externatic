@@ -60,7 +60,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/candidate.html.twig', [
             'users' => $users,
             'type' => 'candidats'
         ]);

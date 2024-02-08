@@ -7,6 +7,9 @@
     padding:4rem;
     border-radius: 0.5rem;
 }
+.registerForm {
+    margin-top: 4rem;
+}
 .form-container-wide {
     background-color: $cards-background;
     padding:4rem;
@@ -32,10 +35,15 @@
 .form-text>a {
     color:$secondary !important;
 }
-
+div.col-form.register-col {
+    display:flex;
+    flex-direction: column;
+    padding: 0.2rem;
+    margin-bottom: 1rem;
+}
 #registration_form_firstname,#registration_form_lastname,#registration_form_email,
 #registration_form_plainPassword,#registration_form_phone,#registration_form_address,
-#registration_form_zipcode,#registration_form_city
+#registration_form_zipcode,#registration_form_city, #registration_form_idealJob
 {
     border-radius: 0.5rem;
     border:none;
@@ -44,7 +52,7 @@
     width: 17rem;
     margin: 0.5rem;
 }
-#registration_form_contactPreference,
+#registration_form_contactPreference,#registration_form_activeSearch,
 .form-container-wide select 
 {
     border-radius: 0.5rem;
@@ -53,7 +61,7 @@
     height: 1.5rem;
     align-items:end;
     width: 10rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin-right: 0.5rem;
     margin-top: 1rem;
 }
@@ -84,6 +92,7 @@ label{
     height: 2.5rem;
     width: 15rem;
     margin: 0.5rem;
+    font-size: 0.9rem;
 }
 .form-container-wide input[type="date"] {
     border-radius: 0.5rem;
@@ -144,27 +153,21 @@ select#criteria_contract,
 select#criteria_remote,
 input#criteria_salary,
 input#offer_minSalary,
-input#offer_maxSalary
+input#offer_maxSalary,
+select#process_public_statut,
+select#process_public_process
 {
     border-radius: 0.5rem;
     border:none;
     box-shadow:0.5em;
     text-align: center;
-    width:12rem;
-    height:2rem;
+    width: 100%;
+    height: 2rem;
     font-size: 0.8rem;
+    margin-bottom: 1rem;
 }
 #criteria form {
     text-align: center;
-}
-.form-new-criteria {
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    margin-top: 20px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
 }
 input#curriculum_vitae_cvFile_file>input#file-upload-button {
     border-radius: 0.5rem;
@@ -199,8 +202,35 @@ input#cv_skills_1_level
     padding-left: 12px;
     margin-left: 8px;
 }
+div.container-sm.form-container.cv-create-form {
+    background-color: $association1;
+    border-radius: 0;
+    width: 40rem !important;
+}
+table.table.user-show>tbody>tr>th,
+table.table.user-show>tbody>tr>td {
+    background-color: $cards-background;
+}
+h1.h1_user {
+    padding-bottom: 1rem;
+}
+h1.h1-form {
+    text-align: center;
+}
 @media (max-width: 768px) {
     .formcv {
         width: 100% !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-form {
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .col-form label {
+        margin-right: 1rem;
     }
 }

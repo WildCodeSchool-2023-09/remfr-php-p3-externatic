@@ -12,13 +12,14 @@
         height: auto;
         display: block;
         border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 }
 .hero-text {
     text-align: right;
     color: $secondary;
     font-size: 2.2rem;
-    margin-bottom: 4rem;
+    margin-bottom: 10rem;
     margin-right: 6rem;
 }
 /* text avant card*/
@@ -86,7 +87,7 @@ div.container.mt-4.swiper_class {
     height: 15rem;
     border-radius: 0.5rem;
     border:none;
-    box-shadow:0.5em; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .swiper-slide img {

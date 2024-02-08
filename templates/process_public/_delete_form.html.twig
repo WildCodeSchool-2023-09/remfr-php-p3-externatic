@@ -1,4 +1,3 @@
 <form method="post" action="{{ path('process_public_delete', {'id': process.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir confirmer la suppression de ce processus?');">
-	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ process.id) }}">
-	<button class="btn">Supprimer</button>
+	<button class="btn btn-secondary mt-4">Supprimer</button>
 </form>

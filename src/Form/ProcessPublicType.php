@@ -41,6 +41,7 @@ class ProcessPublicType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Process::class,
+            'csrf_protection' => false,
         ]);
     }
 }

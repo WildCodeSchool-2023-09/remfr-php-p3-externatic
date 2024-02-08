@@ -152,14 +152,14 @@ class ProcessController extends AbstractController
         return $this->redirectToRoute('process_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/public/{id}', name: 'public_delete', methods: ['POST'])]
+    #[Route('/public/{id}', name: 'public_delete', methods: ['GET'])]
     public function publicDelete(Request $request, Process $process, EntityManagerInterface $entityManager): Response
     {
         if (!($this->security->isGranted('ROLE_USER'))) {
             return $this->redirectToRoute('app_home');
         }
 
-        if ($this->isCsrfTokenValid('delete' . $process->getId(), $request->request->get('_token'))) {
+        if ($this->getUser() == $process->getUser()) {
             $entityManager->remove($process);
             $entityManager->flush();
         }

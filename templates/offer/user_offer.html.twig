@@ -4,44 +4,48 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-sm form-container-wide shadow">	
-	<h1 class="title1">Mes offres personnalisées</h1>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Offre</th>
-				<th>Entreprise</th>
-				<th>Type de contrat</th>
-				<th>Missions</th>
-				<th>Salaire</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for offer in offers %}
+<main class="main_home">
+	<div class="container-sm form-container-wide shadow">	
+		<h1 class="title1">Mes offres personnalisées</h1>
+		<table class="table">
+			<thead>
 				<tr>
-					<td>{{ offer.name }}</td>
-					<td>{{ offer.company.name }}</td>
-					<td>{{ offer.contractType }}</td>
-					<td>{{ offer.assignment }}</td>
-					<td>
-					{{ offer.minSalary }} à 
-					{{ offer.maxSalary }}
-					€ annuel brut
-					</td>
-					<td>
-						<a href="{{ path('offer_public_detail', {'id': offer.id}) }}"><i class="bi bi-eye"></i> Voir</a>
-						</br>
-						<a href="#"><i class="bi bi-heart"></i></a>
-					</td>
+					<th>Offre</th>
+					<th>Entreprise</th>
+					<th>Type de contrat</th>
+					<th>Missions</th>
+					<th>Salaire</th>
+					<th>Actions</th>
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="6">Aucune offre enregistrée</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<a href="{{ path('user_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard</a>
-</div>
+			</thead>
+			<tbody>
+				{% for offer in offers %}
+					<tr>
+						<td>{{ offer.name }}</td>
+						<td>{{ offer.company.name }}</td>
+						<td>{{ offer.contractType }}</td>
+						<td>{{ offer.assignment }}</td>
+						<td>
+						{{ offer.minSalary }} à 
+						{{ offer.maxSalary }}
+						€ annuel brut
+						</td>
+						<td>
+							<a href="{{ path('offer_public_detail', {'id': offer.id}) }}"><i class="bi bi-eye"></i> Voir</a>
+							</br>
+							<a href="#"><i class="bi bi-heart"></i></a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">Aucune offre enregistrée</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<p class="text-center">
+			<a href="{{ path('user_dashboard') }}" class="btn btn-link" style="margin-top:1rem" >Retour au dashboard</a>
+		</p>
+	</div>
+</main>
 {% endblock %}
